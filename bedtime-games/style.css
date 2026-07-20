@@ -64,7 +64,7 @@ a:focus-visible, .btn:focus-visible { outline: 2px solid var(--amber); outline-o
       margin-left: 56px; animation: breathe 4s ease-in-out infinite; }
 .zz small { font-size: 20px; color: var(--dim); }
 @keyframes breathe { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
-@media (prefers-reduced-motion: reduce) { .zz { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .zz { animation: none; } html { scroll-behavior: auto; } }
 .status {
   margin-top: 18px; padding-top: 10px; border-top: 1px dashed var(--line);
   color: var(--dim); font-size: 12px; letter-spacing: .35em; text-transform: uppercase;
