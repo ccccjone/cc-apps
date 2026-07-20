@@ -6,27 +6,58 @@
 <title>晚安游戏机 · Bedtime Games</title>
 <meta name="description" content="复古掌机风睡前小游戏 · Calm retro puzzles for bedtime · Puzles retro para ir a dormir">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="pxart.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
 </head>
 <body>
 
-<div class="lcd" aria-hidden="true">
-  <div class="lcd-scene">
-    <div class="pixel-moon"></div>
-    <div class="zz">Z<small>z</small></div>
+<div class="device" aria-hidden="true">
+  <div class="device-screen">
+    <div class="lcd-scene">
+      <div class="pixel-moon"></div>
+      <div class="zz">Z<small>z</small></div>
+    </div>
+    <div class="status">GOOD NIGHT · 晚安</div>
   </div>
-  <div class="status">GOOD NIGHT · 晚安</div>
+  <div class="device-brand">Bedtime Games</div>
+  <div class="device-controls">
+    <div class="dpad"></div>
+    <div class="ab"><i></i><i></i></div>
+  </div>
 </div>
 
 <h1>晚安游戏机</h1>
 <p class="latin-name">Bedtime Games</p>
 
-<p class="tagline" lang="zh-Hans">一台来自旧时光的小掌机。低刺激的黑白点阵小游戏,越玩越困,而不是越玩越精神。</p>
+<p class="tagline" lang="zh-Hans">一台来自旧时光的小掌机。低刺激的黑白点阵小游戏，越玩越困，而不是越玩越精神。</p>
 <p class="tagline" lang="en">A tiny handheld from another era. Calm pixel puzzles that wind you down, not up.</p>
 <p class="tagline" lang="es">Una pequeña consola de otra época. Puzles tranquilos para antes de dormir.</p>
 
-<div class="hud" role="list" aria-label="Games">
-  <b>SNAKE</b> <b>BLOCKS</b> <b>SOKOBAN</b> <b>MAZE</b> <b>2048</b>
+<h2>Games · 内置游戏</h2>
+<div class="game-grid" role="list" aria-label="内置游戏 · Games">
+  <article class="game-card" role="listitem">
+    <div class="mini-lcd" aria-hidden="true"><i class="px px-snake"></i></div>
+    <h3>Snake <span lang="zh-Hans">贪吃蛇</span></h3>
+  </article>
+  <article class="game-card" role="listitem">
+    <div class="mini-lcd" aria-hidden="true"><i class="px px-blocks"></i></div>
+    <h3>Blocks <span lang="zh-Hans">俄罗斯方块</span></h3>
+  </article>
+  <article class="game-card" role="listitem">
+    <div class="mini-lcd" aria-hidden="true"><i class="px px-sokoban"></i></div>
+    <h3>Sokoban <span lang="zh-Hans">推箱子</span></h3>
+  </article>
+  <article class="game-card" role="listitem">
+    <div class="mini-lcd" aria-hidden="true"><i class="px px-maze"></i></div>
+    <h3>Maze <span lang="zh-Hans">迷宫</span></h3>
+  </article>
+  <article class="game-card" role="listitem">
+    <div class="mini-lcd" aria-hidden="true">
+      <div class="t2048"><b>2</b><b>4</b><b class="hot">8</b><b class="hot">16</b></div>
+    </div>
+    <h3>2048</h3>
+  </article>
+  <div class="game-card more" role="listitem" lang="zh-Hans">More<br>更多游戏在路上</div>
 </div>
 
 <p class="promise">
@@ -34,6 +65,10 @@
   <span lang="en">No network · No ads · No purchases · No data collected</span><br>
   <span lang="es">Sin conexión · Sin anuncios · Sin compras · Sin datos</span>
 </p>
+
+<!-- App Store 上架后启用官方徽章（替换 idXXXXXXXX）：
+<a class="btn" href="https://apps.apple.com/app/idXXXXXXXX">App Store</a>
+-->
 
 <nav class="btn-row">
   <a class="btn" href="privacy.html">隐私政策 · Privacy</a>
