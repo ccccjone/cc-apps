@@ -101,8 +101,19 @@ h2 { font-size: 15px; color: var(--amber); letter-spacing: .2em; margin: 40px 0 
      text-transform: uppercase; }
 h2::before { content: "▸ "; color: var(--dim); }
 p { margin: 8px 0; }
-.tagline { color: var(--paper); margin: 14px 0 2px; }
-.tagline + .tagline { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+
+/* —— 主页开场白（三语）—— */
+.intro { margin: 12px 0 4px; }
+.intro-lang p { margin: 11px 0; }
+.intro-lang .wish { color: var(--amber); letter-spacing: .04em; }
+.intro-lang.secondary {
+  margin-top: 24px; padding-top: 20px; border-top: 1px dashed var(--line);
+  color: var(--muted); font-size: 13.5px;
+}
+.intro-lang.secondary .wish { color: var(--dim); }
+
+/* 内页段首强调句 */
+.lead { color: var(--amber); letter-spacing: .04em; margin-bottom: 12px; }
 
 /* —— 游戏卡片网格 —— */
 .game-grid {
@@ -164,6 +175,7 @@ p { margin: 8px 0; }
 footer { margin-top: 56px; padding-top: 14px; border-top: 1px dashed var(--line);
          color: var(--muted); font-size: 12px; letter-spacing: .08em; }
 footer a { color: var(--muted); }
+.signoff { color: var(--dim); font-size: 13px; letter-spacing: .12em; margin: 0 0 12px; }
 
 /* —— 内页（privacy/support）—— */
 .page-lcd { padding: 14px 24px; margin-bottom: 32px;
