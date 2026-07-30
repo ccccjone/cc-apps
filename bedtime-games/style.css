@@ -100,6 +100,9 @@ h1 { font-size: 26px; letter-spacing: .12em; margin: 0 0 2px; color: var(--amber
 h2 { font-size: 15px; color: var(--amber); letter-spacing: .2em; margin: 40px 0 8px;
      text-transform: uppercase; }
 h2::before { content: "▸ "; color: var(--dim); }
+/* 多语 span 版本的 h2（如 Games 标题）：flex 让隐藏的 span 彻底不占位，
+   不用 <br> 分隔，避免没有 JS 时因为 display:none 的兄弟元素留出空行 */
+h2.i18n-inline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 p { margin: 8px 0; }
 
 /* —— 主页开场白（三语）—— */
