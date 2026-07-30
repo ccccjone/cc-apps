@@ -165,6 +165,12 @@ p { margin: 8px 0; }
   color: var(--dim); font-size: 12.5px; letter-spacing: .2em;
   text-align: center; text-transform: uppercase; line-height: 2;
 }
+/* 唯一可点的卡片（打砖块试玩）：<a> 继承全局 a 的下划线式 border-bottom，
+   在这里去掉；hover 用琥珀色边框区别于其余五张只在 hover 变暗灰的卡片，
+   ▸ 标记同色，两处信号叠加，一眼能看出只有这张能点。 */
+.game-card.playable { border-bottom: 0; }
+.game-card.playable:hover { border-color: var(--amber); }
+.play-tag { color: var(--amber); }
 
 .promise { color: var(--muted); font-size: 13px; margin: 26px 0; }
 .promise span { white-space: nowrap; }

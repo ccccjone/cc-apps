@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>打砖块试玩 · Brick Breaker Demo — 晚安游戏机 · Bedtime Games</title>
+<meta name="description" content="打砖块网页试玩版，只有第 1 关 · Brick Breaker, level 1 in your browser · Rompeladrillos, nivel 1 en el navegador">
+<link rel="stylesheet" href="../style.css?v=20260729">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
+<script src="../i18n.js?v=20260729"></script>
+<style>
+  /* 试玩页专用样式：只在 style.css 的 :root 变量之上加规则，不引入新颜色。 */
+  .game-wrap { max-width: 400px; margin: 0 auto; }
+  .screen {
+    background: var(--screen); border: 2px solid var(--bezel); border-radius: 10px;
+    padding: 12px 12px 10px; box-shadow: inset 0 2px 8px rgba(0, 0, 0, .55);
+  }
+  .hud {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; font-weight: 700; color: var(--amber);
+    letter-spacing: .1em; height: 18px; padding-bottom: 6px;
+  }
+  .canvas-shell { position: relative; }
+  #cv { display: block; width: 100%; border-radius: 2px; image-rendering: pixelated; }
+  .overlay {
+    position: absolute; inset: 0; display: none;
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; gap: 6px; padding: 16px;
+    background: rgba(14, 10, 6, .82); border-radius: 2px;
+  }
+  .overlay.show { display: flex; }
+  /* 胜/负两组文案分别包一层无 lang 属性的容器来做显隐切换，避免和 i18n.js
+     给 [lang] 元素做的显隐规则抢同一个元素、比specificity——那样会不管选了
+     哪个语言，三语文案全部一起冒出来。容器只管"这组显不显示"，容器内部
+     哪句 <p lang> 可见完全交给全局的语言规则决定，两条规则不打架。 */
+  .msg-group { display: none; }
+  .overlay.show.win .msg-group[data-for="win"] { display: block; }
+  .overlay.show.lose .msg-group[data-for="lose"] { display: block; }
+  .overlay p { margin: 2px 0; color: var(--paper); font-size: 13px; line-height: 1.6; }
+  .overlay .again { color: var(--amber); font-size: 11px; letter-spacing: .08em; margin-top: 6px; }
+
+  .ctlarea { margin-top: 14px; }
+  .strip {
+    width: 100%; height: 56px; border-radius: 10px; background: var(--body);
+    border: 1px solid var(--line); position: relative; overflow: hidden; touch-action: none;
+  }
+  .strip .track { position: absolute; left: 10px; right: 10px; top: 50%; height: 2px; margin-top: -1px; background: var(--line); }
+  .strip .knob {
+    position: absolute; top: 12px; height: 32px; width: 48px; margin-left: -24px;
+    border-radius: 6px; background: var(--amber); opacity: .9;
+  }
+
+  .serve-row { display: flex; justify-content: center; margin-top: 14px; }
+  .serve-btn {
+    width: 56px; height: 56px; border-radius: 50%; background: var(--body);
+    border: 2px solid var(--dim); color: var(--amber); font-size: 18px;
+    display: flex; align-items: center; justify-content: center;
+    font: inherit; cursor: pointer; user-select: none;
+  }
+  .serve-btn:hover, .serve-btn:focus-visible { border-color: var(--amber); outline: none; }
+
+  .hint { color: var(--muted); font-size: 11.5px; line-height: 1.8; text-align: center; margin: 16px 0 0; }
+  .hint span { display: block; }
+  .hint span + span { margin-top: 2px; color: var(--dim); }
+</style>
+</head>
+<body>
+
+<nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
+  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
+  <button type="button" data-lang="en" aria-pressed="false">English</button>
+  <button type="button" data-lang="es" aria-pressed="false">Español</button>
+</nav>
+
+<div class="page-lcd" aria-hidden="true">
+  <div class="status">DEMO · 打砖块</div>
+</div>
+
+<h1 class="i18n-inline">
+  <span lang="zh-Hans">打砖块试玩</span><span lang="en">Brick Breaker Demo</span><span lang="es">Demo de Rompeladrillos</span>
+</h1>
+<p class="latin-name lang-secondary">Brick Breaker Demo · Demo de Rompeladrillos</p>
+
+<p class="sub" lang="zh-Hans">网页试玩版，只有第 1 关。手感以 App 里的为准。</p>
+<p class="sub" lang="en">A browser taste of level 1. The real feel lives in the app.</p>
+<p class="sub" lang="es">Una prueba del nivel 1 en el navegador. El tacto real está en la app.</p>
+
+<div class="game-wrap">
+  <div class="screen">
+    <div class="hud" aria-hidden="true"><span id="hudText">LV.1 ♥♥♥</span></div>
+    <div class="canvas-shell" id="canvasShell">
+      <canvas id="cv" role="img"
+        aria-label="打砖块试玩 · Brick Breaker demo · Demo de Rompeladrillos"></canvas>
+      <div class="overlay" id="overlay">
+        <div class="msg-group" data-for="win">
+          <p lang="zh-Hans">砖块清空，通关！</p>
+          <p lang="en">All bricks cleared. You win!</p>
+          <p lang="es">¡Ladrillos despejados. Ganaste!</p>
+        </div>
+        <div class="msg-group" data-for="lose">
+          <p lang="zh-Hans">三条命都用完了。</p>
+          <p lang="en">Out of lives.</p>
+          <p lang="es">Sin vidas.</p>
+        </div>
+        <p class="again" lang="zh-Hans">点一下 / 按任意键重新开始</p>
+        <p class="again" lang="en">Tap or press any key to try again</p>
+        <p class="again" lang="es">Toca o pulsa una tecla para reintentar</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="ctlarea">
+    <div class="strip" id="strip">
+      <div class="track"></div><div class="knob" id="knob"></div>
+    </div>
+  </div>
+
+  <div class="serve-row">
+    <button type="button" class="serve-btn" id="serveBtn" aria-label="发球 · Serve · Sacar">▶</button>
+  </div>
+
+  <p class="hint">
+    <span lang="zh-Hans">拖动触控条移动挡板，点 ▶ 发球。</span>
+    <span lang="en">Drag the strip to move the paddle, tap ▶ to serve.</span>
+    <span lang="es">Arrastra la barra para mover la pala, toca ▶ para sacar.</span>
+    <span lang="zh-Hans">桌面：← → 移动，空格发球。</span>
+    <span lang="en">Desktop: ← → to move, space to serve.</span>
+    <span lang="es">Escritorio: ← → mover, espacio para sacar.</span>
+  </p>
+</div>
+
+<a class="back" href="../">← 晚安游戏机 · Bedtime Games</a>
+
+<footer>
+  <p class="signoff">See you tomorrow night. 🌙</p>
+  © 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a>
+</footer>
+
+<script>
+/* 网页试玩版：打砖块第 1 关。
+   参数来自 SleepyGameKit/Sources/PaddleGame/：
+     SCALE       ← PaddleGeometry.scale                （8）
+     BALL_SIZE   ← PaddleGeometry.ballSizePx            （max(2, round(scale*0.66)) = 5）
+     BASE_STEP   ← PaddleLevel.baseStep                 （0.34，第 1 关球推进间隔）
+     GLIDE_CELLS ← PaddleLevel.glideCellsPerSecond       （20，按住滑行速度）
+     PADDLE_LEN  ← PaddleLevel.paddleLen(0)              （7 砖格）
+     FACTORS[3]  ← PaddleSpeed.factors[defaultIndex]     （标准档 2.8，本页固定不给调档）
+     ANG 表      ← BallAngle.table                      （7 档角度，挡板 7 分区映射）
+     TOUGH_RATIO ← PaddleLevel.toughRatio(0)             （0.1，核心砖升 2 血的比例）
+     PATTERN     ← BrickPatterns.heart（第 1 关图案）
+   PaddleGeometry.subPerPixel（定点数精度）在 Swift 侧是给确定性用的；这里用浮点
+   像素坐标，天然带小数精度，不需要单独实现。
+   改任一侧参数记得看另一侧，别让网页版和 App 手感脱节。 */
+(function () {
+  // ---- 几何（与 PaddleGeometry 一致）----
+  var SCALE = 8;
+  var BR = 26, BC = 20;                 // 砖格行列
+  var PT = 6, PB = 17, PL = 1, PR = 18; // 图案区（含边界）
+  var TOPROW = 2, BOTROW = 23;          // 上/下挡板所在砖行
+  var PADDLE_LEN = 7;
+  var BALL_SIZE = Math.max(2, Math.round(SCALE * 0.66));
+  var GLIDE_CELLS = 20;
+  var BASE_STEP = 0.34;
+  var FACTOR = 2.8; // PaddleSpeed.factors[PaddleSpeed.defaultIndex]，本页固定标准档
+  var TOUGH_RATIO = 0.1;
+
+  // BallAngle.table：7 档角度，index 0 最陡、6 最缓
+  var ANG = [[61, 20], [57, 29], [53, 35], [45, 45], [35, 53], [29, 57], [20, 61]]
+    .map(function (a) { return [a[0] / 64, a[1] / 64]; });
+  var LAUNCH_VEC = [64 / 64, 0]; // Ball.setLaunchVertical：纯垂直，不走角度表
+  var ZONES = ANG.length; // 7
+  var MID = (ZONES - 1) / 2; // 3
+
+  // BrickPatterns.heart：'o' 轮廓 1 血、'#' 核心（可升 2 血）
+  var HEART = ['.oo.oo.', 'o#####o', 'o#####o', '.o###o.', '..o#o..', '...o...'];
+
+  var px = BC * SCALE, pr = BR * SCALE;      // 像素网格尺寸
+  var paddleLenPx = PADDLE_LEN * SCALE;
+  var stepInterval = BASE_STEP / SCALE / FACTOR;
+
+  var bricks, paddleX, ball, waiting, lives, state; // state: 'playing' | 'win' | 'lose'
+  var mode = 'strip', heldKey = 0, stripTarget = 0.5;
+  var acc = 0;
+
+  var cv = document.getElementById('cv'), g = cv.getContext('2d');
+  var overlay = document.getElementById('overlay');
+  var hudText = document.getElementById('hudText');
+  var cs = getComputedStyle(document.documentElement);
+  var COL = {
+    bg: cs.getPropertyValue('--screen').trim(),
+    on: cs.getPropertyValue('--amber').trim(),
+    dim: cs.getPropertyValue('--dim').trim()
+  };
+
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+  }
+
+  // ---- 铺图案：heart 居中铺进图案区，核心砖按 TOUGH_RATIO 抽取升 2 血 ----
+  function buildBricks() {
+    bricks = [];
+    for (var r = 0; r < BR; r++) bricks.push(new Array(BC).fill(0));
+    var h = HEART.length, w = HEART[0].length;
+    var patternRows = PB - PT + 1, patternCols = PR - PL + 1;
+    var top = PT + Math.floor((patternRows - h) / 2);
+    var left = PL + Math.floor((patternCols - w) / 2);
+    var cores = [], total = 0;
+    for (var rr = 0; rr < h; rr++) {
+      for (var cc = 0; cc < w; cc++) {
+        var ch = HEART[rr][cc];
+        if (ch === '.') continue;
+        var br = top + rr, bc = left + cc;
+        bricks[br][bc] = 1; total++;
+        if (ch === '#') cores.push([br, bc]);
+      }
+    }
+    var target = Math.round(total * TOUGH_RATIO);
+    shuffle(cores);
+    for (var i = 0; i < Math.min(target, cores.length); i++) {
+      bricks[cores[i][0]][cores[i][1]] = 2;
+    }
+  }
+
+  function resetGame() {
+    buildBricks();
+    paddleX = (px - paddleLenPx) / 2;
+    lives = 3;
+    state = 'playing';
+    overlay.classList.remove('show', 'win', 'lose');
+    respawnBall();
+  }
+
+  function respawnBall() {
+    waiting = true;
+    acc = 0;
+    ball = { row: 0, col: 0, vr: 0, vc: 0, hs: 1 };
+    syncBall();
+  }
+
+  function syncBall() {
+    ball.row = BOTROW * SCALE - BALL_SIZE;
+    ball.col = paddleX + (paddleLenPx - BALL_SIZE) / 2;
+  }
+
+  function launch() {
+    waiting = false;
+    acc = 0;
+    ball.vr = -LAUNCH_VEC[0];
+    ball.vc = LAUNCH_VEC[1];
+  }
+
+  // ---- 主要动作：等待发球时点/按 = 发球；游戏结束时点/按 = 重开 ----
+  function primaryAction() {
+    if (state !== 'playing') { resetGame(); return; }
+    if (waiting) launch();
+  }
+
+  function brickAt(r, c) {
+    var br = Math.floor(r / SCALE), bc = Math.floor(c / SCALE);
+    if (br < 0 || br >= BR || bc < 0 || bc >= BC) return null;
+    return bricks[br][bc] > 0 ? [br, bc] : null;
+  }
+  function covered(row, col) {
+    var out = [];
+    var r0 = Math.floor(row), r1 = Math.floor(row + BALL_SIZE - 0.0001);
+    var c0 = Math.floor(col), c1 = Math.floor(col + BALL_SIZE - 0.0001);
+    for (var r = r0; r <= r1; r++) for (var c = c0; c <= c1; c++) out.push([r, c]);
+    return out;
+  }
+
+  function step() {
+    // 纵向扫掠
+    var nr = ball.row + ball.vr, hit = false;
+    covered(nr, ball.col).forEach(function (rc) {
+      var b = brickAt(rc[0], rc[1]);
+      if (b) { bricks[b[0]][b[1]]--; hit = true; }
+    });
+    if (hit) ball.vr *= -1; else ball.row = nr;
+
+    // 横向扫掠
+    var nc = ball.col + ball.vc; hit = false;
+    if (nc < 0) { nc = 0; hit = true; }
+    if (nc + BALL_SIZE > px) { nc = px - BALL_SIZE; hit = true; }
+    if (!hit) covered(ball.row, nc).forEach(function (rc) {
+      var b = brickAt(rc[0], rc[1]);
+      if (b) { bricks[b[0]][b[1]]--; hit = true; }
+    });
+    if (hit) ball.vc *= -1; else ball.col = nc;
+    if (ball.vc !== 0) ball.hs = ball.vc > 0 ? 1 : -1;
+
+    // 挡板：上下两条，同步移动、同一套判定
+    var top = ball.row, bot = ball.row + BALL_SIZE;
+    if (ball.vr < 0 && top <= TOPROW * SCALE + SCALE) {
+      if (!reflect(1)) { missBall(); return; }
+    } else if (ball.vr > 0 && bot >= BOTROW * SCALE) {
+      if (!reflect(-1)) { missBall(); return; }
+    }
+
+    if (brickCount() === 0) { state = 'win'; showOverlay(); }
+  }
+
+  // BallAngle.reflection：出射角度只看落点分区、忽略入射角；中央区保留入射水平朝向
+  function reflect(vSign) {
+    var center = ball.col + BALL_SIZE / 2;
+    if (center < paddleX || center >= paddleX + paddleLenPx) return false;
+    var rel = clamp(center - paddleX, 0, paddleLenPx - 1);
+    var zone = Math.min(ZONES - 1, Math.floor(rel * ZONES / paddleLenPx));
+    var idx = Math.min(ANG.length - 1, Math.abs(zone - MID) * 2);
+    var hSign = (zone === MID) ? (ball.hs || 1) : (zone < MID ? -1 : 1);
+    ball.vr = ANG[idx][0] * vSign;
+    ball.vc = ANG[idx][1] * hSign;
+    ball.hs = hSign;
+    ball.row = vSign > 0 ? TOPROW * SCALE + SCALE : BOTROW * SCALE - BALL_SIZE;
+    return true;
+  }
+
+  function missBall() {
+    lives--;
+    if (lives <= 0) { state = 'lose'; showOverlay(); }
+    else respawnBall();
+  }
+
+  function brickCount() {
+    var n = 0;
+    for (var r = PT; r <= PB; r++) for (var c = PL; c <= PR; c++) if (bricks[r][c] > 0) n++;
+    return n;
+  }
+
+  function showOverlay() {
+    overlay.classList.add('show', state === 'win' ? 'win' : 'lose');
+  }
+
+  // ---- 挡板运动：触控条绝对跟手 / 键盘按住滑行 ----
+  function movePaddle(dt) {
+    var maxX = px - paddleLenPx;
+    if (mode === 'key') {
+      if (heldKey !== 0) paddleX = clamp(paddleX + heldKey * GLIDE_CELLS * SCALE * dt, 0, maxX);
+    } else if (mode === 'strip' && stripTarget !== null) {
+      paddleX = clamp(stripTarget * maxX, 0, maxX);
+    }
+    if (waiting) syncBall();
+  }
+
+  // ---- 渲染 ----
+  function draw() {
+    var W = cv.width, cell = W / px, inset = cell * 0.075;
+    g.fillStyle = COL.bg; g.fillRect(0, 0, W, cv.height);
+    function put(r, c, on) {
+      g.fillStyle = on ? COL.on : COL.dim;
+      g.fillRect(c * cell + inset, r * cell + inset, cell - inset * 2, cell - inset * 2);
+    }
+    for (var r = PT; r <= PB; r++) for (var c = PL; c <= PR; c++) {
+      var hp = bricks[r][c]; if (hp <= 0) continue;
+      for (var dr = 0; dr < SCALE; dr++) for (var dc = 0; dc < SCALE; dc++) put(r * SCALE + dr, c * SCALE + dc, hp >= 2);
+    }
+    for (var t = 0; t < SCALE; t++) for (var i = 0; i < paddleLenPx; i++) {
+      var col = Math.round(paddleX) + i;
+      if (col < 0 || col >= px) continue;
+      put(TOPROW * SCALE + t, col, true); put(BOTROW * SCALE + t, col, true);
+    }
+    var br0 = Math.round(ball.row), bc0 = Math.round(ball.col);
+    for (var bdr = 0; bdr < BALL_SIZE; bdr++) for (var bdc = 0; bdc < BALL_SIZE; bdc++) {
+      var rr = Math.min(pr - 1, Math.max(0, br0 + bdr)), cc = Math.min(px - 1, Math.max(0, bc0 + bdc));
+      put(rr, cc, true);
+    }
+    hudText.textContent = 'LV.1 ' + '♥'.repeat(Math.max(0, lives));
+  }
+
+  function fitCanvas() {
+    var w = cv.clientWidth * devicePixelRatio;
+    cv.width = Math.round(w); cv.height = Math.round(w * BR / BC);
+    cv.style.height = (cv.width / devicePixelRatio * BR / BC) + 'px';
+  }
+
+  // ---- 主循环 ----
+  var last = performance.now();
+  function loop(now) {
+    var dt = Math.min(0.05, (now - last) / 1000); last = now;
+    if (state === 'playing') {
+      movePaddle(dt);
+      if (!waiting) {
+        acc += dt; var guard = 0;
+        while (acc >= stepInterval && state === 'playing' && !waiting && guard++ < 400) {
+          acc -= stepInterval; step();
+        }
+      }
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // ---- 触控条 ----
+  var strip = document.getElementById('strip'), knob = document.getElementById('knob');
+  function setStripFrom(e) {
+    var r = strip.getBoundingClientRect();
+    var t = clamp((e.clientX - r.left - 24) / (r.width - 48), 0, 1);
+    stripTarget = t; mode = 'strip';
+    knob.style.left = (24 + t * (r.width - 48)) + 'px';
+  }
+  strip.addEventListener('pointerdown', function (e) {
+    e.preventDefault(); strip.setPointerCapture(e.pointerId); setStripFrom(e);
+  });
+  strip.addEventListener('pointermove', function (e) {
+    if (e.buttons || e.pointerType === 'touch') setStripFrom(e);
+  });
+  function updateKnobFromTarget() {
+    var r = strip.getBoundingClientRect();
+    var t = stripTarget === null ? 0.5 : stripTarget;
+    knob.style.left = (24 + t * (r.width - 48)) + 'px';
+  }
+  window.addEventListener('resize', updateKnobFromTarget);
+
+  // ---- 键盘：← → 移动，空格发球/重开 ----
+  window.addEventListener('keydown', function (e) {
+    if (e.code === 'ArrowLeft') { e.preventDefault(); heldKey = -1; mode = 'key'; }
+    else if (e.code === 'ArrowRight') { e.preventDefault(); heldKey = 1; mode = 'key'; }
+    else if (e.code === 'Space') { e.preventDefault(); primaryAction(); }
+  });
+  window.addEventListener('keyup', function (e) {
+    if (e.code === 'ArrowLeft' && heldKey === -1) heldKey = 0;
+    else if (e.code === 'ArrowRight' && heldKey === 1) heldKey = 0;
+  });
+
+  // ---- 发球键 / 点屏幕发球 ----
+  document.getElementById('serveBtn').addEventListener('pointerdown', function (e) {
+    e.preventDefault(); primaryAction();
+  });
+  // 绑定在 canvas-shell 上而不是 cv：游戏结束时覆盖层盖在 canvas 之上，
+  // 点击其实落在覆盖层上，cv 收不到——父容器两种情况都能收到。
+  document.getElementById('canvasShell').addEventListener('pointerdown', function () { primaryAction(); });
+
+  window.addEventListener('resize', fitCanvas);
+  fitCanvas();
+  resetGame();
+  updateKnobFromTarget();
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
