@@ -150,6 +150,28 @@
      PATTERN     ← BrickPatterns.heart（第 1 关图案）
    PaddleGeometry.subPerPixel（定点数精度）在 Swift 侧是给确定性用的；这里用浮点
    像素坐标，天然带小数精度，不需要单独实现。
+   核心砖（#）升 2 血用 Math.random() 现场洗牌，不是 Swift 那套 SeededRandom 确定性
+   种子——网页试玩不需要可重放/可测，没有照抄。
+
+   已知的手感偏差（人工评审对照源码抓出来的，代码没改，这里如实记录）：
+   - 缺挡板运动修正：Swift BallAngle.reflection(zone:keepingHorizontal:paddleMotion:)
+     会按挡板击球瞬间的移动方向把出射角 ±1 档微调；本页 reflect() 只做基础的
+     zone→角度映射，没有这层修正。【有意简化】
+   - 缺半像素子步进：Swift BallSweep.advance 命中砖的那一轴当帧只走到砖边界，
+     剩余位移用翻转后的方向在同一宏观 step 内续走完，避免"撞砖顿一拍"；本页
+     step() 是整步一次性检测、命中即整帧不动、下一帧才用新方向走，是 Swift
+     注释里点名的"初版"那个已知模式，肉眼可见每次弹墙/弹砖有一帧轻微顿挫。
+     【有意简化】
+   - 上挡板命中阈值差一像素：Swift 是
+     ballTop <= topPaddleTopPx + paddleThicknessPx - 1，本页 reflect() 里判定条件
+     少了这个 "-1"，比 Swift 早一像素触发上挡板反弹（下挡板的 >= 判定两边一致，
+     没有这个偏差）。【有意简化】
+   - 缺对角穿模防护：Swift BallSweep.advance 专门算了 dCells——纵、横候选都没
+     命中但对角候选命中时仍判定命中，防止球从两块对角相邻砖的几何角点穿过去；
+     本页只做了纵、横两次独立扫掠，没有对角检测。球 5px、砖 8px、单步位移
+     <1px，heart 图案下触发概率低，评审也没找到实际漏洞位置，但结构上确实
+     缺这层防护。【已知缺口，非本页阻塞项】
+
    改任一侧参数记得看另一侧，别让网页版和 App 手感脱节。 */
 (function () {
   // ---- 几何（与 PaddleGeometry 一致）----
