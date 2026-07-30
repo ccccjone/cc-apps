@@ -221,6 +221,9 @@ section[id] { scroll-margin-top: 24px; }
 .back { display: inline-block; margin-top: 30px; color: var(--dim); border-bottom: 0; }
 .back:hover { color: var(--amber); }
 section { margin-bottom: 8px; }
+/* 语种小标题（h2）去掉后，无 JS 时三语段落连着排——各语言段的第一行虽然是
+   带颜色的 .lead，但加一条细分隔线更保险，避免读起来像一段话。 */
+section + section { margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--line); }
 
 @media (max-width: 480px) {
   body { padding: 24px 16px 48px; }
