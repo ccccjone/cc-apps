@@ -166,12 +166,15 @@ p { margin: 8px 0; }
   text-align: center; text-transform: uppercase; line-height: 2;
 }
 /* 唯一可点的卡片（打砖块试玩）：hover 用琥珀色边框区别于其余六张只在
-   hover 变暗灰的卡片，▸ 标记同色，两处信号叠加，一眼能看出只有这张能点。
+   hover 变暗灰的卡片，▸ 标记用琥珀色与之呼应，两处信号叠加，一眼能看出
+   只有这张能点（触屏没有 hover，▸ 的常驻琥珀色是唯一始终在的信号）。
    不用加 border-bottom:0 去清全局 a 的下划线——.game-card 的 class 选择器
    (0,1,0) 本来就压得过元素选择器 a 的 border-bottom (0,0,1)，四边框天然
-   完整；之前加了反而以 (0,2,0) 反过来压掉 .game-card 自己的底边框。 */
+   完整；之前加了反而以 (0,2,0) 反过来压掉 .game-card 自己的底边框。
+   ▸ 标记颜色要用 .game-card h3 .play-tag (0,3,1) 而不是裸 .play-tag
+   (0,1,0)，否则会被上面 .game-card h3 span (0,2,1) 压成 --muted 灰色。 */
 .game-card.playable:hover { border-color: var(--amber); }
-.play-tag { color: var(--amber); }
+.game-card h3 .play-tag { color: var(--amber); }
 
 .promise { color: var(--muted); font-size: 13px; margin: 26px 0; }
 .promise span { white-space: nowrap; }
