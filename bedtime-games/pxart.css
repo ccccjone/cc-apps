@@ -219,3 +219,40 @@
     96px 72px 0 0 var(--dim);
 }
 
+.px-breakout {
+  box-shadow:
+    48px 48px 0 0 var(--amber),
+    32px 64px 0 0 var(--amber),
+    40px 64px 0 0 var(--amber),
+    48px 64px 0 0 var(--amber),
+    56px 64px 0 0 var(--amber),
+    64px 64px 0 0 var(--amber),
+    8px 0px 0 0 var(--dim),
+    16px 0px 0 0 var(--dim),
+    24px 0px 0 0 var(--dim),
+    40px 0px 0 0 var(--dim),
+    48px 0px 0 0 var(--dim),
+    56px 0px 0 0 var(--dim),
+    72px 0px 0 0 var(--dim),
+    80px 0px 0 0 var(--dim),
+    88px 0px 0 0 var(--dim),
+    8px 16px 0 0 var(--dim),
+    16px 16px 0 0 var(--dim),
+    24px 16px 0 0 var(--dim),
+    40px 16px 0 0 var(--dim),
+    48px 16px 0 0 var(--dim),
+    56px 16px 0 0 var(--dim),
+    72px 16px 0 0 var(--dim),
+    80px 16px 0 0 var(--dim),
+    88px 16px 0 0 var(--dim),
+    8px 32px 0 0 var(--dim),
+    16px 32px 0 0 var(--dim),
+    24px 32px 0 0 var(--dim),
+    40px 32px 0 0 var(--dim),
+    48px 32px 0 0 var(--dim),
+    56px 32px 0 0 var(--dim),
+    72px 32px 0 0 var(--dim),
+    80px 32px 0 0 var(--dim),
+    88px 32px 0 0 var(--dim);
+}
+
