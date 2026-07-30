@@ -5,11 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>晚安游戏机 · Bedtime Games</title>
 <meta name="description" content="复古掌机风睡前小游戏 · Calm retro puzzles for bedtime · Puzles retro para ir a dormir">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="pxart.css">
+<link rel="stylesheet" href="style.css?v=20260729">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
+<script src="i18n.js?v=20260729"></script>
+<noscript><style>.lang-switch{display:none}</style></noscript>
 </head>
 <body>
+
+<nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
+  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
+  <button type="button" data-lang="en" aria-pressed="false">English</button>
+  <button type="button" data-lang="es" aria-pressed="false">Español</button>
+</nav>
 
 <div class="device" aria-hidden="true">
   <div class="device-screen">
@@ -33,7 +40,7 @@
   <div class="intro-lang" lang="zh-Hans">
     <p>还记得小时候躲在被子里，偷偷玩学习机或小掌机的夜晚吗？</p>
     <p>这里没有排行榜，没有每天签到，也没有停不下来的推荐。</p>
-    <p>只有一台来自旧时光的小掌机，装着一些低刺激的黑白点阵小游戏：贪吃蛇、俄罗斯方块、打砖块，以及更多会慢慢加入的小玩意。</p>
+    <p>只有一台来自旧时光的小掌机，装着一些低刺激的黑白点阵小游戏：贪吃蛇、方块消除、打砖块，以及更多会慢慢加入的小玩意。</p>
     <p>你可以把屏幕调得很暗，在睡前安安静静地玩上一会儿，不需要太多情绪，也不用追求赢输。</p>
     <p>希望它能陪你度过一天里最后一点属于自己的时间。</p>
     <p class="wish">祝你今夜有个好梦。</p>
@@ -41,7 +48,7 @@
   <div class="intro-lang secondary" lang="en">
     <p>Remember those nights as a kid, hiding under the covers, secretly playing a little handheld or learning machine?</p>
     <p>No leaderboards here, no daily check-ins, no endless feed you can't put down.</p>
-    <p>Just a little handheld from another era, holding a few gentle black-and-white pixel games: Snake, falling blocks, brick breaking, and more drifting in over time.</p>
+    <p>Just a little handheld from another era, holding a few gentle black-and-white pixel games: Snake, Blocks, Brick Breaker, and more drifting in over time.</p>
     <p>You can dim the screen right down and play a quiet while before sleep — no big feelings required, no winning or losing to chase.</p>
     <p>May it keep you company through the last little bit of the day that's truly your own.</p>
     <p class="wish">Sweet dreams tonight.</p>
@@ -49,42 +56,64 @@
   <div class="intro-lang secondary" lang="es">
     <p>¿Recuerdas esas noches de la infancia, escondido bajo las sábanas, jugando a escondidas con una maquinita o una pequeña consola?</p>
     <p>Aquí no hay clasificaciones, ni fichajes diarios, ni un feed del que no puedas despegarte.</p>
-    <p>Solo una pequeña consola de otra época, con unos cuantos juegos de píxeles en blanco y negro y poco estímulo: la serpiente, los bloques que caen, los ladrillos, y más que irán llegando poco a poco.</p>
+    <p>Solo una pequeña consola de otra época, con unos cuantos juegos de píxeles en blanco y negro y poco estímulo: Serpiente, Bloques, Rompeladrillos, y más que irán llegando poco a poco.</p>
     <p>Puedes bajar mucho el brillo de la pantalla y jugar un rato en calma antes de dormir, sin grandes emociones ni necesidad de ganar o perder.</p>
     <p>Ojalá te acompañe en ese último rato del día que de verdad es solo tuyo.</p>
     <p class="wish">Que tengas dulces sueños esta noche.</p>
   </div>
 </div>
 
-<h2>Games · 内置游戏</h2>
-<div class="game-grid" role="list" aria-label="内置游戏 · Games">
+<h2 class="i18n-inline"><span lang="zh-Hans">内置游戏</span><span lang="en">Games</span><span lang="es">Juegos</span></h2>
+<div class="game-grid" role="list" aria-label="内置游戏 · Games · Juegos">
   <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true"><i class="px px-snake"></i></div>
-    <h3>Snake <span lang="zh-Hans">贪吃蛇</span></h3>
+    <div class="mini-lcd">
+      <img src="shots/snake.png?v=20260729" alt="贪吃蛇游戏画面" width="89" height="125"
+           data-alt-zh-hans="贪吃蛇游戏画面" data-alt-en="Snake gameplay" data-alt-es="Pantalla de Serpiente">
+    </div>
+    <h3>Snake <span lang="zh-Hans">贪吃蛇</span><span lang="es">Serpiente</span></h3>
   </article>
   <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true"><i class="px px-blocks"></i></div>
-    <h3>Blocks <span lang="zh-Hans">俄罗斯方块</span></h3>
+    <div class="mini-lcd">
+      <img src="shots/tetris.png?v=20260729" alt="方块消除游戏画面" width="89" height="119"
+           data-alt-zh-hans="方块消除游戏画面" data-alt-en="Blocks gameplay" data-alt-es="Pantalla de Bloques">
+    </div>
+    <h3>Blocks <span lang="zh-Hans">方块消除</span><span lang="es">Bloques</span></h3>
   </article>
   <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true"><i class="px px-sokoban"></i></div>
-    <h3>Sokoban <span lang="zh-Hans">推箱子</span></h3>
+    <div class="mini-lcd">
+      <img src="shots/sokoban.png?v=20260729" alt="推箱子游戏画面" width="123" height="108"
+           data-alt-zh-hans="推箱子游戏画面" data-alt-en="Push Boxes gameplay" data-alt-es="Pantalla de Empuja cajas">
+    </div>
+    <h3>Push Boxes <span lang="zh-Hans">推箱子</span><span lang="es">Empuja cajas</span></h3>
   </article>
   <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true"><i class="px px-maze"></i></div>
-    <h3>Maze <span lang="zh-Hans">迷宫</span></h3>
+    <div class="mini-lcd">
+      <img src="shots/maze.png?v=20260729" alt="迷宫游戏画面" width="84" height="110"
+           data-alt-zh-hans="迷宫游戏画面" data-alt-en="Maze gameplay" data-alt-es="Pantalla de Laberinto">
+    </div>
+    <h3>Maze <span lang="zh-Hans">迷宫</span><span lang="es">Laberinto</span></h3>
   </article>
   <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true">
-      <div class="t2048"><b>2</b><b>4</b><b class="hot">8</b><b class="hot">16</b></div>
+    <div class="mini-lcd">
+      <img src="shots/2048.png?v=20260729" alt="2048 游戏画面" width="108" height="108"
+           data-alt-zh-hans="2048 游戏画面" data-alt-en="2048 gameplay" data-alt-es="Pantalla de 2048">
     </div>
     <h3>2048</h3>
   </article>
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd" aria-hidden="true"><i class="px px-breakout"></i></div>
-    <h3>Brick Breaker <span lang="zh-Hans">打砖块</span></h3>
-  </article>
-  <div class="game-card more" role="listitem" lang="zh-Hans"><span lang="en">More</span><br>更多游戏在路上</div>
+  <div role="listitem">
+    <a class="game-card playable" href="demo/breakout.html?v=20260729">
+      <div class="mini-lcd">
+        <img src="shots/breakout.png?v=20260729" alt="打砖块游戏画面" width="80" height="104"
+             data-alt-zh-hans="打砖块游戏画面" data-alt-en="Brick Breaker gameplay" data-alt-es="Pantalla de Rompeladrillos">
+      </div>
+      <h3>Brick Breaker <span lang="zh-Hans">打砖块</span><span lang="es">Rompeladrillos</span> <span class="play-tag">▸</span></h3>
+    </a>
+  </div>
+  <div class="game-card more" role="listitem">
+    <span lang="zh-Hans">更多游戏在路上</span><br>
+    <span lang="en">More coming</span><br>
+    <span lang="es">Más en camino</span>
+  </div>
 </div>
 
 <p class="promise">
@@ -98,8 +127,16 @@
 -->
 
 <nav class="btn-row">
-  <a class="btn" href="privacy.html">隐私政策 · Privacy</a>
-  <a class="btn" href="support.html">支持 · Support</a>
+  <a class="btn" href="privacy.html">
+    <span lang="zh-Hans">隐私政策</span><br>
+    <span lang="en">Privacy Policy</span><br>
+    <span lang="es">Política de privacidad</span>
+  </a>
+  <a class="btn" href="support.html">
+    <span lang="zh-Hans">支持</span><br>
+    <span lang="en">Support</span><br>
+    <span lang="es">Soporte</span>
+  </a>
 </nav>
 
 <footer>
