@@ -180,17 +180,29 @@ footer { margin-top: 56px; padding-top: 14px; border-top: 1px dashed var(--line)
 footer a { color: var(--muted); }
 .signoff { color: var(--dim); font-size: 13px; letter-spacing: .12em; margin: 0 0 12px; }
 
+/* —— 语言切换 —— */
+.lang-switch { display: flex; gap: 8px; justify-content: center; margin: 0 0 18px; }
+.lang-switch button {
+  font: inherit; font-size: 12px; letter-spacing: .06em;
+  padding: 5px 12px; border-radius: 6px; cursor: pointer;
+  background: transparent; border: 1px solid var(--line); color: var(--muted);
+}
+.lang-switch button[aria-pressed="true"] { border-color: var(--dim); color: var(--amber); }
+.lang-switch button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+/* 选定语言后只显示该语言的段落；没有 JS 时 data-lang 不存在，三语照旧全显示 */
+html[data-lang="zh-Hans"] [lang="en"],
+html[data-lang="zh-Hans"] [lang="es"],
+html[data-lang="en"] [lang="zh-Hans"],
+html[data-lang="en"] [lang="es"],
+html[data-lang="es"] [lang="zh-Hans"],
+html[data-lang="es"] [lang="en"] { display: none; }
+
 /* —— 内页（privacy/support）—— */
 .page-lcd { padding: 14px 24px; margin-bottom: 32px;
   background: var(--screen); border: 2px solid var(--bezel); border-radius: 10px;
   box-shadow: inset 0 2px 8px rgba(0, 0, 0, .55); }
 .page-lcd .status { margin-top: 0; padding-top: 0; border-top: 0; }
-.lang-nav { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 30px; }
-.lang-nav a {
-  border: 1px solid var(--line); border-radius: 999px;
-  padding: 3px 14px; font-size: 12.5px; color: var(--muted);
-}
-.lang-nav a:hover { color: var(--amber); border-color: var(--dim); }
 section[id] { scroll-margin-top: 24px; }
 .back { display: inline-block; margin-top: 30px; color: var(--dim); border-bottom: 0; }
 .back:hover { color: var(--amber); }

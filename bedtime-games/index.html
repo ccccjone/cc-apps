@@ -5,10 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>晚安游戏机 · Bedtime Games</title>
 <meta name="description" content="复古掌机风睡前小游戏 · Calm retro puzzles for bedtime · Puzles retro para ir a dormir">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=20260729">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
+<script src="i18n.js?v=20260729"></script>
 </head>
 <body>
+
+<nav class="lang-switch" aria-label="选择语言 · Choose language">
+  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
+  <button type="button" data-lang="en" aria-pressed="false">English</button>
+  <button type="button" data-lang="es" aria-pressed="false">Español</button>
+</nav>
 
 <div class="device" aria-hidden="true">
   <div class="device-screen">
@@ -59,41 +66,51 @@
 <div class="game-grid" role="list" aria-label="内置游戏 · Games">
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/snake.png?v=20260729" alt="贪吃蛇游戏画面" width="89" height="125">
+      <img src="shots/snake.png?v=20260729" alt="贪吃蛇游戏画面" width="89" height="125"
+           data-alt-zh-hans="贪吃蛇游戏画面" data-alt-en="Snake gameplay" data-alt-es="Pantalla de Serpiente">
     </div>
-    <h3>Snake <span lang="zh-Hans">贪吃蛇</span></h3>
+    <h3>Snake <span lang="zh-Hans">贪吃蛇</span><span lang="es">Serpiente</span></h3>
   </article>
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/tetris.png?v=20260729" alt="方块消除游戏画面" width="89" height="119">
+      <img src="shots/tetris.png?v=20260729" alt="方块消除游戏画面" width="89" height="119"
+           data-alt-zh-hans="方块消除游戏画面" data-alt-en="Blocks gameplay" data-alt-es="Pantalla de Bloques">
     </div>
-    <h3>Blocks <span lang="zh-Hans">方块消除</span></h3>
+    <h3>Blocks <span lang="zh-Hans">方块消除</span><span lang="es">Bloques</span></h3>
   </article>
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/sokoban.png?v=20260729" alt="推箱子游戏画面" width="123" height="108">
+      <img src="shots/sokoban.png?v=20260729" alt="推箱子游戏画面" width="123" height="108"
+           data-alt-zh-hans="推箱子游戏画面" data-alt-en="Push Boxes gameplay" data-alt-es="Pantalla de Empuja cajas">
     </div>
-    <h3>Push Boxes <span lang="zh-Hans">推箱子</span></h3>
+    <h3>Push Boxes <span lang="zh-Hans">推箱子</span><span lang="es">Empuja cajas</span></h3>
   </article>
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/maze.png?v=20260729" alt="迷宫游戏画面" width="84" height="110">
+      <img src="shots/maze.png?v=20260729" alt="迷宫游戏画面" width="84" height="110"
+           data-alt-zh-hans="迷宫游戏画面" data-alt-en="Maze gameplay" data-alt-es="Pantalla de Laberinto">
     </div>
-    <h3>Maze <span lang="zh-Hans">迷宫</span></h3>
+    <h3>Maze <span lang="zh-Hans">迷宫</span><span lang="es">Laberinto</span></h3>
   </article>
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/2048.png?v=20260729" alt="2048 游戏画面" width="108" height="108">
+      <img src="shots/2048.png?v=20260729" alt="2048 游戏画面" width="108" height="108"
+           data-alt-zh-hans="2048 游戏画面" data-alt-en="2048 gameplay" data-alt-es="Pantalla de 2048">
     </div>
     <h3>2048</h3>
   </article>
   <article class="game-card" role="listitem">
     <div class="mini-lcd">
-      <img src="shots/breakout.png?v=20260729" alt="打砖块游戏画面" width="80" height="104">
+      <img src="shots/breakout.png?v=20260729" alt="打砖块游戏画面" width="80" height="104"
+           data-alt-zh-hans="打砖块游戏画面" data-alt-en="Brick Breaker gameplay" data-alt-es="Pantalla de Rompeladrillos">
     </div>
-    <h3>Brick Breaker <span lang="zh-Hans">打砖块</span></h3>
+    <h3>Brick Breaker <span lang="zh-Hans">打砖块</span><span lang="es">Rompeladrillos</span></h3>
   </article>
-  <div class="game-card more" role="listitem" lang="zh-Hans"><span lang="en">More</span><br>更多游戏在路上</div>
+  <div class="game-card more" role="listitem">
+    <span lang="zh-Hans">更多游戏在路上</span><br>
+    <span lang="en">More coming</span><br>
+    <span lang="es">Más en camino</span>
+  </div>
 </div>
 
 <p class="promise">
@@ -107,8 +124,16 @@
 -->
 
 <nav class="btn-row">
-  <a class="btn" href="privacy.html">隐私政策 · Privacy</a>
-  <a class="btn" href="support.html">支持 · Support</a>
+  <a class="btn" href="privacy.html">
+    <span lang="zh-Hans">隐私政策</span><br>
+    <span lang="en">Privacy Policy</span><br>
+    <span lang="es">Política de privacidad</span>
+  </a>
+  <a class="btn" href="support.html">
+    <span lang="zh-Hans">支持</span><br>
+    <span lang="en">Support</span><br>
+    <span lang="es">Soporte</span>
+  </a>
 </nav>
 
 <footer>
