@@ -100,9 +100,9 @@ h1 { font-size: 26px; letter-spacing: .12em; margin: 0 0 2px; color: var(--amber
 h2 { font-size: 15px; color: var(--amber); letter-spacing: .2em; margin: 40px 0 8px;
      text-transform: uppercase; }
 h2::before { content: "▸ "; color: var(--dim); }
-/* 多语 span 版本的 h2（如 Games 标题）：flex 让隐藏的 span 彻底不占位，
-   不用 <br> 分隔，避免没有 JS 时因为 display:none 的兄弟元素留出空行 */
-h2.i18n-inline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+/* 多语 span 版本的标题（h2「Games」、内页 h1 页面标题）：flex 让隐藏的 span
+   彻底不占位，不用 <br> 分隔，避免没有 JS 时因为 display:none 的兄弟元素留出空行 */
+.i18n-inline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
 p { margin: 8px 0; }
 
 /* —— 主页开场白（三语）—— */
@@ -200,6 +200,11 @@ html[data-lang="en"] [lang="zh-Hans"],
 html[data-lang="en"] [lang="es"],
 html[data-lang="es"] [lang="zh-Hans"],
 html[data-lang="es"] [lang="en"] { display: none; }
+
+/* 内页 h1 三语化后，.latin-name 副标题在英/西语模式下会和 h1 重复同一个词，
+   只在中文模式（h1 显示中文时）保留这行"外语名对照"；没有 JS 时同样三语原样全显示 */
+html[data-lang="en"] .latin-name.lang-secondary,
+html[data-lang="es"] .latin-name.lang-secondary { display: none; }
 
 /* —— 内页（privacy/support）—— */
 .page-lcd { padding: 14px 24px; margin-bottom: 32px;
