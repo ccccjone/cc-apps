@@ -72,7 +72,7 @@
     if (copy) {
       var box = cv.getBoundingClientRect(), c = copy.getBoundingClientRect();
       var pad = MOON_R + 12;
-      if (tx - pad < c.right - box.left && tx + pad > c.left - box.left && ty - pad < c.bottom - box.top) {
+      if (tx - pad < c.right - box.left && tx + pad > c.left - box.left && ty - pad < c.bottom - box.top && ty + pad > c.top - box.top) {
         ty = c.bottom - box.top + MOON_R + 20;
       }
     }
@@ -163,6 +163,19 @@
     if (e.target.closest && e.target.closest('a, button')) return;
     play(0);
   });
-  function start() { draw(reduce ? T.end : 0); play(800); }
+  function start() {
+    draw(reduce ? T.end : 0);
+    if (!reduce && document.hidden) {
+      // 后台标签页：rAF 会被节流/挂起，先不播，等切回前台再播，免得兜底定时器把开场动画在无人看到时就吃掉。
+      var onVisible = function () {
+        if (document.hidden) return;
+        document.removeEventListener('visibilitychange', onVisible);
+        play(300);
+      };
+      document.addEventListener('visibilitychange', onVisible);
+      return;
+    }
+    play(800);
+  }
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(start); else start();
 })();
