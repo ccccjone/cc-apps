@@ -4,144 +4,131 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>晚安游戏机 · Bedtime Games</title>
-<meta name="description" content="复古掌机风睡前小游戏 · Calm retro puzzles for bedtime · Puzles retro para ir a dormir">
-<link rel="stylesheet" href="style.css?v=20260729">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
-<script src="i18n.js?v=20260729"></script>
-<noscript><style>.lang-switch{display:none}</style></noscript>
+<meta name="description" content="睡前玩一会儿的像素小卡带 · Little pixel cartridges for bedtime · Pequeños cartuchos de píxeles para antes de dormir">
+<link rel="stylesheet" href="style.css?v=20260930">
+<link rel="icon" type="image/png" href="art/icon-64.png?v=20260930">
+<link rel="apple-touch-icon" href="art/icon-192.png?v=20260930">
+<script src="i18n.js?v=20260930"></script>
+<script src="hero.js?v=20260930" defer></script>
+<noscript><style>.lang-switch,.dup-es{display:none}.hero{min-height:0;padding-bottom:28px}.hero h1 span:not(.dup-es){display:block}</style></noscript>
 </head>
 <body>
 
-<nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
-  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
-  <button type="button" data-lang="en" aria-pressed="false">English</button>
-  <button type="button" data-lang="es" aria-pressed="false">Español</button>
-</nav>
-
-<div class="device" aria-hidden="true">
-  <div class="device-screen">
-    <div class="lcd-scene">
-      <div class="pixel-moon"></div>
-      <div class="zz">Z<small>z</small></div>
-    </div>
-    <div class="status">GOOD NIGHT · 晚安</div>
-  </div>
-  <div class="device-brand">Bedtime Games</div>
-  <div class="device-controls">
-    <div class="dpad"></div>
-    <div class="ab"><i></i><i></i></div>
-  </div>
-</div>
-
-<h1>晚安游戏机</h1>
-<p class="latin-name">Bedtime Games</p>
-
-<div class="intro">
-  <div class="intro-lang" lang="zh-Hans">
-    <p>还记得小时候躲在被子里，偷偷玩学习机或小掌机的夜晚吗？</p>
-    <p>这里没有排行榜，没有每天签到，也没有停不下来的推荐。</p>
-    <p>只有一台来自旧时光的小掌机，装着一些低刺激的黑白点阵小游戏：贪吃蛇、方块消除、打砖块，以及更多会慢慢加入的小玩意。</p>
-    <p>你可以把屏幕调得很暗，在睡前安安静静地玩上一会儿，不需要太多情绪，也不用追求赢输。</p>
-    <p>希望它能陪你度过一天里最后一点属于自己的时间。</p>
-    <p class="wish">祝你今夜有个好梦。</p>
-  </div>
-  <div class="intro-lang secondary" lang="en">
-    <p>Remember those nights as a kid, hiding under the covers, secretly playing a little handheld or learning machine?</p>
-    <p>No leaderboards here, no daily check-ins, no endless feed you can't put down.</p>
-    <p>Just a little handheld from another era, holding a few gentle black-and-white pixel games: Snake, Blocks, Brick Breaker, and more drifting in over time.</p>
-    <p>You can dim the screen right down and play a quiet while before sleep — no big feelings required, no winning or losing to chase.</p>
-    <p>May it keep you company through the last little bit of the day that's truly your own.</p>
-    <p class="wish">Sweet dreams tonight.</p>
-  </div>
-  <div class="intro-lang secondary" lang="es">
-    <p>¿Recuerdas esas noches de la infancia, escondido bajo las sábanas, jugando a escondidas con una maquinita o una pequeña consola?</p>
-    <p>Aquí no hay clasificaciones, ni fichajes diarios, ni un feed del que no puedas despegarte.</p>
-    <p>Solo una pequeña consola de otra época, con unos cuantos juegos de píxeles en blanco y negro y poco estímulo: Serpiente, Bloques, Rompeladrillos, y más que irán llegando poco a poco.</p>
-    <p>Puedes bajar mucho el brillo de la pantalla y jugar un rato en calma antes de dormir, sin grandes emociones ni necesidad de ganar o perder.</p>
-    <p>Ojalá te acompañe en ese último rato del día que de verdad es solo tuyo.</p>
-    <p class="wish">Que tengas dulces sueños esta noche.</p>
-  </div>
-</div>
-
-<h2 class="i18n-inline"><span lang="zh-Hans">内置游戏</span><span lang="en">Games</span><span lang="es">Juegos</span></h2>
-<div class="game-grid" role="list" aria-label="内置游戏 · Games · Juegos">
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd">
-      <img src="shots/snake.png?v=20260729" alt="贪吃蛇游戏画面" width="89" height="125"
-           data-alt-zh-hans="贪吃蛇游戏画面" data-alt-en="Snake gameplay" data-alt-es="Pantalla de Serpiente">
-    </div>
-    <h3>Snake <span lang="zh-Hans">贪吃蛇</span><span lang="es">Serpiente</span></h3>
-  </article>
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd">
-      <img src="shots/tetris.png?v=20260729" alt="方块消除游戏画面" width="89" height="119"
-           data-alt-zh-hans="方块消除游戏画面" data-alt-en="Blocks gameplay" data-alt-es="Pantalla de Bloques">
-    </div>
-    <h3>Blocks <span lang="zh-Hans">方块消除</span><span lang="es">Bloques</span></h3>
-  </article>
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd">
-      <img src="shots/sokoban.png?v=20260729" alt="推箱子游戏画面" width="123" height="108"
-           data-alt-zh-hans="推箱子游戏画面" data-alt-en="Push Boxes gameplay" data-alt-es="Pantalla de Empuja cajas">
-    </div>
-    <h3>Push Boxes <span lang="zh-Hans">推箱子</span><span lang="es">Empuja cajas</span></h3>
-  </article>
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd">
-      <img src="shots/maze.png?v=20260729" alt="迷宫游戏画面" width="84" height="110"
-           data-alt-zh-hans="迷宫游戏画面" data-alt-en="Maze gameplay" data-alt-es="Pantalla de Laberinto">
-    </div>
-    <h3>Maze <span lang="zh-Hans">迷宫</span><span lang="es">Laberinto</span></h3>
-  </article>
-  <article class="game-card" role="listitem">
-    <div class="mini-lcd">
-      <img src="shots/2048.png?v=20260729" alt="2048 游戏画面" width="108" height="108"
-           data-alt-zh-hans="2048 游戏画面" data-alt-en="2048 gameplay" data-alt-es="Pantalla de 2048">
-    </div>
-    <h3>2048</h3>
-  </article>
-  <div role="listitem">
-    <a class="game-card playable" href="demo/breakout.html?v=20260729">
-      <div class="mini-lcd">
-        <img src="shots/breakout.png?v=20260729" alt="打砖块游戏画面" width="80" height="104"
-             data-alt-zh-hans="打砖块游戏画面" data-alt-en="Brick Breaker gameplay" data-alt-es="Pantalla de Rompeladrillos">
-      </div>
-      <h3>Brick Breaker <span lang="zh-Hans">打砖块</span><span lang="es">Rompeladrillos</span> <span class="play-tag">▸</span></h3>
-    </a>
-  </div>
-  <div class="game-card more" role="listitem">
-    <span lang="zh-Hans">更多游戏在路上</span><br>
-    <span lang="en">More coming</span><br>
-    <span lang="es">Más en camino</span>
-  </div>
-</div>
-
-<p class="promise">
-  <span lang="zh-Hans">无网络请求 · 不收集数据</span><br>
-  <span lang="en">No network requests · No data collected</span><br>
-  <span lang="es">Sin peticiones de red · Sin recogida de datos</span>
-</p>
-
-<!-- App Store 上架后启用官方徽章（替换 idXXXXXXXX）：
-<a class="btn" href="https://apps.apple.com/app/idXXXXXXXX">App Store</a>
--->
-
-<nav class="btn-row">
-  <a class="btn" href="privacy.html">
-    <span lang="zh-Hans">隐私政策</span><br>
-    <span lang="en">Privacy Policy</span><br>
-    <span lang="es">Política de privacidad</span>
+<header class="s-nav">
+  <a class="s-brand" href="./">
+    <img src="art/icon-192.png?v=20260930" width="30" height="30" alt="">
+    <span lang="zh-Hans">晚安游戏机</span><span lang="en">Bedtime Games</span><span lang="es" class="dup-es">Bedtime Games</span>
   </a>
-  <a class="btn" href="support.html">
-    <span lang="zh-Hans">支持</span><br>
-    <span lang="en">Support</span><br>
-    <span lang="es">Soporte</span>
-  </a>
-</nav>
+  <nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
+    <button type="button" data-lang="zh-Hans" aria-pressed="false" aria-label="中文">中文</button>
+    <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+    <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+  </nav>
+</header>
 
-<footer>
-  <p class="signoff">See you tomorrow night. 🌙</p>
-  © 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a>
+<main>
+  <section class="hero" id="hero">
+    <canvas id="heroSky" aria-hidden="true"></canvas>
+    <div class="copy">
+      <h1><span lang="zh-Hans">晚安游戏机</span><span lang="en">Bedtime Games</span><span lang="es" class="dup-es">Bedtime Games</span></h1>
+      <p class="latin lang-secondary">BEDTIME GAMES</p>
+      <!-- App Store 上架后启用官方徽章（替换 idXXXXXXXX）：
+      <a class="badge" href="https://apps.apple.com/app/idXXXXXXXX">App Store</a>
+      -->
+    </div>
+  </section>
+
+  <div class="intro">
+    <div class="intro-lang" lang="zh-Hans">
+      <p>还记得小时候躲在被子里，偷偷玩小学习机的夜晚吗？</p>
+      <p>这里没有排行榜，没有签到，也没有停不下来的推荐。</p>
+      <p>只有一盘盘小卡带，每一盘都画成了一个小小的夜晚。</p>
+      <p>把屏幕调暗，安安静静玩一会儿，不用追求赢输。</p>
+      <p class="wish">辛苦的一天终于结束了，愿你做个好梦。</p>
+    </div>
+    <div class="intro-lang" lang="en">
+      <p>Remember those nights as a kid, hiding under the covers, secretly playing a little learning machine?</p>
+      <p>No leaderboards here, no daily check-ins, no endless feed you can't put down.</p>
+      <p>Just a handful of little cartridges, each one painted as its own small night.</p>
+      <p>Dim the screen and play quietly for a while — no winning or losing to chase.</p>
+      <p class="wish">The long day is finally over. Sweet dreams.</p>
+    </div>
+    <div class="intro-lang" lang="es">
+      <p>¿Recuerdas esas noches de la infancia, bajo las sábanas, jugando a escondidas con una maquinita educativa?</p>
+      <p>Aquí no hay clasificaciones, ni fichajes diarios, ni un feed del que no puedas despegarte.</p>
+      <p>Solo unos pequeños cartuchos, cada uno pintado como una pequeña noche.</p>
+      <p>Baja el brillo y juega un rato en calma, sin necesidad de ganar ni perder.</p>
+      <p class="wish">Por fin terminó el largo día. Dulces sueños.</p>
+    </div>
+  </div>
+
+  <h2 class="shelf-title i18n-inline" style="justify-content:center"><span lang="zh-Hans">CARTRIDGES · 卡带</span><span lang="en">CARTRIDGES</span><span lang="es">CARTUCHOS</span></h2>
+  <!-- 加新游戏：复制一张 .cart，改 --c（卡带主色）、图片与三语名即可；编号由 CSS 计数器自动排。
+       封面图由 sleepy-game 的 tools/GameShots 生成（480×600，这里写一半）。 -->
+  <div class="shelf" role="list" tabindex="0" aria-label="卡带 · Cartridges · Cartuchos">
+    <article class="cart" role="listitem" style="--c:#A8E0C8">
+      <div class="win"><img src="shots/snake.png?v=20260930" width="240" height="300" alt="贪吃蛇游戏画面"
+        data-alt-zh-hans="贪吃蛇游戏画面" data-alt-en="Snake gameplay" data-alt-es="Pantalla de Serpiente"></div>
+      <div class="lab"><span class="no" aria-hidden="true"></span><h3><span lang="zh-Hans">贪吃蛇</span><span lang="en">Snake</span><span lang="es">Serpiente</span></h3></div>
+      <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+    <article class="cart" role="listitem" style="--c:#B3A6E6">
+      <div class="win"><img src="shots/tetris.png?v=20260930" width="240" height="300" loading="lazy" alt="方块消除游戏画面"
+        data-alt-zh-hans="方块消除游戏画面" data-alt-en="Blocks gameplay" data-alt-es="Pantalla de Bloques"></div>
+      <div class="lab"><span class="no" aria-hidden="true"></span><h3><span lang="zh-Hans">方块消除</span><span lang="en">Blocks</span><span lang="es">Bloques</span></h3></div>
+      <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+    <article class="cart" role="listitem" style="--c:#E8B48C">
+      <div class="win"><img src="shots/sokoban.png?v=20260930" width="240" height="300" loading="lazy" alt="推箱子游戏画面"
+        data-alt-zh-hans="推箱子游戏画面" data-alt-en="Push Boxes gameplay" data-alt-es="Pantalla de Empuja cajas"></div>
+      <div class="lab"><span class="no" aria-hidden="true"></span><h3><span lang="zh-Hans">推箱子</span><span lang="en">Push Boxes</span><span lang="es">Empuja cajas</span></h3></div>
+      <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+    <article class="cart" role="listitem" style="--c:#8EC3EA">
+      <div class="win"><img src="shots/maze.png?v=20260930" width="240" height="300" loading="lazy" alt="迷宫游戏画面"
+        data-alt-zh-hans="迷宫游戏画面" data-alt-en="Maze gameplay" data-alt-es="Pantalla de Laberinto"></div>
+      <div class="lab"><span class="no" aria-hidden="true"></span><h3><span lang="zh-Hans">迷宫</span><span lang="en">Maze</span><span lang="es">Laberinto</span></h3></div>
+      <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+    <article class="cart" role="listitem" style="--c:#F1D48C">
+      <div class="win"><img src="shots/2048.png?v=20260930" width="240" height="300" loading="lazy" alt="2048 游戏画面"
+        data-alt-zh-hans="2048 游戏画面" data-alt-en="2048 gameplay" data-alt-es="Pantalla de 2048"></div>
+      <div class="lab"><span class="no" aria-hidden="true"></span><h3>2048</h3></div>
+      <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </article>
+    <div role="listitem">
+      <a class="cart" href="demo/breakout.html?v=20260930" style="--c:#E3A0AE">
+        <div class="win"><img src="shots/breakout.png?v=20260930" width="240" height="300" loading="lazy" alt="打砖块游戏画面"
+          data-alt-zh-hans="打砖块游戏画面" data-alt-en="Brick Breaker gameplay" data-alt-es="Pantalla de Rompeladrillos"></div>
+        <div class="lab"><span class="no" aria-hidden="true"></span><h3><span lang="zh-Hans">打砖块</span><span lang="en">Brick Breaker</span><span lang="es">Rompeladrillos</span></h3></div>
+        <div class="demo"><span lang="zh-Hans">▶ 在网页里试玩</span><span lang="en">▶ Play in your browser</span><span lang="es">▶ Juega en el navegador</span></div>
+        <div class="grip" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </a>
+    </div>
+    <div class="cart more" role="listitem">
+      <span class="no" aria-hidden="true"></span>
+      <span lang="zh-Hans">更多卡带制作中</span>
+      <span lang="en">More cartridges in the works</span>
+      <span lang="es">Más cartuchos en camino</span>
+    </div>
+  </div>
+
+  <p class="feat">
+    <span class="it"><span lang="zh-Hans">无网络请求</span><span lang="en">No network requests</span><span lang="es">Sin peticiones de red</span></span>
+    <span class="it"><span lang="zh-Hans">不收集任何数据</span><span lang="en">No data collected</span><span lang="es">Sin recogida de datos</span></span>
+    <span class="it"><span lang="zh-Hans">能调得比系统更暗</span><span lang="en">Dims below the system minimum</span><span lang="es">Más oscuro que el mínimo del sistema</span></span>
+    <span class="it">中文 · English · Español</span>
+  </p>
+</main>
+
+<footer class="foot">
+  <img class="kid" src="art/sleeping-kid.png?v=20260930" width="260" height="105" alt="">
+  <nav class="foot-links">
+    <a href="support.html"><span lang="zh-Hans">支持</span><span lang="en">Support</span><span lang="es">Soporte</span></a>
+    <a href="privacy.html"><span lang="zh-Hans">隐私</span><span lang="en">Privacy</span><span lang="es">Privacidad</span></a>
+    <a href="../"><span lang="zh-Hans">作品集</span><span lang="en">More apps</span><span lang="es">Más apps</span></a>
+  </nav>
+  <p>© 2026 Bedtime Games</p>
 </footer>
 
 </body>
