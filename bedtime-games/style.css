@@ -55,6 +55,8 @@ html[data-lang="en"] .lang-secondary,
 html[data-lang="es"] .lang-secondary { display: none; }
 /* 三语 span 并排的标题：flex 让隐藏的 span 不占位 */
 .i18n-inline { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+/* 没有 JS 时三语并排：中间补一个间隔点，免得连成一串 */
+html:not([data-lang]) .feat [lang] + [lang]::before, html:not([data-lang]) .foot-links [lang] + [lang]::before { content: " · "; }
 
 /* —— 页头 —— */
 .s-nav {
@@ -94,6 +96,7 @@ html:not([data-lang]) .intro-lang + .intro-lang { margin-top: 24px; padding-top:
 /* 晚安一句：中文龙藏体，英 / 西 Caveat（与 App 设置页页尾一致） */
 .wish { font-family: "CaveatSite", "LongCang", cursive; font-size: 26px; line-height: 1.4; color: var(--moon); text-wrap: balance; }
 [lang="zh-Hans"] .wish, .wish [lang="zh-Hans"] { font-family: "LongCang", cursive; }
+.wish [lang="en"], .wish [lang="es"], .intro-lang:not([lang="zh-Hans"]) .wish { font-family: "CaveatSite", cursive; }
 .intro .wish { margin-top: 6px; }
 .wish .nb { display: inline-block; }
 
@@ -189,10 +192,12 @@ html:not([data-lang]) .policy section + section { margin-top: 20px; padding-top:
 .faq summary { display: flex; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; color: var(--text); }
 .faq summary::-webkit-details-marker { display: none; }
 .faq summary::after { content: "+"; flex: none; font-family: var(--pixel); font-size: 10px; color: var(--star); }
-.faq details[open] summary::after { content: "−"; }
+.faq details[open] summary::after { content: "-"; }
 .faq details p { margin: 8px 0 0; font-size: 14px; color: var(--soft); }
 
 @media (max-width: 480px) {
   .page h1 { font-size: 30px; }
   .card { padding: 16px; }
 }
+
+@media (max-width: 340px) { .wish { font-size: 22px; } .foot .wish { font-size: 19px; } .s-brand { font-size: 17px; } }
