@@ -95,6 +95,7 @@ html:not([data-lang]) .intro-lang + .intro-lang { margin-top: 24px; padding-top:
 .wish { font-family: "CaveatSite", "LongCang", cursive; font-size: 26px; line-height: 1.4; color: var(--moon); text-wrap: balance; }
 [lang="zh-Hans"] .wish, .wish [lang="zh-Hans"] { font-family: "LongCang", cursive; }
 .intro .wish { margin-top: 6px; }
+.wish .nb { display: inline-block; }
 
 /* —— 卡带架：横滑；编号用 CSS 计数器，加游戏只需加一张卡 —— */
 .shelf-title {
@@ -151,7 +152,7 @@ a.cart:hover { text-decoration: none; background: var(--surface2); }
 
 /* —— 内页（技术支持 / 隐私 / 试玩） —— */
 .page { max-width: 620px; margin: 0 auto; padding: 10px 20px 0; }
-.eyebrow { margin: 0; font-family: var(--pixel); font-size: 9px; letter-spacing: .14em; color: var(--muted); }
+.page .eyebrow { margin: 0; font-family: var(--pixel); font-size: 9px; letter-spacing: .14em; color: var(--muted); }
 .page h1 { margin: 10px 0 4px; font-family: var(--title); font-weight: 400; font-size: 36px; line-height: 1.25; letter-spacing: .05em; }
 .page p { margin: 8px 0; }
 .page .sub { margin: 0; color: var(--soft); }

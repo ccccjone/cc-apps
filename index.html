@@ -27,16 +27,7 @@
   .card:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
   .card b { display: block; color: var(--c); font-weight: 400; letter-spacing: .1em; font-size: 15px; }
   .card .sub { color: #8f887b; font-size: 13px; }
-  .icon { position: relative; flex: none; width: 26px; height: 36px; }
-  .icon i {
-    position: absolute; left: 3px; top: 3px; width: 5px; height: 5px;
-    box-shadow:
-      10px 0 0 0 var(--c), 15px 0 0 0 var(--c),
-      5px 5px 0 0 var(--c),
-      0 10px 0 0 var(--c), 0 15px 0 0 var(--c),
-      5px 20px 0 0 var(--c),
-      10px 25px 0 0 var(--c), 15px 25px 0 0 var(--c);
-  }
+  .app-icon { flex: none; width: 48px; height: 48px; border-radius: 11px; image-rendering: pixelated; }
   footer { margin-top: 44px; color: #6f6a60; font-size: 12px;
            border-top: 1px dashed #2e2b27; padding-top: 14px; }
   footer a { color: #8f887b; text-decoration: none; border-bottom: 1px solid #4a453e; }
@@ -46,12 +37,12 @@
 <h1>Apps</h1>
 <p class="intro">独立开发的小 App · Small apps, made with care</p>
 
-<a class="card" href="bedtime-games/" style="--c:#e2a83e">
+<a class="card" href="bedtime-games/" style="--c:#F1D48C">
   <span>
     <b>晚安游戏机 · Bedtime Games</b>
-    <span class="sub">复古掌机风睡前小游戏 · Calm retro puzzles for bedtime</span>
+    <span class="sub">睡前的像素小卡带 · Little pixel cartridges for bedtime</span>
   </span>
-  <span class="icon" aria-hidden="true"><i></i></span>
+  <img class="app-icon" src="bedtime-games/art/icon-192.png?v=20260930" width="48" height="48" alt="">
 </a>
 
 <footer>© 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a></footer>
