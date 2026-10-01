@@ -4,51 +4,117 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>支持 · Support — 晚安游戏机 · Bedtime Games</title>
-<link rel="stylesheet" href="style.css?v=20260729">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
-<script src="i18n.js?v=20260729"></script>
-<noscript><style>.lang-switch{display:none}</style></noscript>
+<link rel="stylesheet" href="style.css?v=20260930">
+<link rel="icon" type="image/png" href="art/icon-64.png?v=20260930">
+<script src="i18n.js?v=20260930"></script>
+<noscript><style>.lang-switch,.dup-es{display:none}</style></noscript>
 </head>
 <body>
 
-<nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
-  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
-  <button type="button" data-lang="en" aria-pressed="false">English</button>
-  <button type="button" data-lang="es" aria-pressed="false">Español</button>
-</nav>
+<header class="s-nav">
+  <a class="s-brand" href="./">
+    <img src="art/icon-192.png?v=20260930" width="30" height="30" alt="">
+    <span lang="zh-Hans">晚安游戏机</span><span lang="en">Bedtime Games</span><span lang="es" class="dup-es">Bedtime Games</span>
+  </a>
+  <nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
+    <button type="button" data-lang="zh-Hans" aria-pressed="false" aria-label="中文">中文</button>
+    <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+    <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+  </nav>
+</header>
 
-<div class="page-lcd" aria-hidden="true">
-  <div class="status">SUPPORT · 晚安游戏机</div>
-</div>
+<main class="page">
+  <p class="eyebrow">SUPPORT</p>
+  <h1 class="i18n-inline"><span lang="zh-Hans">有什么想对我说的？</span><span lang="en">Something to tell me?</span><span lang="es">¿Algo que contarme?</span></h1>
+  <p class="sub" lang="zh-Hans">想要一款新游戏、发现了 Bug，或者只是想说声晚安，都欢迎写信给我。我会一封一封慢慢看。</p>
+  <p class="sub" lang="en">A game you'd love to see, a bug you've found, or just a goodnight — write to me anytime. I read every note, slowly, one by one.</p>
+  <p class="sub" lang="es">Un juego que te gustaría ver, un error que encontraste o simplemente un buenas noches: escríbeme cuando quieras. Leo cada mensaje, despacio, uno por uno.</p>
 
-<h1 class="i18n-inline"><span lang="zh-Hans">支持</span><span lang="en">Support</span><span lang="es">Soporte</span></h1>
-<p class="latin-name lang-secondary">Support · Soporte</p>
-<p class="promise">晚安游戏机 / Bedtime Games</p>
+  <section class="card contact" id="contact">
+    <h2>
+      <svg viewBox="0 0 9 9" shape-rendering="crispEdges" aria-hidden="true"><path d="M0 1h9v1H0zM0 7h9v1H0zM0 1h1v7H0zM8 1h1v7H8zM1 2h1v1H1zM7 2h1v1H7zM2 3h1v1H2zM6 3h1v1H6zM3 4h1v1H3zM5 4h1v1H5zM4 5h1v1H4z"/></svg>
+      <span lang="zh-Hans">联系开发者</span><span lang="en">Contact the developer</span><span lang="es">Contacto</span>
+    </h2>
+    <div class="mailrow">
+      <a class="mail" id="mail" href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a>
+      <button type="button" class="copybtn" id="copyMail" hidden>
+        <span class="idle"><span lang="zh-Hans">复制邮箱</span><span lang="en">Copy address</span><span lang="es">Copiar correo</span></span>
+        <span class="done"><span lang="zh-Hans">已复制</span><span lang="en">Copied</span><span lang="es">Copiado</span></span>
+      </button>
+    </div>
+    <p class="hint" lang="zh-Hans">点邮箱会打开你的邮件 App；也可以复制后自己粘贴。</p>
+    <p class="hint" lang="en">Tap the address to open your mail app, or copy it and paste it yourself.</p>
+    <p class="hint" lang="es">Toca la dirección para abrir tu app de correo, o cópiala y pégala tú.</p>
+  </section>
 
-<section lang="zh-Hans" id="lang-zh">
-  <p class="lead">这台小掌机还会继续慢慢长大。</p>
-  <p>如果你希望看到新的小游戏，或者有任何建议、Bug 反馈，都欢迎发邮件给我：<a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a></p>
-  <p>谢谢你来到这里。</p>
-</section>
+  <section class="card faq">
+    <h2><span lang="zh-Hans">常见问题</span><span lang="en">Common questions</span><span lang="es">Preguntas frecuentes</span></h2>
+    <details>
+      <summary><span lang="zh-Hans">怎么让屏幕更暗？</span><span lang="en">How do I make the screen darker?</span><span lang="es">¿Cómo oscurezco más la pantalla?</span></summary>
+      <p lang="zh-Hans">首页底部的亮度条往左拖，能比系统最低亮度还暗。暂停的时候也能调。</p>
+      <p lang="en">Drag the brightness bar at the bottom of the home screen to the left — it goes dimmer than the system minimum. You can adjust it while paused, too.</p>
+      <p lang="es">Arrastra hacia la izquierda la barra de brillo al pie de la pantalla de inicio: baja más que el mínimo del sistema. También puedes ajustarla en pausa.</p>
+    </details>
+    <details>
+      <summary><span lang="zh-Hans">进度会丢吗？</span><span lang="en">Will I lose my progress?</span><span lang="es">¿Perderé mi progreso?</span></summary>
+      <p lang="zh-Hans">关卡进度和最高分都只存在你的设备上，删掉 App 才会清空。</p>
+      <p lang="en">Level progress and high scores are saved only on your device, and are cleared only if you delete the app.</p>
+      <p lang="es">El progreso de niveles y las mejores puntuaciones se guardan solo en tu dispositivo, y solo se borran si eliminas la app.</p>
+    </details>
+    <details>
+      <summary><span lang="zh-Hans">怎么开声音和震动？</span><span lang="en">How do I turn on sound and haptics?</span><span lang="es">¿Cómo activo el sonido y la vibración?</span></summary>
+      <p lang="zh-Hans">两样默认都是关的，可以在设置里打开。</p>
+      <p lang="en">Both are off by default. You can turn them on in Settings.</p>
+      <p lang="es">Ambos vienen desactivados. Puedes activarlos en Ajustes.</p>
+    </details>
+  </section>
 
-<section lang="en" id="lang-en">
-  <p class="lead">This little handheld will keep growing, slowly.</p>
-  <p>If there's a new game you'd love to see, or any suggestion or bug to report, you're always welcome to email me: <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a></p>
-  <p>Thank you for stopping by.</p>
-</section>
+  <p class="sub" lang="zh-Hans" style="margin-top:22px">这台小学习机还会继续慢慢长大。谢谢你来到这里。</p>
+  <p class="sub" lang="en" style="margin-top:22px">This little learning machine will keep growing, slowly. Thank you for stopping by.</p>
+  <p class="sub" lang="es" style="margin-top:22px">Esta maquinita seguirá creciendo, poco a poco. Gracias por pasarte por aquí.</p>
 
-<section lang="es" id="lang-es">
-  <p class="lead">Esta pequeña consola seguirá creciendo, poco a poco.</p>
-  <p>Si hay un juego nuevo que te gustaría ver, o cualquier sugerencia o error que contar, siempre puedes escribirme: <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a></p>
-  <p>Gracias por pasarte por aquí.</p>
-</section>
+  <a class="back" href="./">← <span lang="zh-Hans">回到首页</span><span lang="en">Back home</span><span lang="es">Volver al inicio</span></a>
+</main>
 
-<a class="back" href="./">← 晚安游戏机 · Bedtime Games</a>
-
-<footer>
-  <p class="signoff">See you tomorrow night. 🌙</p>
-  © 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a>
+<footer class="foot">
+  <img class="kid" src="art/sleeping-kid.png?v=20260930" width="260" height="105" alt="">
+  <p class="wish"><span lang="zh-Hans">辛苦的一天终于结束了，愿你做个好梦。</span><span lang="en">The long day is finally over. Sweet dreams.</span><span lang="es">Por fin terminó el largo día. Dulces sueños.</span></p>
+  <nav class="foot-links">
+    <a href="support.html"><span lang="zh-Hans">支持</span><span lang="en">Support</span><span lang="es">Soporte</span></a>
+    <a href="privacy.html"><span lang="zh-Hans">隐私</span><span lang="en">Privacy</span><span lang="es">Privacidad</span></a>
+    <a href="../"><span lang="zh-Hans">作品集</span><span lang="en">More apps</span><span lang="es">Más apps</span></a>
+  </nav>
+  <p>© 2026 Bedtime Games</p>
 </footer>
+
+<script>
+/* 复制邮箱：渐进增强。按钮默认 hidden，脚本跑起来才露出；
+   剪贴板不可用（非安全上下文、权限被拒）时退回为选中邮箱文字，方便手动复制。 */
+(function () {
+  var btn = document.getElementById('copyMail'), mail = document.getElementById('mail');
+  if (!btn || !mail) return;
+  btn.hidden = false;
+  function selectMail() {
+    var range = document.createRange();
+    range.selectNodeContents(mail);
+    var sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+  function done() {
+    btn.classList.add('is-done');
+    setTimeout(function () { btn.classList.remove('is-done'); }, 2000);
+  }
+  btn.addEventListener('click', function () {
+    var text = mail.textContent;
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, selectMail);
+    } else {
+      selectMail();
+    }
+  });
+})();
+</script>
 
 </body>
 </html>
