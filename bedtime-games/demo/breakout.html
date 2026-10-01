@@ -5,86 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>打砖块试玩 · Brick Breaker Demo — 晚安游戏机 · Bedtime Games</title>
 <meta name="description" content="打砖块网页试玩版，只有第 1 关 · Brick Breaker, level 1 in your browser · Rompeladrillos, nivel 1 en el navegador">
-<link rel="stylesheet" href="../style.css?v=20260729">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%2317130f'/><text x='2' y='12' font-size='11'>🌙</text></svg>">
-<script src="../i18n.js?v=20260729"></script>
-<noscript><style>.lang-switch{display:none}</style></noscript>
+<link rel="stylesheet" href="../style.css?v=20260930">
+<link rel="icon" type="image/png" href="../art/icon-64.png?v=20260930">
+<script src="../i18n.js?v=20260930"></script>
+<noscript><style>.lang-switch,.dup-es{display:none}</style></noscript>
 <style>
-  /* 试玩页专用样式：只在 style.css 的 :root 变量之上加规则，不引入新颜色。 */
-  .game-wrap { max-width: 400px; margin: 0 auto; }
-  .screen {
-    background: var(--screen); border: 2px solid var(--bezel); border-radius: 10px;
-    padding: 12px 12px 10px; box-shadow: inset 0 2px 8px rgba(0, 0, 0, .55);
-  }
+  /* 试玩页专用样式：只用 style.css 的 :root 变量，不引入新颜色（卡带主色 --c 除外）。 */
+  .game-wrap { max-width: 400px; margin: 18px auto 0; --c: #E3A0AE; }
+  .screen { padding: 10px 10px 12px; border-radius: 16px; background: var(--surface); box-shadow: 0 10px 24px rgba(0, 0, 0, .45); }
   .hud {
-    display: flex; align-items: center; justify-content: space-between;
-    font-size: 12px; font-weight: 700; color: var(--amber);
-    letter-spacing: .1em; height: 18px; padding-bottom: 6px;
+    display: flex; align-items: center; justify-content: space-between; height: 22px; padding: 0 2px 8px;
+    font-family: var(--pixel); font-size: 9px; letter-spacing: .1em; color: var(--c);
   }
-  .canvas-shell { position: relative; }
-  #cv { display: block; width: 100%; border-radius: 2px; image-rendering: pixelated; }
+  .canvas-shell { position: relative; border: 2px solid var(--c); border-radius: 10px; overflow: hidden; background: var(--glass); }
+  #cv { display: block; width: 100%; }
   .overlay {
     position: absolute; inset: 0; display: none;
     flex-direction: column; align-items: center; justify-content: center;
     text-align: center; gap: 6px; padding: 16px;
-    background: rgba(14, 10, 6, .82); border-radius: 2px;
+    background: rgba(10, 17, 34, .84);
   }
   .overlay.show { display: flex; }
-  /* 胜/负两组文案分别包一层无 lang 属性的容器来做显隐切换，避免和 i18n.js
-     给 [lang] 元素做的显隐规则抢同一个元素、比specificity——那样会不管选了
-     哪个语言，三语文案全部一起冒出来。容器只管"这组显不显示"，容器内部
-     哪句 <p lang> 可见完全交给全局的语言规则决定，两条规则不打架。 */
+  /* 胜 / 负两组文案各包一层无 lang 属性的容器来做显隐，避免和 i18n 给 [lang] 元素的显隐规则
+     抢同一个元素：容器只管「这组显不显示」，容器里哪句 <p lang> 可见交给全局语言规则。 */
   .msg-group { display: none; }
   .overlay.show.win .msg-group[data-for="win"] { display: block; }
   .overlay.show.lose .msg-group[data-for="lose"] { display: block; }
-  .overlay p { margin: 2px 0; color: var(--paper); font-size: 13px; line-height: 1.6; }
-  .overlay .again { color: var(--amber); font-size: 11px; letter-spacing: .08em; margin-top: 6px; }
+  .overlay p { margin: 2px 0; color: var(--text); font-size: 14px; line-height: 1.6; }
+  .overlay .again { color: var(--star); font-size: 12px; margin-top: 6px; }
 
   .ctlarea { margin-top: 14px; }
   .strip {
-    width: 100%; height: 56px; border-radius: 10px; background: var(--body);
-    border: 1px solid var(--line); position: relative; overflow: hidden; touch-action: none;
+    width: 100%; height: 56px; border-radius: 14px; background: var(--surface);
+    position: relative; overflow: hidden; touch-action: none;
   }
   .strip .track { position: absolute; left: 10px; right: 10px; top: 50%; height: 2px; margin-top: -1px; background: var(--line); }
   .strip .knob {
     position: absolute; top: 12px; height: 32px; width: 48px; margin-left: -24px;
-    border-radius: 6px; background: var(--amber); opacity: .9;
+    border-radius: 16px; background: var(--mint);
   }
 
   .serve-row { display: flex; justify-content: center; margin-top: 14px; }
   .serve-btn {
-    width: 56px; height: 56px; border-radius: 50%; background: var(--body);
-    border: 2px solid var(--dim); color: var(--amber); font-size: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font: inherit; cursor: pointer; user-select: none;
+    width: 56px; height: 56px; border-radius: 50%; background: var(--surface2);
+    border: 2px solid var(--c); color: var(--c); font: inherit; font-size: 18px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; user-select: none;
   }
-  .serve-btn:hover, .serve-btn:focus-visible { border-color: var(--amber); outline: none; }
+  .serve-btn:hover { background: var(--surface); }
 
-  .hint { color: var(--muted); font-size: 11.5px; line-height: 1.8; text-align: center; margin: 16px 0 0; }
-  .hint span { display: block; }
-  .hint span + span { margin-top: 2px; color: var(--dim); }
+  .play-hint { color: var(--muted); font-size: 12px; line-height: 1.8; text-align: center; margin: 16px 0 0; }
+  .play-hint span { display: block; }
 </style>
 </head>
 <body>
 
-<nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
-  <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
-  <button type="button" data-lang="en" aria-pressed="false">English</button>
-  <button type="button" data-lang="es" aria-pressed="false">Español</button>
-</nav>
+<header class="s-nav">
+  <a class="s-brand" href="../">
+    <img src="../art/icon-192.png?v=20260930" width="30" height="30" alt="">
+    <span lang="zh-Hans">晚安游戏机</span><span lang="en">Bedtime Games</span><span lang="es" class="dup-es">Bedtime Games</span>
+  </a>
+  <nav class="lang-switch" aria-label="选择语言 · Choose language · Elegir idioma">
+    <button type="button" data-lang="zh-Hans" aria-pressed="false" aria-label="中文">中文</button>
+    <button type="button" data-lang="en" aria-pressed="false" aria-label="English">EN</button>
+    <button type="button" data-lang="es" aria-pressed="false" aria-label="Español">ES</button>
+  </nav>
+</header>
 
-<div class="page-lcd" aria-hidden="true">
-  <div class="status">DEMO · 打砖块</div>
-</div>
-
+<main class="page">
+<p class="eyebrow">DEMO</p>
 <h1 class="i18n-inline">
   <span lang="zh-Hans">打砖块试玩</span><span lang="en">Brick Breaker Demo</span><span lang="es">Demo de Rompeladrillos</span>
 </h1>
-<p class="latin-name lang-secondary">Brick Breaker Demo · Demo de Rompeladrillos</p>
 
-<p lang="zh-Hans">网页试玩版，只有第 1 关。手感以 App 里的为准。</p>
-<p lang="en">A browser taste of level 1. The real feel lives in the app.</p>
-<p lang="es">Una prueba del nivel 1 en el navegador. El tacto real está en la app.</p>
+<p class="sub" lang="zh-Hans">网页试玩版，只有第 1 关。手感以 App 里的为准。</p>
+<p class="sub" lang="en">A browser taste of level 1. The real feel lives in the app.</p>
+<p class="sub" lang="es">Una prueba del nivel 1 en el navegador. El tacto real está en la app.</p>
 
 <div class="game-wrap">
   <div class="screen">
@@ -120,21 +115,25 @@
     <button type="button" class="serve-btn" id="serveBtn" aria-label="发球 · Serve · Sacar">▶</button>
   </div>
 
-  <p class="hint">
-    <span lang="zh-Hans">拖动触控条移动挡板，点 ▶ 发球。</span>
-    <span lang="en">Drag the strip to move the paddle, tap ▶ to serve.</span>
-    <span lang="es">Arrastra la barra para mover la pala, toca ▶ para sacar.</span>
-    <span lang="zh-Hans">桌面：← → 移动，空格发球。</span>
-    <span lang="en">Desktop: ← → to move, space to serve.</span>
-    <span lang="es">Escritorio: ← → mover, espacio para sacar.</span>
+  <p class="play-hint">
+    <span lang="zh-Hans">拖动触控条移动挡板，点 ▶ 发球。桌面：← → 移动，空格发球。</span>
+    <span lang="en">Drag the strip to move the paddle, tap ▶ to serve. Desktop: ← → to move, space to serve.</span>
+    <span lang="es">Arrastra la barra para mover la pala, toca ▶ para sacar. Escritorio: ← → mover, espacio para sacar.</span>
   </p>
 </div>
 
-<a class="back" href="../">← 晚安游戏机 · Bedtime Games</a>
+<a class="back" href="../">← <span lang="zh-Hans">回到首页</span><span lang="en">Back home</span><span lang="es">Volver al inicio</span></a>
+</main>
 
-<footer>
-  <p class="signoff">See you tomorrow night. 🌙</p>
-  © 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a>
+<footer class="foot">
+  <img class="kid" src="../art/sleeping-kid.png?v=20260930" width="260" height="105" alt="">
+  <p class="wish"><span lang="zh-Hans">辛苦的一天终于结束了，愿你做个好梦。</span><span lang="en">The long day is finally over. Sweet dreams.</span><span lang="es">Por fin terminó el largo día. Dulces sueños.</span></p>
+  <nav class="foot-links">
+    <a href="../support.html"><span lang="zh-Hans">支持</span><span lang="en">Support</span><span lang="es">Soporte</span></a>
+    <a href="../privacy.html"><span lang="zh-Hans">隐私</span><span lang="en">Privacy</span><span lang="es">Privacidad</span></a>
+    <a href="../../"><span lang="zh-Hans">作品集</span><span lang="en">More apps</span><span lang="es">Más apps</span></a>
+  </nav>
+  <p>© 2026 Bedtime Games</p>
 </footer>
 
 <script>
@@ -149,6 +148,8 @@
      ANG 表      ← BallAngle.table                      （7 档角度，挡板 7 分区映射）
      TOUGH_RATIO ← PaddleLevel.toughRatio(0)             （0.1，核心砖升 2 血的比例）
      PATTERN     ← BrickPatterns.heart（第 1 关图案）
+   画面       ← SceneRender/PaddleRenderer（双板守夜：星空底、紫砖 / 粉硬砖、薄荷挡板、月亮球），
+                色值与比例取自 NightPalette.Breakout、PaddleTuning
    PaddleGeometry.subPerPixel（定点数精度）在 Swift 侧是给确定性用的；这里用浮点
    像素坐标，天然带小数精度，不需要单独实现。
    核心砖（#）升 2 血用 Math.random() 现场洗牌，不是 Swift 那套 SeededRandom 确定性
@@ -208,12 +209,36 @@
   var cv = document.getElementById('cv'), g = cv.getContext('2d');
   var overlay = document.getElementById('overlay');
   var hudText = document.getElementById('hudText');
-  var cs = getComputedStyle(document.documentElement);
-  var COL = {
-    bg: cs.getPropertyValue('--screen').trim(),
-    on: cs.getPropertyValue('--amber').trim(),
-    dim: cs.getPropertyValue('--dim').trim()
-  };
+  // 色值与 App 的 NightPalette / NightPalette.Breakout 一致
+  var GLASS = '#0A1122', STAR = '#F1D48C', MINT = '#A8E0C8';
+  var GUARD = '#1E2A48', BRICK = '#6E62A8', TOUGH = '#D98FA0', RIVET = '#F7D6DD';
+  var CREAM = '#FFF6E0', SHINE = '#E0F6EC', CRATER = '#C9A860';
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function rgba(hex, a) {
+    var n = parseInt(hex.slice(1), 16);
+    return 'rgba(' + (n >> 16) + ',' + (n >> 8 & 255) + ',' + (n & 255) + ',' + a + ')';
+  }
+  // RGB.mixed(with:_:)：两色线性混合，k 是另一色的占比
+  function mix(a, b, k) {
+    var x = parseInt(a.slice(1), 16), y = parseInt(b.slice(1), 16);
+    function ch(s) { return Math.round((x >> s & 255) * (1 - k) + (y >> s & 255) * k); }
+    return 'rgb(' + ch(16) + ',' + ch(8) + ',' + ch(0) + ')';
+  }
+  // Mulberry32：与 App 同一套伪随机，星星位置和 App 里一样（PaddleTuning.starSeed = 21，starCount = 36）
+  function mulberry32(seed) {
+    return function () {
+      seed = seed + 0x6D2B79F5 | 0;
+      var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = (t + Math.imul(t ^ t >>> 7, 61 | t)) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    };
+  }
+  var STARS = (function () {
+    var r = mulberry32(21), out = [];
+    for (var i = 0; i < 36; i++) out.push([r(), r(), r() < 0.2 ? 2 : 1.3, 0.12 + r() * 0.28, r() * 6]);
+    return out;
+  })();
 
   function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
   function shuffle(arr) {
@@ -369,27 +394,83 @@
   }
 
   // ---- 渲染 ----
-  function draw() {
-    var W = cv.width, cell = W / px, inset = cell * 0.075;
-    g.fillStyle = COL.bg; g.fillRect(0, 0, W, cv.height);
-    function put(r, c, on) {
-      g.fillStyle = on ? COL.on : COL.dim;
-      g.fillRect(c * cell + inset, r * cell + inset, cell - inset * 2, cell - inset * 2);
+  function glow(cx, cy, radius, hex, alpha) {
+    var gr = g.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    gr.addColorStop(0, rgba(hex, alpha)); gr.addColorStop(1, rgba(hex, 0));
+    g.fillStyle = gr; g.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
+  }
+  function roundRect(x, y, w, h, r, fill) {
+    g.beginPath();
+    g.moveTo(x + r, y);
+    g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r);
+    g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r);
+    g.closePath();
+    g.fillStyle = fill; g.fill();
+  }
+  // PaddleRenderer.brickTile：普通砖紫色；硬砖粉色带两颗铆钉
+  function brickTile(x0, y0, b, hp) {
+    var gap = b * 0.07, x = x0 + gap, y = y0 + gap, s = b - 2 * gap, e = s * 0.16;
+    var base = hp >= 2 ? TOUGH : BRICK;
+    g.fillStyle = base; g.fillRect(x, y, s, s);
+    g.fillStyle = mix(base, CREAM, 0.35); g.fillRect(x, y, s, e);
+    g.fillStyle = mix(base, GLASS, 0.45); g.fillRect(x, y + s - e, s, e);
+    g.fillStyle = mix(base, GLASS, 0.25); g.fillRect(x + s - e, y, e, s);
+    if (hp >= 2) {
+      g.fillStyle = rgba(RIVET, 0.8);
+      g.fillRect(x + s * 0.24, y + s * 0.36, s * 0.14, s * 0.14);
+      g.fillRect(x + s * 0.62, y + s * 0.36, s * 0.14, s * 0.14);
     }
+  }
+  // PaddleRenderer.paddle：薄荷色胶囊 + 光晕 + 高光
+  function paddleCapsule(x, y, w, h) {
+    glow(x + w / 2, y + h / 2, w * 0.6, MINT, 0.14);
+    roundRect(x, y, w, h, h / 2, MINT);
+    roundRect(x + h * 0.3, y + h * 0.18, w - h * 0.6, h * 0.22, h * 0.1, rgba(SHINE, 0.6));
+  }
+  // PaddleRenderer.moonBall：带拖尾的小月亮，拖尾朝飞行反方向
+  function moonBall(cx, cy, r, hSign, vSign, trail) {
+    if (trail) {
+      for (var i = 4; i >= 1; i--) {
+        var ox = -hSign * (r * 0.7 + i * r * 1.3), oy = -vSign * i * r * 1.5;
+        roundRect(cx + ox - r * 0.7, cy + oy - r * 0.7, r * 1.4, r * 1.4, r * 0.7, rgba(STAR, 0.16 - i * 0.03));
+      }
+    }
+    glow(cx, cy, r * 4, STAR, 0.3);
+    roundRect(cx - r, cy - r, r * 2, r * 2, r, STAR);
+    g.fillStyle = rgba(CRATER, 0.7); g.fillRect(cx - r * 0.2, cy - r * 0.5, r * 0.5, r * 0.5);
+  }
+
+  function draw(now) {
+    var dpr = window.devicePixelRatio || 1, W = cv.width / dpr, H = cv.height / dpr;
+    var cell = W / px, b = SCALE * cell, t = reduceMotion ? 0 : now / 1000;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = GLASS; g.fillRect(0, 0, W, H);
+
+    // 星空（SceneTuning.starTwinkleSpeed = 1.3）
+    for (var i = 0; i < STARS.length; i++) {
+      var s = STARS[i];
+      g.fillStyle = rgba(STAR, s[3] * (0.65 + 0.35 * Math.sin(t * 1.3 + s[4])));
+      g.fillRect(s[0] * W, s[1] * H, s[2], s[2]);
+    }
+    // 两条守备线（PaddleTuning.guardDash = [4, 6]）
+    g.save();
+    g.setLineDash([4, 6]); g.lineWidth = 1; g.strokeStyle = GUARD;
+    [(TOPROW + 1.5) * b, (BOTROW - 0.5) * b].forEach(function (y) {
+      g.beginPath(); g.moveTo(0, y); g.lineTo(W, y); g.stroke();
+    });
+    g.restore();
+
     for (var r = PT; r <= PB; r++) for (var c = PL; c <= PR; c++) {
-      var hp = bricks[r][c]; if (hp <= 0) continue;
-      for (var dr = 0; dr < SCALE; dr++) for (var dc = 0; dc < SCALE; dc++) put(r * SCALE + dr, c * SCALE + dc, hp >= 2);
+      if (bricks[r][c] > 0) brickTile(c * b, r * b, b, bricks[r][c]);
     }
-    for (var t = 0; t < SCALE; t++) for (var i = 0; i < paddleLenPx; i++) {
-      var col = Math.round(paddleX) + i;
-      if (col < 0 || col >= px) continue;
-      put(TOPROW * SCALE + t, col, true); put(BOTROW * SCALE + t, col, true);
-    }
-    var br0 = Math.round(ball.row), bc0 = Math.round(ball.col);
-    for (var bdr = 0; bdr < BALL_SIZE; bdr++) for (var bdc = 0; bdc < BALL_SIZE; bdc++) {
-      var rr = Math.min(pr - 1, Math.max(0, br0 + bdr)), cc = Math.min(px - 1, Math.max(0, bc0 + bdc));
-      put(rr, cc, true);
-    }
+    var padX = paddleX * cell, padW = paddleLenPx * cell;
+    paddleCapsule(padX, TOPROW * b + b * 0.2, padW, b * 0.6);
+    paddleCapsule(padX, BOTROW * b + b * 0.2, padW, b * 0.6);
+
+    var half = BALL_SIZE / 2;
+    moonBall((ball.col + half) * cell, (ball.row + half) * cell, Math.max(2.2, half * cell),
+             ball.vc > 0 ? 1 : ball.vc < 0 ? -1 : 0, ball.vr > 0 ? 1 : ball.vr < 0 ? -1 : 0, !waiting);
+
     hudText.textContent = 'LV.1 ' + '♥'.repeat(Math.max(0, lives));
   }
 
@@ -412,7 +493,7 @@
         }
       }
     }
-    draw();
+    draw(now);
     requestAnimationFrame(loop);
   }
 
