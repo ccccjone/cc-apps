@@ -54,3 +54,7 @@ html:not([data-lang]) .mo-flow text[lang="zh-Hans"]{display:none}
 .mo-flow rect.me{stroke:var(--star)}
 .mo-flow path{stroke:var(--muted);fill:none;marker-end:url(#arr)}
 .mo-arch li{margin:6px 0}
+.mo-tldr{list-style:none;padding:12px 16px;margin:20px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.mo-tldr li{margin:4px 0}
+.mo-tldr strong,.mo-learn strong{color:var(--text)}
+.mo-learn li{margin:10px 0}
