@@ -38,3 +38,18 @@ code,pre{font-family:var(--mono);font-size:13.5px}
 pre{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;color:var(--text)}
 .mo-foot{margin-top:64px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
 .mo-foot p{color:var(--muted)}
+
+/* —— 入口页 —— */
+.mo-intro p{font-size:17px}
+.mo-links{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:15px}
+.mo-dec{border-top:1px solid var(--line);padding-top:4px}
+.mo-dec h3 .mo-k{display:block;margin-bottom:2px}
+.mo-ev{font-size:14px}
+.mo-flow{margin:16px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.mo-flow svg{display:block;width:100%;height:auto}
+.mo-flow text{font:13px var(--body);fill:var(--text)}
+.mo-flow .sub{font-size:11px;fill:var(--muted)}
+.mo-flow rect{fill:var(--surface2);stroke:var(--line)}
+.mo-flow rect.me{stroke:var(--star)}
+.mo-flow path{stroke:var(--muted);fill:none;marker-end:url(#arr)}
+.mo-arch li{margin:6px 0}

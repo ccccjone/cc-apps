@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-langs="zh-Hans en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Nighty 幕后 · Behind Nighty</title>
+<meta name="description" content="Notes on how Nighty: Bedtime Games was made: decisions, dead ends, tuning, and the drafts used along the way.">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="making-of.css">
+<link rel="icon" type="image/png" href="../art/icon-64.png">
+<script src="../i18n.js"></script>
+<noscript><style>.lang-switch{display:none}</style></noscript>
+</head>
+<body>
+<div class="mo-wrap">
+<header class="mo-nav">
+  <a href="../"><span lang="en">Nighty website</span><span lang="zh-Hans">Nighty 官网</span></a>
+  <nav class="lang-switch" aria-label="选择语言 · Choose language">
+    <button type="button" data-lang="zh-Hans" aria-pressed="false">中文</button>
+    <button type="button" data-lang="en" aria-pressed="false">EN</button>
+  </nav>
+</header>
+
+<main>
+<p class="mo-k">BEHIND NIGHTY</p>
+<h1><span lang="en">Behind Nighty: notes on how it was made</span><span lang="zh-Hans">Nighty 幕后：做这个 App 时的思考与调优记录</span></h1>
+
+<div class="mo-intro">
+<p lang="en">Nighty is a small iOS app I made for myself: a box of retro pixel cartridges (Snake, Blocks, Push Boxes, Maze, 2048, Brick Breaker) for the last few minutes before sleep. Slow games, very dim night themes, and a bedtime reminder that suggests stopping instead of forcing you out. I built it in my spare time, on and off over a few months.</p>
+<p lang="zh-Hans">Nighty 是我给自己做的一个 iOS 小 App：一盒复古像素卡带（贪吃蛇、方块、推箱子、迷宫、2048、打砖块），睡前玩一会儿用。节奏慢的游戏、很暗的夜间主题，还有一个只提醒、不强制退出的睡前提醒。业余时间断断续续做了几个月。</p>
+<p lang="en">AI wrote most of the code. I decided what to build, judged what was good enough, and tested on a real phone. This page collects the decisions, dead ends and tuning along the way, plus the drafts and test benches I actually used.</p>
+<p lang="en">The usual loop: I notice a problem and give a direction; the AI proposes options; I judge them or suggest something else, and settle the approach and the parameters; the AI changes the code, writes tests and reviews its own work in separate passes; I accept it on the phone.</p>
+<p lang="zh-Hans">大部分代码是 AI 写的。做什么、做到什么程度算好、真机上过不过关，是我定的。这页记下过程中的判断、走过的弯路和调参，以及当时真正用过的设计稿和试验台。</p>
+<p lang="zh-Hans">通常的节奏是：我发现问题、给出方向；AI 拿出几种方案；我判断、提别的想法，定下方案和参数；AI 改代码、写测试、互相审查；最后我在真机上验收。</p>
+</div>
+<p class="mo-facts">374 commits · 559 tests · 19 specs · 22 plans · ~10k lines of Swift · EN / ES / 简体中文<br>
+<span lang="en">Status: submitted to the App Store.</span><span lang="zh-Hans">状态：已提交 App Store 审核。</span></p>
+<p class="mo-links"><a href="../"><span lang="en">Website</span><span lang="zh-Hans">官网</span></a><a href="../demo/breakout.html"><span lang="en">Play Brick Breaker in the browser</span><span lang="zh-Hans">在网页里试玩打砖块</span></a><a href="maze.html"><span lang="en">Case: the maze generator</span><span lang="zh-Hans">案例：迷宫算法</span></a></p>
+
+<h2><span lang="en">Decisions I made</span><span lang="zh-Hans">我做的判断</span></h2>
+
+<section class="mo-dec">
+<h3><span class="mo-k">01</span><span lang="en">Throwing away the first look</span><span lang="zh-Hans">推翻第一版外观</span></h3>
+<p lang="en">The first version looked like a monochrome LCD handheld. It worked, but I didn't want to play it myself, so I asked for a redesign. Round one compared three directions (night light, quiet ink, cartridge) and I picked cartridge. Round two still showed single-color blocks once you were inside a game, so I rejected it. Round three gave every game its own small world and art style, and that became the app. My only change request on round three: English and Spanish game titles must fit on one line.</p>
+<p lang="zh-Hans">第一版是单色液晶掌机的样子。能用，但我自己都不想玩，于是要求重做。第一轮比了三个方向（夜灯、静墨、卡带），我选了卡带；第二轮进游戏后还是单色方块，我否掉了；第三轮给每款游戏一个自己的小世界和画风，就是现在的 App。第三轮我只提了一处返修：英文、西语的游戏名必须单行。</p>
+<p class="mo-ev"><a href="archive/2026-09-28-cartridge-r2-modes.html"><span lang="en">Round 2 draft</span><span lang="zh-Hans">第二轮原稿</span></a> · <a href="archive/2026-09-28-cartridge-r3-art.html"><span lang="en">Round 3 draft</span><span lang="zh-Hans">第三轮原稿</span></a> · <span lang="en">(round 1 was lost)</span><span lang="zh-Hans">（第一轮原稿已丢失）</span></p>
+</section>
+
+<section class="mo-dec">
+<h3><span class="mo-k">02</span><span lang="en">Measuring the maze before fixing it</span><span lang="zh-Hans">迷宫先量化再改</span></h3>
+<p lang="en">The mazes felt like one corridor with stubs. Instead of adjusting by feel, I asked for numbers first: on the old generator, "always walk toward the exit" was within a few percent of the shortest path. We built a browser test bench, I tuned the parameters there by playing, and the Swift version was proven to match it cell for cell.</p>
+<p lang="zh-Hans">迷宫玩起来像一条走廊加几截短岔路。我没有凭感觉改，而是先要数据：旧算法下「一直朝出口走」只比最短路多走几个百分点。然后做了网页试验台，我在上面边玩边调参，最后用测试证明 Swift 版本和试验台逐格一致。</p>
+<p class="mo-ev"><a href="maze.html"><span lang="en">Full case →</span><span lang="zh-Hans">完整案例 →</span></a> · <a href="archive/2026-10-01-maze-lab.html"><span lang="en">Test bench</span><span lang="zh-Hans">试验台</span></a></p>
+</section>
+
+<section class="mo-dec">
+<h3><span class="mo-k">03</span><span lang="en">A ball that never reached the middle</span><span lang="zh-Hans">打砖块：球永远打不到中间</span></h3>
+<p lang="en">On the phone, the Brick Breaker ball sometimes circled forever without touching the bricks in the middle. The cause: the ball only ever moved at 45°, and on a grid with reflecting walls that allows closed loops around a centered pattern. It was reproduced with a deterministic probe that prints every frame as text: 4,000 steps, zero hits, locked into a loop from step 38. The fix gives the ball variable slopes depending on where it hits the paddle.</p>
+<p lang="zh-Hans">真机上打砖块的球有时会一直绕圈，碰不到中间的砖。原因是球只会走 45°，在会反弹的网格里，这能形成绕开中间图案的闭合轨道。复现用的是确定性探针：每一帧打印成文字，跑 4000 步零击中，第 38 步起进入闭环。修复是让球根据打在挡板上的位置有不同斜率。</p>
+</section>
+
+<section class="mo-dec">
+<h3><span class="mo-k">04</span><span lang="en">Rules that came out of mistakes</span><span lang="zh-Hans">从失误里来的规矩</span></h3>
+<ul>
+  <li lang="en"><strong>First level first.</strong> For any multi-level game, level one is built as a tunable prototype and accepted on a real device before more levels are produced. For endless difficulty curves, check at least three points (start, middle, near the cap), because level one only tells you where the curve starts.</li>
+  <li lang="zh-Hans"><strong>第一关先行。</strong>多关卡游戏先把第一关做成可调参数的原型，真机验收通过才铺开后续关卡。程序化难度曲线至少看三个点（起始、中段、接近上限），因为第一关只能告诉你起点。</li>
+  <li lang="en"><strong>A regression test must fail before the fix.</strong> In one round, three tests passed without actually exercising the bug they were written for (the subagents reported this themselves). Since then, every bug-fix task includes reverting the fix and watching the test go red.</li>
+  <li lang="zh-Hans"><strong>回归测试必须先确认会红。</strong>有一轮里三次出现测试是绿的、但根本没测到要测的 bug（是子代理自己如实报出来的）。从那以后，每个修 bug 的任务都要先把修复回退，看着测试变红。</li>
+  <li lang="en"><strong>The phone is the gate.</strong> Green tests don't merge a round on their own. Each round ends with a checklist I go through on my phone.</li>
+  <li lang="zh-Hans"><strong>真机是闸门。</strong>测试全绿不等于能合并，每一轮都以我在手机上逐条过的验收清单收尾。</li>
+</ul>
+</section>
+
+<section class="mo-dec">
+<h3><span class="mo-k">05</span><span lang="en">Product calls</span><span lang="zh-Hans">产品取舍</span></h3>
+<ul>
+  <li lang="en">The bedtime reminder never forces you out. Tapping "OK, time to sleep" fades the screen slowly.</li>
+  <li lang="zh-Hans">睡前提醒不强制退出，点「好，休息了」后屏幕慢慢变暗。</li>
+  <li lang="en">Brightness can go below the system minimum, because the app is meant for a dark room.</li>
+  <li lang="zh-Hans">亮度可以压到比系统最低档还暗，因为它就是在黑屋子里用的。</li>
+  <li lang="en">The website never states how many cartridges there are, since more will come.</li>
+  <li lang="zh-Hans">官网不写死卡带数量，以后还会加。</li>
+  <li lang="en">Version 1.0 leaves out the China mainland storefront instead of waiting weeks for an ICP filing.</li>
+  <li lang="zh-Hans">1.0 先不上中国大陆，不为等 ICP 备案拖几周。</li>
+</ul>
+</section>
+
+<section class="mo-dec">
+<h3><span class="mo-k">06</span><span lang="en">Being talked out of an idea</span><span lang="zh-Hans">被说服放弃一个想法</span></h3>
+<p lang="en">I suggested labeling the new serve button "S". The AI argued against it: the other two buttons are A and B, so a letter would read as a third action button; serving only works while the ball is waiting, so a mistap costs nothing and the button doesn't need a distinct look to prevent mistakes. I agreed. It became a round ▶ button the same size as A and B, with a small caption underneath.</p>
+<p lang="zh-Hans">我提议把新加的发球键标成「S」。AI 不同意：另外两个键叫 A 和 B，再加一个字母会被读成第三个动作键；发球只在球待发时有效，误按没有代价，所以不需要靠外形区分来防误触。我被说服了，最后是一个和 A/B 同样大小的圆形 ▶ 键，下面带一行小字说明。</p>
+</section>
+
+<h2><span lang="en">How I organize the AI</span><span lang="zh-Hans">我怎么组织 AI 干活</span></h2>
+<div class="mo-flow" role="img" aria-label="Brainstorm, spec, plan, implement, task review, branch review, device check, merge">
+<svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg">
+  <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8" style="marker-end:none;fill:#6F819A;stroke:none"/></marker></defs>
+  <rect class="me" x="4" y="10" width="150" height="50" rx="8"/><text x="79" y="32" text-anchor="middle">Brainstorm</text><text class="sub" x="79" y="49" text-anchor="middle">me + AI</text>
+  <rect x="176" y="10" width="150" height="50" rx="8"/><text x="251" y="32" text-anchor="middle">Spec → Plan</text><text class="sub" x="251" y="49" text-anchor="middle">AI writes, I approve</text>
+  <rect x="348" y="10" width="150" height="50" rx="8"/><text x="423" y="32" text-anchor="middle">Implement task</text><text class="sub" x="423" y="49" text-anchor="middle">fresh subagent</text>
+  <rect x="520" y="10" width="156" height="50" rx="8"/><text x="598" y="32" text-anchor="middle">Task review</text><text class="sub" x="598" y="49" text-anchor="middle">separate reviewer</text>
+  <rect x="520" y="90" width="156" height="50" rx="8"/><text x="598" y="112" text-anchor="middle">Branch review</text><text class="sub" x="598" y="129" text-anchor="middle">strongest model</text>
+  <rect class="me" x="348" y="90" width="150" height="50" rx="8"/><text x="423" y="112" text-anchor="middle">Device check</text><text class="sub" x="423" y="129" text-anchor="middle">me, on the phone</text>
+  <rect x="176" y="90" width="150" height="50" rx="8"/><text x="251" y="112" text-anchor="middle">Merge</text><text class="sub" x="251" y="129" text-anchor="middle">local, one commit per task</text>
+  <path d="M154,35 H172"/><path d="M326,35 H344"/><path d="M498,35 H516"/><path d="M598,60 V86"/><path d="M520,115 H502"/><path d="M348,115 H330"/>
+</svg>
+</div>
+<p lang="en">Each feature starts as a conversation that ends in a written spec, then a step-by-step plan. Each task in the plan is done by a fresh subagent on a cheaper model and checked by a separate reviewer before the next task starts. At the end, the strongest model reviews the whole branch, and I test on the phone. A <code>CLAUDE.md</code> file in the repo pins the ground rules (the game logic package may not import UI frameworks, colors come only from the theme, randomness is injected through a seed), so every new session starts from the same constraints.</p>
+<p lang="zh-Hans">每个功能先聊清楚、写成规格，再拆成逐步的计划。计划里每个任务由一个全新的子代理用便宜的模型完成，另一个审查者检查通过后才做下一个。最后用最强的模型审查整个分支，我再上手机测。仓库里的 <code>CLAUDE.md</code> 写着基本规矩（游戏逻辑包不准引入 UI 框架、颜色只能取自主题、随机数通过种子注入），每次新会话都从同样的约束开始。</p>
+<p lang="en">Why the last review matters: in Brick Breaker, every task passed its own review, but the whole-branch review found a crash between two of them. When the ball hit a corner while the paddle was against the wall, the paddle bounce pointed it into the wall and nothing clamped it again, so it moved to column −1 and the next frame crashed.</p>
+<p lang="zh-Hans">为什么最后那道审查有用：打砖块的每个任务单独审查都通过了，但全分支审查发现了两个任务之间的崩溃。球打到角落、挡板又贴着墙时，挡板反弹把球指向墙里，之后没有再夹一次边界，球跑到第 −1 列，下一帧直接崩溃。</p>
+
+<h2><span lang="en">Engineering notes</span><span lang="zh-Hans">工程结构</span></h2>
+<ul class="mo-arch">
+  <li lang="en">Two layers: a pure Swift package for game logic (no SwiftUI or UIKit) and a thin SwiftUI app. Every game implements one protocol: it takes input events and produces a frame.</li>
+  <li lang="zh-Hans">两层：纯 Swift 的游戏逻辑包（不准引入 SwiftUI / UIKit），加一层薄薄的 SwiftUI App。每款游戏实现同一个协议：吃输入事件，吐出一帧画面。</li>
+  <li lang="en">Randomness comes in through a seed, so the logic is deterministic and testable. The maze golden test and the Brick Breaker probe both rely on this.</li>
+  <li lang="zh-Hans">随机数通过种子注入，逻辑是确定性的、可以测试。迷宫对照测试和打砖块探针都靠这一点。</li>
+  <li lang="en">Art direction was decided in HTML/JS drafts; the Swift renderer ports those drafts function by function, and a tool renders both and compares them pixel by pixel.</li>
+  <li lang="zh-Hans">画风在 HTML/JS 设计稿里定，Swift 渲染逐函数移植设计稿，再用工具把两边都渲染出来逐像素比对。</li>
+  <li lang="en">Store screenshots, the website images and the app icon are generated by scripts, in three languages.</li>
+  <li lang="zh-Hans">商店截图、官网图片和 App 图标都由脚本生成，三种语言。</li>
+</ul>
+<pre>public protocol PixelGame {
+    static var info: GameInfo { get }
+    init(seed: UInt64)
+    mutating func handle(_ input: GameInput)
+    mutating func tick(_ deltaTime: TimeInterval)
+    var frame: PixelFrame { get }
+    var state: GamePlayState { get }
+}</pre>
+
+<h2><span lang="en">Archived drafts</span><span lang="zh-Hans">原稿存档</span></h2>
+<p lang="en">These are the pages I used to make decisions at the time, unedited apart from a note at the top. They are in Chinese.</p>
+<p lang="zh-Hans">这些是当时用来做决定的页面，除了顶部加一条说明，没有改动。</p>
+<div class="mo-t-wrap"><table class="mo-t">
+  <tr><td><a href="archive/2026-09-28-cartridge-r2-modes.html"><span lang="en">Cartridge redesign, round 2</span><span lang="zh-Hans">卡带改版 · 第二轮</span></a></td><td><span lang="en">Rejected: games still looked monochrome</span><span lang="zh-Hans">否掉：进游戏仍是单色</span></td></tr>
+  <tr><td><a href="archive/2026-09-28-cartridge-r3-art.html"><span lang="en">Cartridge redesign, round 3</span><span lang="zh-Hans">卡带改版 · 第三轮</span></a></td><td><span lang="en">Approved: an art style per game</span><span lang="zh-Hans">定稿：每款一个画风</span></td></tr>
+  <tr><td><a href="archive/2026-09-28-sokoban-clear-banner.html"><span lang="en">Push Boxes level-clear screen</span><span lang="zh-Hans">推箱子过关画面</span></a></td><td><span lang="en">Picked C, the full-moon badge</span><span lang="zh-Hans">选 C 满月徽章</span></td></tr>
+  <tr><td><a href="archive/2026-09-28-sound-audition.html"><span lang="en">Sound audition, round 1</span><span lang="zh-Hans">音色试听 · 第一轮</span></a></td><td><span lang="en">Harp and soft xylophone</span><span lang="zh-Hans">竖琴 + 轻木琴</span></td></tr>
+  <tr><td><a href="archive/2026-09-28-sound-audition-r2.html"><span lang="en">Sound audition, round 2</span><span lang="zh-Hans">音色试听 · 第二轮</span></a></td><td><span lang="en">Buttons told apart by pitch</span><span lang="zh-Hans">按键靠音高区分</span></td></tr>
+  <tr><td><a href="archive/2026-09-30-icon-opening-settings.html"><span lang="en">Icon, opening scene, settings</span><span lang="zh-Hans">图标、开场、设置页</span></a></td><td><span lang="en">Icon E + opening ④</span><span lang="zh-Hans">图标 E + 开场④</span></td></tr>
+  <tr><td><a href="archive/2026-09-30-website-redesign.html"><span lang="en">Website redesign</span><span lang="zh-Hans">官网改版</span></a></td><td><span lang="en">Option A, the opening story</span><span lang="zh-Hans">方案 A 开场故事</span></td></tr>
+  <tr><td><a href="archive/2026-10-01-maze-lab.html"><span lang="en">Maze test bench (EN / 中文)</span><span lang="zh-Hans">迷宫试验台（中 / EN）</span></a></td><td><span lang="en">Parameters tuned here</span><span lang="zh-Hans">参数在这里调定</span></td></tr>
+</table></div>
+</main>
+
+<footer class="mo-foot">
+  <p><span lang="en">The source repository is private.</span><span lang="zh-Hans">代码仓库私有。</span> · <a href="../"><span lang="en">Nighty website</span><span lang="zh-Hans">Nighty 官网</span></a></p>
+</footer>
+</div>
+</body>
+</html>
