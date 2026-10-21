@@ -1,50 +1,413 @@
 <!DOCTYPE html>
-<html lang="zh-Hans">
+<html lang="zh-Hans" data-lang="zh-Hans" data-theme="retro">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Apps</title>
-<meta name="description" content="独立开发的小 App · Small apps, made with care">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' fill='%23151413'/><text x='3' y='12' font-size='10' fill='%23d6d2c9'>✦</text></svg>">
+<title>Aria 的扭蛋机</title>
+<meta name="description" content="Aria 做的小 App 和小网页 · Small apps and web things by Aria">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#f2c14e">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ccccjone.github.io/cc-apps/">
+<meta property="og:title" content="Aria 的扭蛋机 · Aria's Gacha">
+<meta property="og:description" content="转一下，掉出一个小作品。Give it a spin, out pops a little thing I made.">
+<meta property="og:image" content="https://ccccjone.github.io/cc-apps/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script>document.documentElement.classList.add('js')</script>
 <style>
-  * { box-sizing: border-box; }
-  html { background: #151413; }
-  body {
-    margin: 0 auto; padding: 56px 20px 64px; max-width: 640px;
-    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-    color: #d6d2c9; line-height: 1.8; font-size: 15px;
-  }
-  h1 { font-size: 14px; color: #8f887b; letter-spacing: .5em; text-transform: uppercase; margin: 0 0 8px; }
-  .intro { color: #8f887b; font-size: 13px; margin: 0 0 36px;
-           border-bottom: 1px dashed #2e2b27; padding-bottom: 20px; }
-  .card {
-    display: flex; justify-content: space-between; align-items: center; gap: 18px;
-    border: 1px solid #2e2b27; border-radius: 14px; padding: 20px 22px;
-    margin: 0 0 16px; text-decoration: none; color: inherit;
-    transition: border-color .18s ease;
-  }
-  .card:hover { border-color: var(--c); }
-  .card:focus-visible { outline: 2px solid var(--c); outline-offset: 3px; }
-  .card b { display: block; color: var(--c); font-weight: 400; letter-spacing: .1em; font-size: 15px; }
-  .card .sub { color: #8f887b; font-size: 13px; }
-  .app-icon { flex: none; width: 48px; height: 48px; border-radius: 11px; image-rendering: pixelated; }
-  footer { margin-top: 44px; color: #6f6a60; font-size: 12px;
-           border-top: 1px dashed #2e2b27; padding-top: 14px; }
-  footer a { color: #8f887b; text-decoration: none; border-bottom: 1px solid #4a453e; }
+/* 字体自托管（子集由 sleepy-game 的 tools/fonts/subset-portfolio.sh 生成，改了文案要重跑） */
+@font-face{font-family:"ZCOOL KuaiLe";src:url(fonts/kuaile.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Smiley Sans";src:url(fonts/smiley.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Caveat";src:url(fonts/caveat.woff2) format("woff2");font-weight:400 700;font-display:swap}
+/*
+  主题 = 一组颜色变量。加新主题（万圣节、圣诞、春节……）：
+  1. 复制下面 [data-theme="retro"] 整块，改名、改颜色；--bg-image 可以换成任意 CSS 背景图案。
+     扭蛋机、扭蛋、纸条的颜色全部取自这些变量。
+  2. 想按日期自动切换，在页尾脚本的 SEASONS 里加一条；预览用 ?theme=主题名。
+*/
+[data-theme="retro"]{
+  --bg:#f2c14e; --bg-image:repeating-conic-gradient(from 0deg at 82% 112%,#f2c14e 0 7deg,#e9ae35 7deg 14deg);
+  --ink:#2f2412; --mute:#5d4724; --body:#6b7f3a; --body2:#53652a; --rim:#fff1d6; --glass:#cfe7e4; --lo:color-mix(in oklab,var(--body) 72%,#000);
+  --knob:#fff1d6; --knob2:#e07a3f; --bar:#e07a3f; --chute:#2f2412; --plate:#fff1d6;
+  --acc:#b8481a; --on-acc:#fff1d6; --card:#fff1d6; --paper:#fffaf0; --line:#2f241226;
+  --cap1:#e07a3f; --cap2:#2f8f8a; --cap3:#f2c14e; --cap4:#c8541e; --cap5:#fff1d6;
+}
+:root{
+  --en:"Caveat","Bradley Hand",cursive;
+  /* 字体分工：大标题快乐体，作品卡标题得意黑，英文展示字 Caveat，正文中英都用系统字体 */
+  --zh-hero:"ZCOOL KuaiLe","PingFang SC",sans-serif; --zh-card:"Smiley Sans","PingFang SC",sans-serif;
+  --font-body:system-ui,-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color-scheme:light;
+}
+
+html[data-lang="zh-Hans"] [lang="en"],html[data-lang="en"] [lang="zh-Hans"]{display:none!important}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);background-color:var(--bg);background-image:var(--bg-image);background-attachment:fixed;font-family:var(--font-body);font-size:16px;line-height:1.6}
+.d{font-family:var(--zh-hero)}
+.d[lang="en"],.d [lang="en"]{font-family:var(--en)}
+a{color:inherit}
+.gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.in{max-width:1080px;margin:0 auto;width:100%}
+
+/* 顶栏 */
+.top{position:absolute;inset:0 0 auto;z-index:5;padding-block:22px}
+.top .in{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.logo{font-size:22px;font-weight:400;letter-spacing:.02em;white-space:nowrap}
+.logo [lang="en"]{font-size:30px;font-weight:700}
+.right{display:flex;gap:10px;align-items:center}
+.gh{display:inline-flex;align-items:center;gap:7px;text-decoration:none;font-weight:600;font-size:14px;padding:7px 13px;border-radius:999px;background:var(--card);box-shadow:0 2px 0 #0000001f}
+.gh svg{width:17px;height:17px}
+.gh:focus-visible,.lang button:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.lang{display:inline-flex;background:var(--card);border-radius:999px;padding:3px;box-shadow:0 2px 0 #0000001f}
+.lang button{font:inherit;font-size:13px;font-weight:700;border:0;background:none;color:var(--mute);padding:4px 11px;border-radius:999px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--card)}
+
+/* 第一屏 */
+.screen1{min-height:100vh;min-height:100svh;display:grid;align-items:center;position:relative;padding-block:96px 76px}
+.hero{--mh:clamp(375px,calc(100svh - 190px),540px);--res:250px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) var(--res);grid-template-areas:"text machine" "result machine";column-gap:56px;height:var(--mh)}
+.hero-text{grid-area:text;align-self:end}
+h1{font-size:clamp(40px,6.6vw,76px);line-height:1.02;margin:0;font-weight:400;letter-spacing:.01em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--acc);display:block}
+h1 [lang="en"]{font-size:1.18em;font-weight:700;line-height:.95}
+.lede{font-size:17px;color:var(--mute);margin:18px 0 0;max-width:30em}
+.result{grid-area:result;padding-top:24px;min-width:0}
+.hint{font-size:15px;color:var(--mute);margin:0}
+.machine{grid-area:machine;position:relative;width:calc(var(--mh)/1.5);aspect-ratio:300/450;align-self:center}
+.cue{position:absolute;left:50%;bottom:22px;translate:-50% 0;text-decoration:none;font-size:14px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:2px}
+.cue i{font-style:normal;animation:nudge 1.6s ease-in-out infinite}
+@keyframes nudge{50%{translate:0 5px}}
+
+/* 扭蛋机本体：七十年代贴纸风 SVG，画在脚本里；颜色全取主题变量 */
+.machine svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.machine .kn{cursor:pointer;outline:none}
+.machine .kn:focus-visible .kf{stroke-width:5}
+.machine .bar{transition:transform .9s cubic-bezier(.5,0,.3,1);transform-box:fill-box;transform-origin:center}
+.machine .ball{cursor:pointer}
+.machine .lid,.machine .lift{transform-box:fill-box}
+.machine .lid{transform-origin:20% 100%}
+.machine .lift{transform-origin:center}
+.plate{position:absolute;left:50%;top:93.8%;translate:-50% -50%;background:var(--plate);border:2px solid var(--ink);border-radius:999px;padding:0 12px;font-size:12.5px;line-height:1.55;white-space:nowrap;pointer-events:none}
+.plate [lang="en"]{font-size:16px;font-weight:700}
+
+/* 作品卡（掉出来的卡和第二屏共用） */
+.work{background:var(--card);border-radius:22px;padding:18px;display:grid;grid-template-columns:60px 1fr;gap:6px 14px;align-items:start;box-shadow:0 14px 28px -20px #0007}
+.work>img{width:60px;height:60px;border-radius:14px;image-rendering:pixelated;grid-row:span 2}
+.work .name{font-family:var(--zh-card);font-size:23px;line-height:1.2;margin:0}
+.work .name [lang="en"]{font-family:var(--en);font-size:28px;font-weight:700}
+.work .meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.tag{font-size:11.5px;font-weight:600;letter-spacing:.04em;padding:1px 8px;border-radius:999px;border:1.5px solid var(--line);color:var(--mute);}
+.work p{margin:0;color:var(--mute);font-size:14.5px;grid-column:2}
+.links{grid-column:1/-1;display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.links a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-size:14px;font-weight:700;padding:7px 14px;border-radius:999px;border:2px solid var(--ink);transition:transform .15s}
+.links a.site{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.links a:hover{transform:translateY(-2px)}
+.links a:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.links svg{width:15px;height:15px;flex:none}
+.links a.code{padding:7px 9px}
+.links a.code svg{width:22px;height:22px}
+/* 扭出来的卡：从扭蛋里掏出来的一张小纸条。纸纹是内联的 SVG 噪点，折痕和褶皱是几层渐变，顶边是撕开的锯齿 */
+.slip{position:relative;max-width:470px;rotate:-1.3deg;transform-origin:50% 0;filter:drop-shadow(0 12px 14px #2f241230) drop-shadow(0 2px 2px #2f24121c);animation:unfold .7s cubic-bezier(.25,1.25,.5,1) both}
+.slip.bye{animation:foldup .26s ease-in forwards}
+@keyframes unfold{0%{transform:perspective(900px) rotateX(-88deg) scaleY(.6);opacity:0}30%{opacity:1}100%{transform:perspective(900px) rotateX(0)}}
+@keyframes foldup{to{transform:perspective(900px) rotateX(-85deg) scaleY(.6);opacity:0}}
+.paper{--zz:7px;position:relative;border-radius:0 0 12px 12px;padding:24px 20px 20px;box-shadow:none;
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(90deg,#0000 36%,#2f241214 36% 36.3%,#ffffffb0 36.3% 36.9%,#0000 36.9%),
+    linear-gradient(180deg,#0000 54%,#2f241212 54% 54.5%,#ffffffb0 54.5% 55.3%,#0000 55.3%),
+    linear-gradient(112deg,#2f241206 0 22%,#0000 22% 58%,#2f241207 58% 79%,#0000 79%),
+    linear-gradient(205deg,#ffffff70,#0000 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .2  0 0 0 0 .15  0 0 0 0 .08  0 0 0 .13 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/14px var(--zz) repeat-x,linear-gradient(#000 0 0) bottom/100% calc(100% - var(--zz) + 1px) no-repeat;
+          mask:conic-gradient(from 135deg at top,#0000,#000 1deg 89deg,#0000 90deg) top/14px var(--zz) repeat-x,linear-gradient(#000 0 0) bottom/100% calc(100% - var(--zz) + 1px) no-repeat}
+.slip-head{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:0 36px 7px 0;margin-bottom:6px;border-bottom:1.5px dashed #2f241238}
+.slip-head b{color:var(--sc)}
+.stamp{position:absolute;right:18px;bottom:16px;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;rotate:-16deg;pointer-events:none;
+  border:2.5px solid var(--sc);color:var(--sc);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 4.5px var(--sc);opacity:.8;mix-blend-mode:multiply;
+  font-family:var(--zh-hero);font-size:16px;line-height:1;text-align:center;animation:stamp .35s .45s cubic-bezier(.3,1.6,.5,1) both}
+.stamp [lang="en"]{font-family:var(--en);font-size:21px;font-weight:700}
+@keyframes stamp{from{transform:scale(1.8);opacity:0}}
+.paper .links{position:relative;z-index:1;padding-right:70px}
+.paper .close{top:20px;right:12px}
+.paper .meta,.paper h3{padding-right:0}
+.close{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;border:0;background:#2f24120f;color:var(--mute);cursor:pointer;display:grid;place-items:center;transition:background .15s,transform .15s}
+.close:hover{background:#2f24121f;transform:rotate(90deg)}
+.close:focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+.close svg{width:14px;height:14px}
+.egg{width:60px;height:60px;border-radius:14px;display:grid;place-items:center;font-size:26px;grid-row:span 2}
+
+/* 第二屏 */
+.screen2{padding-block:72px 40px;background:linear-gradient(180deg,transparent,#f6d68a 120px)}
+.s2head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:8px 20px;margin-bottom:24px}
+h2{font-size:clamp(32px,4.4vw,48px);font-weight:400;margin:0;line-height:1.05}
+h2 [lang="en"]{font-size:1.2em;font-weight:700}
+.s2head p{margin:0;color:var(--mute)}
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px}
+.grid .work{height:100%}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:56px;padding-top:16px;border-top:2px dashed var(--line);font-size:13px;color:var(--mute)}
+
+
+@media (max-width:780px){
+  .hero{height:auto;grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"text" "machine" "result";row-gap:22px}
+  .machine{justify-self:center;width:min(330px,100%)}
+  .result{padding-top:0;min-height:240px}
+  .screen1{padding-block:88px 70px}
+  .hint .r{display:none}
+  .gh span{display:none}
+  .gh{padding:8px}
+}
+@media (min-width:781px){.hint .d2{display:none}}
+html:not(.js) .machine,html:not(.js) .result,html:not(.js) .cue{display:none}
+html:not(.js) .hero{height:auto;display:block}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
-<h1>Apps</h1>
-<p class="intro">独立开发的小 App · Small apps, made with care</p>
 
-<a class="card" href="bedtime-games/" style="--c:#F1D48C">
-  <span>
-    <b>晚安游戏机 · Nighty</b>
-    <span class="sub">睡前的像素小卡带 · Little pixel cartridges for bedtime</span>
-  </span>
-  <img class="app-icon" src="bedtime-games/art/icon-192.png?v=20260930" width="48" height="48" alt="">
-</a>
+<header class="top gut"><div class="in">
+  <span class="logo d"><span lang="zh-Hans">Aria 的扭蛋机</span><span lang="en">Aria's Gacha</span></span>
+  <div class="right">
+    <a class="gh" href="https://github.com/ccccjone" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0a8 8 0 0 0-2.53 15.59c.4.07.55-.17.55-.38v-1.33c-2.23.48-2.7-1.07-2.7-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.06-.49.06-.49.8.06 1.23.83 1.23.83.72 1.22 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 8 0Z"/></svg><span>GitHub</span></a>
+    <div class="lang" role="group" aria-label="语言 Language"><button type="button" data-l="zh-Hans" aria-pressed="true">中</button><button type="button" data-l="en" aria-pressed="false">EN</button></div>
+  </div>
+</div></header>
 
-<footer>© 2026 · <a href="mailto:ariacuidev@gmail.com">ariacuidev@gmail.com</a></footer>
+<main>
+<section class="screen1 gut"><div class="in">
+  <div class="hero">
+    <div class="hero-text">
+      <h1 class="d"><span lang="zh-Hans">转一下，<em>掉出一个小作品。</em></span><span lang="en">Give it a spin, <em>out pops a little thing I made.</em></span></h1>
+      <p class="lede"><span lang="zh-Hans">我做的 App 和网页都装在这台机器里。转旋钮随机掉一颗，也可以直接点玻璃罩里想要的那颗。</span><span lang="en">Every app and web thing I make lives in this machine. Turn the knob for a random one, or tap the capsule you want.</span></p>
+    </div>
+    <div class="machine">
+      <svg id="machine" viewBox="0 -24 300 450" role="group" aria-label="扭蛋机 Gacha machine"></svg>
+      <div class="plate d"><span lang="zh-Hans">1 次 · 免费</span><span lang="en">1 spin · free</span></div>
+    </div>
+    <div class="result" id="result" aria-live="polite"><p class="hint"><span lang="zh-Hans">转一下旋钮试试 <span class="r">→</span><span class="d2">↑</span></span><span lang="en">Give the knob a turn <span class="r">→</span><span class="d2">↑</span></span></p></div>
+  </div>
+</div>
+<a class="cue" href="#works"><span lang="zh-Hans">全部作品</span><span lang="en">All my works</span><i>↓</i></a>
+</section>
+
+<section class="screen2 gut" id="works"><div class="in">
+  <div class="s2head">
+    <h2 class="d"><span lang="zh-Hans">全部作品</span><span lang="en">All my works</span></h2>
+    <p><span lang="zh-Hans">不想碰运气？都在这儿。</span><span lang="en">Not feeling lucky? Here's everything.</span></p>
+  </div>
+  <!--
+    作品清单：每个 <li> 是一颗带图标的扭蛋。加作品就复制一个 <li>。
+    链接三种都可选：看网站 class="site"、看复盘 class="story"、看代码 class="code"（只放图标，用下面那只手绘 GitHub 小猫）。
+    看代码的写法：<a class="code" href="仓库地址" aria-label="GitHub 代码 / Code on GitHub" title="GitHub 代码 / Code on GitHub"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M6.3 15.5C3.7 14.6 3.1 12.3 3.4 10.2c.2-1.2.8-2.1 1.5-2.7-.3-1.3-.2-2.6.4-3.8 1.3.1 2.5.8 3.5 1.7 2.1-.6 4.4-.6 6.5.1 1-1 2.2-1.7 3.5-1.6.6 1.2.7 2.5.3 3.7.8.7 1.4 1.8 1.5 3 .2 2.2-.6 4.3-3 5.1"/><path d="M9.3 16.1c-.7.6-.8 1.5-.7 2.5l.1 2.7M14.8 16.2c.7.6.8 1.5.7 2.6l-.1 2.5"/><path d="M8.6 19c-2.2.7-3.5.2-4.3-1.1-.4-.6-.9-1-1.5-1.1"/><path d="M9.3 11.1v.6M14.7 11.1v.6"/></svg></a>
+  -->
+  <ul class="grid" id="list">
+    <li class="work"><img src="bedtime-games/art/icon-192.png?v=20260930" alt=""><div><h3 class="name d"><span lang="zh-Hans">Nighty · 晚安游戏机</span><span lang="en">Nighty</span></h3><div class="meta"><span class="tag">iOS App</span></div></div><p><span lang="zh-Hans">睡前的像素小卡带，玩一会儿就该睡啦。</span><span lang="en">Little pixel cartridges for bedtime. Play a bit, then off to sleep.</span></p><div class="links"><a class="site" href="bedtime-games/"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm-6.5 6.5h13M8 1.5c2 2 2.6 4.3 2.6 6.5S10 12.5 8 14.5M8 1.5C6 3.5 5.4 5.8 5.4 8S6 12.5 8 14.5"/></svg><span lang="zh-Hans">看网站</span><span lang="en">Website</span></a><a class="story" href="bedtime-games/making-of/"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M3 2.5h7.5L13 5v8.5H3Zm2.5 4h5m-5 2.5h5m-5 2.5h3"/></svg><span lang="zh-Hans">看复盘</span><span lang="en">Making-of</span></a></div></li>
+  </ul>
+  <footer><span>© 2026 Aria</span><a href="https://github.com/ccccjone">ccccjone</a></footer>
+</div></section>
+</main>
+
+
+<script>
+(()=>{
+const root=document.documentElement;
+// 按日期自动换主题：{ theme: '主题名', from: 'MM-DD', to: 'MM-DD' }；跨年时 from 比 to 大。春节每年日期不同，按年写具体日子。
+const SEASONS=[];
+const now=new Date(),today=String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0');
+const season=SEASONS.find(s=>s.from<=s.to?today>=s.from&&today<=s.to:today>=s.from||today<=s.to);
+if(season)root.dataset.theme=season.theme;
+const preview=new URLSearchParams(location.search).get('theme');
+if(preview&&/^[a-z0-9-]+$/.test(preview))root.dataset.theme=preview;
+
+const T0=(zh,en)=>root.dataset.lang==='en'?en:zh;
+const T=(zh,en)=>`<span lang="zh-Hans">${zh}</span><span lang="en">${en}</span>`;
+
+/* 语言 */
+function setLang(l){root.dataset.lang=l;root.lang=l;document.title=l==='en'?"Aria's Gacha":'Aria 的扭蛋机';document.querySelectorAll('[data-l]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.l===l));try{localStorage.setItem('lang',l);}catch(e){}}
+let saved=null;try{saved=localStorage.getItem('lang');}catch(e){}
+setLang(saved||(/^zh/i.test(navigator.language)?'zh-Hans':'en'));
+document.querySelectorAll('[data-l]').forEach(b=>b.addEventListener('click',()=>setLang(b.dataset.l)));
+
+const star=(x,y,s)=>`M${x},${y-s}Q${x},${y} ${x+s},${y}Q${x},${y} ${x},${y+s}Q${x},${y} ${x-s},${y}Q${x},${y} ${x},${y-s}Z`;
+const v=n=>`var(--${n})`;
+/* 扭蛋机：items 里每一项是一颗扭蛋（作品或 null=空的）；onStart 开始出蛋，onDrop 落进托盘 */
+function makeMachine(svg,items,{onStart,onDrop}){
+/* 几何：罩子圆心、内半径、扭蛋半径；出口在罩子正下方；托盘在出货口里 */
+const CX=150,CY=150,RIN=108,R=21;
+const HOLE_X=150,HOLE_Y=CY+RIN;          // 罩子底部的出口
+const TRAY_X=200,TRAY_TOP=262,TRAY_FLOOR=300,TR=15; // 托盘：扭蛋从出货口顶上落进来，停在挡板后面
+
+const BODY='M82,250H218Q244,250 246,276L256,368Q258,392 234,392H66Q42,392 44,368L54,276Q56,250 82,250Z';
+const DOME='M112,42A38,34 0 0 1 188,42Z';
+/* 图层从下到上：贴纸底 → 底座/机身/彩条 → 出货口 → 玻璃 → 扭蛋 → 高光、罩子描边 → 领口 → 顶盖
+   扭蛋从出口掉出去后就被罩子的剪裁和领口、机身挡住，再在托盘里出现 */
+svg.innerHTML=`<defs><clipPath id="bc"><path d="${BODY}"/></clipPath><clipPath id="gc"><circle cx="150" cy="150" r="115"/></clipPath>
+  <clipPath id="tc"><rect x="166" y="272" width="68" height="56" rx="14"/></clipPath>
+  <g id="sil"><circle cx="150" cy="150" r="118"/><path d="${BODY}"/><rect x="30" y="384" width="240" height="28" rx="14"/><path d="${DOME}"/><circle cx="150" cy="6" r="8"/><rect x="96" y="244" width="108" height="22" rx="11"/></g></defs>
+ <use href="#sil" transform="translate(6,7)" style="fill:${v('ink')};stroke:${v('ink')}" stroke-width="18" stroke-linejoin="round" opacity=".16"/>
+ <use href="#sil" style="fill:${v('rim')};stroke:${v('rim')}" stroke-width="18" stroke-linejoin="round"/>
+ <g stroke-width="3" stroke-linejoin="round" style="stroke:${v('ink')}">
+  <rect x="30" y="384" width="240" height="28" rx="14" style="fill:${v('lo')}"/>
+  <path d="${BODY}" style="fill:${v('body')}"/>
+  <g clip-path="url(#bc)" stroke="none"><rect x="0" y="338" width="300" height="12" style="fill:${v('cap1')}"/><rect x="0" y="350" width="300" height="12" style="fill:${v('cap3')}"/><rect x="0" y="362" width="300" height="12" style="fill:${v('cap2')}"/></g>
+  <path d="${BODY}" fill="none"/>
+  <path d="M60,284L53,346" fill="none" style="stroke:${v('rim')}" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+  <rect x="166" y="272" width="68" height="56" rx="14" style="fill:${v('chute')}"/>
+ </g>
+ <g clip-path="url(#tc)"><g id="tray"></g></g>
+ <g stroke-width="2.6" stroke-linejoin="round" style="stroke:${v('ink')}"><rect x="171" y="308" width="58" height="16" rx="8" style="fill:${v('rim')}"/></g>
+ <circle cx="150" cy="150" r="118" style="fill:color-mix(in oklab,${v('glass')} 80%,${v('rim')})"/>
+ <g id="balls" clip-path="url(#gc)"></g>
+ <path d="M68,130A86,86 0 0 1 122,70" fill="none" stroke="#fff" stroke-width="9" stroke-linecap="round" opacity=".85" pointer-events="none"/><circle cx="62" cy="156" r="4.5" fill="#fff" opacity=".85"/>
+ <g stroke-width="3" stroke-linejoin="round" style="stroke:${v('ink')}" pointer-events="none">
+  <circle cx="150" cy="150" r="118" fill="none"/>
+  <rect x="96" y="244" width="108" height="22" rx="11" style="fill:${v('acc')}"/>
+  <g class="lid" id="lid"><path d="${DOME}" style="fill:${v('knob2')}"/><circle cx="150" cy="6" r="8" style="fill:${v('cap3')}"/></g>
+  <path d="${star(30,70,13)}" style="fill:${v('rim')}" stroke-width="2.4"/><path d="${star(272,118,9)}" style="fill:${v('rim')}" stroke-width="2.4"/>
+ </g>
+ <g transform="translate(104,302)"><g class="kn" id="kn" role="button" tabindex="0" aria-label="转旋钮 Turn the knob">
+  <circle class="kf" r="31" stroke-width="3" style="fill:${v('knob2')};stroke:${v('ink')}"/>
+  <g class="bar" id="bar"><rect x="-6.5" y="-25" width="13" height="50" rx="6.5" stroke-width="2.6" style="fill:${v('rim')};stroke:${v('ink')}"/></g>
+  <circle r="3.5" style="fill:${v('ink')}"/></g></g>`;
+
+/* 扭蛋：外层平移（高光、图标保持朝上），内层随滚动旋转 */
+function capSVG(b,r=R){
+  return `<g class="rot"><path d="M${-r},0A${r},${r} 0 0 1 ${r},0Z" style="fill:${v(b.c)}"/><path d="M${-r},0A${r},${r} 0 0 0 ${r},0Z" style="fill:color-mix(in oklab,${v(b.c)} 16%,#fffaf0)"/>
+    <line x1="${-r}" x2="${r}" y1="0" y2="0" stroke-width="1.8" style="stroke:${v('ink')}"/></g>
+    <circle r="${r}" fill="none" stroke-width="2.2" style="stroke:${v('ink')}"/>
+    ${b.icon?`<image href="${b.icon}" x="${-r*.45}" y="${-r*.45}" width="${r*.9}" height="${r*.9}" style="image-rendering:pixelated" clip-path="inset(0 round 4px)"/>`:''}
+    <ellipse cx="${-r*.42}" cy="${-r*.48}" rx="${r*.2}" ry="${r*.13}" transform="rotate(-35 ${-r*.42} ${-r*.48})" fill="#fff" opacity=".85"/>`;
+}
+
+const layer=svg.querySelector('#balls'),tray=svg.querySelector('#tray'),kn=svg.querySelector('#kn'),bar=svg.querySelector('#bar'),lid=svg.querySelector('#lid');
+const G=.32;let seed=29;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
+const balls=[];
+items.forEach((w,i)=>{
+  const b={i,x:CX+(rnd()-.5)*140,y:CY-60+(rnd()-.5)*80,a:rnd()*360,c:'cap'+(i%4+1),w,icon:w?w.querySelector('img').getAttribute('src'):null,state:'in'};
+  b.px=b.x;b.py=b.y;
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','ball');g.innerHTML=capSVG(b);
+  g.addEventListener('click',()=>start(b));b.g=g;b.rot=g.querySelector('.rot');layer.append(g);balls.push(b);
+});
+/* 重力：Verlet 积分 + 位置约束。
+   state: in 在罩子里；sink 被选中、变重往下沉；exit 已到出口、掉出罩子；out 不在罩子里 */
+const inGlobe=b=>b.state==='in'||b.state==='sink'||b.state==='exit';
+function step(){
+  let maxv=0;
+  for(const b of balls){if(!inGlobe(b))continue;
+    const vx=(b.x-b.px)*.985,vy=(b.y-b.py)*.985;b.px=b.x;b.py=b.y;
+    b.x+=vx;b.y+=vy+G*(b.state==='sink'?3.2:b.state==='exit'?1.6:1);
+    if(b.state==='sink')b.x+=(HOLE_X-b.x)*.04;     // 往出口方向偏一点
+    if(b.state==='exit')b.x+=(HOLE_X-b.x)*.3;      // 掉出口时对准洞口
+  }
+  for(let it=0;it<6;it++){
+    for(let i=0;i<balls.length;i++){const p=balls[i];if(!inGlobe(p))continue;
+      for(let j=i+1;j<balls.length;j++){const q=balls[j];if(!inGlobe(q))continue;
+        if(p.state==='exit'||q.state==='exit')continue;
+        const dx=q.x-p.x,dy=q.y-p.y,d=Math.hypot(dx,dy)||.01,o=2*R-d;
+        if(o>0){const wp=p.state==='sink'?.15:q.state==='sink'?.85:.5,k=o/d;
+          p.x-=dx*k*wp;p.y-=dy*k*wp;q.x+=dx*k*(1-wp);q.y+=dy*k*(1-wp);}}
+      if(p.state==='exit')continue;
+      const dx=p.x-CX,dy=p.y-CY,d=Math.hypot(dx,dy),lim=RIN-R;
+      if(d>lim){p.x=CX+dx/d*lim;p.y=CY+dy/d*lim;}}
+  }
+  for(const b of balls){if(!inGlobe(b))continue;const dx=b.x-b.px;b.a+=dx/R*57.3;maxv=Math.max(maxv,Math.hypot(dx,b.y-b.py));}
+  return maxv;
+}
+function draw(){for(const b of balls){if(inGlobe(b)){b.g.setAttribute('transform',`translate(${b.x.toFixed(2)},${b.y.toFixed(2)})`);b.rot.setAttribute('transform',`rotate(${b.a.toFixed(1)})`);}}}
+for(let i=0;i<500;i++)step();draw();
+
+let running=false,calm=0,target=null,sinkT=0;
+function loop(){
+  const m=step();
+  if(target&&target.state==='sink'){
+    // 沉到出口附近就放它出去；沉太久（被卡住）也放
+    const near=Math.hypot(target.x-HOLE_X,target.y-(HOLE_Y-R))<9;
+    if(near||performance.now()-sinkT>1600){target.state='exit';layer.append(target.g);}
+  }
+  if(target&&target.state==='exit'&&target.y>HOLE_Y+R+2){   // 已经完全掉出罩子，藏在领口和机身后面
+    const b=target;b.state='out';b.g.style.display='none';target=null;
+    setTimeout(()=>dropToTray(b),160);                      // 在机身里走一小段，再出现在出货口
+  }
+  draw();
+  calm=(m<.03&&!target)?calm+1:0;
+  if(calm>40){running=false;return;}
+  requestAnimationFrame(loop);
+}
+function wake(){calm=0;if(!running){running=true;requestAnimationFrame(loop);}}
+
+/* 托盘：一维重力 + 落地反弹，每次弹起来少一半多 */
+let inTray=null,pending=null,busy=false,turn=0;
+function dropToTray(b){
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('class','tray-cap');
+  g.innerHTML=`<g class="lift">${capSVG(b,TR)}</g>`;tray.append(g);
+  const rot=g.querySelector('.rot');let y=TRAY_TOP,vy=0,a=b.a,bounces=0;
+  (function fall(){
+    vy+=.55;y+=vy;
+    if(y>=TRAY_FLOOR){y=TRAY_FLOOR;if(Math.abs(vy)<1.2||bounces>3){vy=0;}else{vy=-vy*.42;bounces++;a+=(Math.random()-.5)*40;}}
+    g.setAttribute('transform',`translate(${TRAY_X},${y.toFixed(2)})`);rot.setAttribute('transform',`rotate(${a.toFixed(1)})`);
+    if(vy!==0||y<TRAY_FLOOR)return requestAnimationFrame(fall);
+    inTray={b,g};busy=false;onDrop(b);
+    setTimeout(refill,500);
+  })();
+}
+/* 上一颗被拿走：从出货口往外一提、变大、淡出 */
+function takeFromTray(){
+  if(!inTray)return;
+  const {b,g}=inTray;inTray=null;pending=b;
+  g.querySelector('.lift').animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:'translate(0,-4px) scale(1.35)',opacity:0}],{duration:260,easing:'ease-in',fill:'forwards'});
+  setTimeout(()=>g.remove(),280);
+}
+/* 补货：顶盖掀一下，拿走的那颗从顶上落回罩子 */
+function refill(){
+  if(!pending||busy)return;const b=pending;pending=null;
+  lid.animate([{transform:'none'},{transform:'translateY(-7px) rotate(-14deg)',offset:.35},{transform:'none'}],{duration:620,easing:'ease-in-out'});
+  setTimeout(()=>{b.x=CX+(Math.random()-.5)*12;b.y=CY-RIN+R+2;b.px=b.x;b.py=b.y-1;b.state='in';b.g.style.display='';wake();},180);
+}
+function start(b,fromKnob){
+  if(busy||!b||b.state!=='in')return;
+  if(pending)refill();           // 上一颗还没来得及补回（连着转得很快），先补回去
+  busy=true;
+  if(!fromKnob){turn+=360;bar.style.transform=`rotate(${turn}deg)`;}
+  takeFromTray();onStart();
+  target=b;b.state='sink';sinkT=performance.now();layer.append(b.g);
+  for(const o of balls){if(o.state!=='in')continue;o.px=o.x-(Math.random()-.5)*4;o.py=o.y+Math.random()*3;}  // 晃一晃
+  wake();
+}
+function spin(){
+  if(busy)return;turn+=360;bar.style.transform=`rotate(${turn}deg)`;
+  const left=balls.filter(b=>b.state==='in'),withIcon=left.filter(b=>b.icon);
+  const pool=withIcon.length&&Math.random()<.7?withIcon:left;
+  start(pool[Math.floor(Math.random()*pool.length)],true);
+}
+kn.addEventListener('click',spin);
+kn.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();spin();}});
+return {kn,take(){if(busy||!inTray)return;takeFromTray();setTimeout(refill,500);}};
+}
+
+const result=document.getElementById('result'),list=document.getElementById('list'),svgM=document.getElementById('machine');
+const hintHTML=result.innerHTML;
+function cardFor(b){
+  const slip=document.createElement('div');slip.className='slip';slip.style.setProperty('--sc',`var(--${b.c})`);
+  const el=document.createElement('div');el.className='work paper';slip.append(el);
+  const no=String(b.i+1).padStart(2,'0');
+  el.innerHTML=`<div class="slip-head"><span>${T('扭蛋','Capsule')} <b>No.${no}</b></span><span>${T('Aria 出品','made by Aria')}</span></div>`+(b.w?b.w.innerHTML:`<div class="egg" style="background:var(--${b.c})">🥚</div><div><h3 class="name d">${T('空的～','Empty!')}</h3></div><p>${T('这颗还没装东西，下次再来转。','Nothing in this one yet. Come back for another spin.')}</p>`);
+  el.insertAdjacentHTML('beforeend',`<span class="stamp" aria-hidden="true">${b.w?T('到手！','Got it!'):T('空空','Empty')}</span>`);
+  el.insertAdjacentHTML('beforeend',`<button class="close" type="button" aria-label="${T0('收起这颗扭蛋','Put it away')}" title="${T0('收起','Close')}"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 2l10 10M12 2 2 12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>`);
+  el.querySelector('.close').addEventListener('click',e=>putAway(e.detail===0));
+  return slip;
+}
+// 一共 15 颗：清单里的作品在前，其余是空的
+const works=[...list.children];
+const M=makeMachine(svgM,works.concat(Array(Math.max(4,15-works.length)).fill(null)).slice(0,15),{
+  onStart(){result.innerHTML=`<p class="hint">${T('咕噜咕噜…','Rattle rattle…')}</p>`;},
+  onDrop(b){result.replaceChildren(cardFor(b));}
+});
+// 收起扭出来的作品卡：卡片缩走，托盘里那颗也被拿走，回到提示语
+function putAway(byKey){const el=result.querySelector('.slip');if(!el||el.classList.contains('bye'))return;el.classList.add('bye');M.take();
+  setTimeout(()=>{result.innerHTML=hintHTML;if(byKey)M.kn.focus({preventScroll:true});},220);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')putAway(true);});
+
+})();
+</script>
 </body>
 </html>
