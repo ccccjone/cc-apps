@@ -1,0 +1,10 @@
+/* 幕后页面字体：自托管子集（sleepy-game tools/fonts/subset-making-of.sh 生成，勿手改）。
+   family 名与 Google Fonts 一致，原稿里的 font-family 不用改。 */
+@font-face{font-family:"ZCOOL QingKe HuangYou";src:url("huangyou.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Press Start 2P";src:url("pressstart.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Long Cang";src:url("longcang.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Caveat";src:url("caveat.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"ZCOOL XiaoWei";src:url("xiaowei.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Ma Shan Zheng";src:url("mashanzheng.woff2") format("woff2");font-display:swap}
+@font-face{font-family:"Cormorant Garamond";src:url("cormorant-italic.woff2") format("woff2");font-style:italic;font-weight:500;font-display:swap}
+@font-face{font-family:"Dancing Script";src:url("dancing.woff2") format("woff2");font-weight:500;font-display:swap}
