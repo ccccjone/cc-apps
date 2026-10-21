@@ -1,0 +1,630 @@
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<title>晚安游戏机图标与开场</title>
+<style>
+:root{
+  color-scheme: dark;
+  --bg:#0D1221; --glass:#0A1122; --surface:#162038; --surface2:#1F2C4A; --line:#24314F;
+  --text:#D2DEE6; --muted:#6F819A; --star:#F1D48C; --mint:#A8E0C8; --lilac:#B3A6E6;
+  --title:"ZCOOL QingKe HuangYou","PingFang SC","Hiragino Sans GB",sans-serif;
+  --pixel:"Press Start 2P",ui-monospace,monospace;
+  --body:-apple-system,"PingFang SC","Hiragino Sans GB","Noto Sans SC",sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:15px;line-height:1.65;}
+.wrap{max-width:1120px;margin:0 auto;padding-inline:20px;padding-block:40px 64px;display:grid;gap:56px}
+h1{font-family:var(--title);font-weight:400;font-size:clamp(34px,6vw,52px);letter-spacing:.06em;margin:0;line-height:1.15;text-wrap:balance;color:var(--star)}
+h2{font-family:var(--title);font-weight:400;font-size:30px;letter-spacing:.05em;margin:0 0 6px;color:var(--text)}
+.eyebrow{font-family:var(--pixel);font-size:9px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.lead{max-width:64ch;color:var(--text);margin:14px 0 0}
+.sub{max-width:64ch;color:var(--muted);margin:0}
+header{display:grid;gap:10px}
+.note{border:1px solid var(--line);background:var(--glass);border-radius:14px;padding:14px 16px;max-width:72ch;color:var(--muted);font-size:14px}
+.note b{color:var(--star);font-weight:600}
+.kidcard{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.kidcard canvas{image-rendering:pixelated;flex:none}
+.kidcard div{flex:1 1 280px}
+
+.icons{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-top:22px}
+.opt{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:14px;padding:20px;border-radius:20px;background:var(--surface);border:2px solid transparent;transition:border-color .2s}
+.opt:hover{border-color:var(--line)}
+.opt:focus-visible{outline:2px solid var(--star);outline-offset:3px}
+.opt[aria-pressed="true"]{border-color:var(--star)}
+.opt .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.opt .name{font-family:var(--title);font-size:25px;letter-spacing:.04em}
+.tag{font-family:var(--pixel);font-size:8px;color:var(--bg);background:var(--muted);padding:5px 7px;border-radius:6px;white-space:nowrap}
+.tag.new{background:var(--lilac)}.tag.rec{background:var(--star)}
+.big{width:180px;height:180px;border-radius:40px;justify-self:center;box-shadow:0 10px 30px #0008}
+.desc{font-size:14px;color:var(--muted);margin:0;min-height:6.6em}
+.sizes{display:flex;align-items:flex-end;justify-content:center;gap:18px;padding-top:12px;border-top:1px solid var(--line)}
+.sizes figure{margin:0;display:grid;justify-items:center;gap:6px}
+.sizes figcaption{font-family:var(--pixel);font-size:7px;color:var(--muted);letter-spacing:.08em}
+.sizes canvas{display:block}
+
+.screens{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;margin-top:22px}
+.wall{border-radius:22px;padding:22px 18px 16px;display:grid;gap:12px}
+.wall.dark{background:linear-gradient(160deg,#20263a,#0b0e17)}
+.wall.light{background:linear-gradient(160deg,#c9d6e6,#8fa3bf)}
+.wall.tint{background:linear-gradient(160deg,#1a1712,#060504)}
+.grid4{display:grid;grid-template-columns:repeat(4,60px);justify-content:space-between;row-gap:10px}
+.app{display:grid;justify-items:center;gap:4px;font-size:10px}
+.wall.light .app{color:#1b2230}.wall.dark .app,.wall.tint .app{color:#e9edf3}
+.app span{white-space:nowrap}
+.ph{width:60px;height:60px;border-radius:14px}
+.walltitle{font-family:var(--pixel);font-size:8px;letter-spacing:.1em}
+.wall.light .walltitle{color:#2a3448}.wall.dark .walltitle,.wall.tint .walltitle{color:#c3ccd8}
+
+.phones{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:26px 22px;margin-top:22px}
+.phonecard{display:grid;gap:12px;align-content:start}
+.phone{width:220px;height:470px;justify-self:center;border-radius:36px;padding:8px;background:#05070d;box-shadow:0 0 0 2px #1a2136,0 18px 40px #000a;cursor:pointer}
+.phone canvas{width:204px;height:454px;border-radius:29px;display:block}
+.phonecard h3{font-family:var(--title);font-weight:400;font-size:24px;margin:0;letter-spacing:.04em}
+.meta{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--muted)}
+.chip.rec{border-color:var(--star);color:var(--star)}
+.chip.new{border-color:var(--lilac);color:var(--lilac)}
+.phonecard p{margin:0;font-size:14px;color:var(--muted)}
+.play{all:unset;cursor:pointer;justify-self:center;font-family:var(--pixel);font-size:9px;letter-spacing:.1em;color:var(--bg);background:var(--mint);padding:10px 16px;border-radius:999px;box-shadow:0 3px 0 #1F4A40}
+.play:focus-visible{outline:2px solid var(--star);outline-offset:3px}
+.play:active{transform:translateY(2px);box-shadow:0 1px 0 #1F4A40}
+
+.rec-list{margin:14px 0 0;padding-left:1.2em;max-width:68ch;display:grid;gap:8px}
+.rec-list b{color:var(--star);font-weight:600}
+.choose{font-size:14px;color:var(--muted);margin-top:10px}
+
+.set-wrap{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:32px;margin-top:22px;align-items:start}
+@media (max-width:780px){.set-wrap{grid-template-columns:1fr}}
+.set-col{display:grid;gap:12px;justify-items:center}
+.lang{display:flex;gap:6px;background:var(--surface);padding:4px;border-radius:999px}
+.lang button{all:unset;cursor:pointer;font-size:13px;padding:5px 12px;border-radius:999px;color:var(--muted)}
+.lang button[aria-pressed="true"]{background:var(--surface2);color:var(--star)}
+.lang button:focus-visible{outline:2px solid var(--star)}
+.setphone{width:320px;max-width:100%;border-radius:40px;padding:9px;background:#05070d;box-shadow:0 0 0 2px #1a2136,0 18px 40px #000a}
+.setscreen{position:relative;height:640px;border-radius:32px;overflow:hidden;background:#0D1221}
+#setsky{position:absolute;inset:0;width:100%;height:100%}
+.setnav{position:absolute;top:0;left:0;right:0;z-index:2;display:grid;grid-template-columns:40px 1fr 40px;align-items:center;padding:16px 12px 10px;background:linear-gradient(#0D122199 55%,#0D122100)}
+.back{width:32px;height:32px;border-radius:50%;background:#162038;display:grid;place-items:center;font-size:22px;color:var(--text);line-height:1}
+.settitle{text-align:center;font-weight:600;font-size:16px}
+.setlist{position:absolute;inset:0;overflow-y:auto;padding:64px 14px 0;z-index:1;scrollbar-width:none;display:grid;gap:18px;align-content:start}
+.setlist::-webkit-scrollbar{display:none}
+.sg{display:grid;gap:6px}
+.sgh{display:flex;gap:7px;align-items:center;padding-left:4px}
+.sgh canvas{flex:none;image-rendering:pixelated}
+.sgt{font-size:12.5px;font-weight:600;color:#8FA0B8}
+.sgs{font-size:11.5px;color:var(--muted);padding-left:4px;line-height:1.45;margin-top:-2px}
+.sgc{background:#162038e6;border-radius:15px;padding:2px 14px}
+.srow{display:flex;justify-content:space-between;align-items:center;height:44px;font-size:14px;border-bottom:1.5px solid #1F2C4A}
+.srow:last-child{border-bottom:0}
+.sval{display:flex;gap:8px;align-items:center;color:var(--star);font-size:13px;font-weight:600}
+.sval i{font-style:normal;width:22px;height:22px;border-radius:50%;background:#1F2C4A;display:grid;place-items:center;color:var(--muted);font-size:13px}
+.sval span{min-width:62px;text-align:center}
+.tog{width:40px;height:24px;border-radius:12px;background:#A8E0C8;position:relative}
+.tog::after{content:"";position:absolute;right:3px;top:3px;width:18px;height:18px;border-radius:50%;background:#D2DEE6}
+.chev{color:var(--muted)}
+.setfoot{display:grid;justify-items:center;gap:8px;padding:6px 0 28px}
+.setfoot canvas{image-rendering:pixelated}
+.setfoot p{margin:0;font-size:13px;color:#A9B6C6;letter-spacing:.04em;text-align:center}
+.pick{display:grid;gap:8px;margin-bottom:20px}
+.pk{all:unset;box-sizing:border-box;cursor:pointer;display:grid;gap:3px;padding:10px 14px;border-radius:12px;background:var(--surface);border:2px solid transparent}
+.pk[aria-pressed="true"]{border-color:var(--star)}
+.pk:focus-visible{outline:2px solid var(--star);outline-offset:2px}
+.pk .n{font-family:var(--pixel);font-size:8px;color:var(--star);letter-spacing:.08em}
+.pk .zh{font-size:15px;color:var(--text)}.pk .lt{font-size:13px;color:var(--muted)}
+.pk .sample{font-size:22px;color:var(--text);line-height:1.3}.pk .sample-lt{font-size:19px;color:#A9B6C6}
+.fontnote{font-size:13px;color:var(--muted);margin:0 0 8px}
+.setfoot p{white-space:pre-line;line-height:1.5}
+.set-notes h3{font-family:var(--title);font-weight:400;font-size:22px;margin:0 0 8px;letter-spacing:.04em}
+.set-notes ul{margin:0 0 22px;padding-left:1.1em;display:grid;gap:8px;color:var(--muted);font-size:14px}
+.set-notes b{color:var(--text);font-weight:600}
+.copytable{display:grid;gap:10px}
+.cp{background:var(--surface);border-radius:12px;padding:10px 14px;display:grid;gap:2px;font-size:13px}
+.cp .k{font-family:var(--pixel);font-size:8px;color:var(--star);letter-spacing:.08em;margin-bottom:4px}
+.cp .zh{color:var(--text)}.cp .en,.cp .es{color:var(--muted)}
+@media (max-width:420px){.grid4{grid-template-columns:repeat(4,52px)}.ph{width:52px;height:52px;border-radius:12px}}
+</style>
+<style>.mo-banner{all:initial;display:block;box-sizing:border-box;margin:0;padding:14px 16px;background:#162038;border-bottom:1px solid #24314F;color:#D2DEE6;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif}.mo-banner *{box-sizing:border-box;font:inherit;color:inherit;margin:0;padding:0}.mo-banner .mo-in{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px}.mo-banner a{color:#F1D48C;text-decoration:none}.mo-banner a:hover{text-decoration:underline}.mo-banner .mo-k{font-size:12px;letter-spacing:.08em;color:#6F819A}.mo-banner strong{font-weight:600;color:#F4EACB}.mo-banner p{color:#AFBDCB}</style>
+<aside class="mo-banner" aria-label="说明 · Note"><div class="mo-in"><span class="mo-k"><a href="../">← 幕后 · Behind Nighty</a> · 原稿存档 · Archived draft</span><strong>图标、开场与设置页 · App icon, opening scene and settings</strong><p>当时要定：App 图标、启动时的开场小动画、设置页的点缀。结果：图标 E「卡带里的小孩」，开场④「收好最后一个玩具」，两者是同一条故事线；设置页加夜空和页尾一句晚安。</p><p>The question: the app icon, a short opening scene, and some decoration for the settings page. Outcome: icon E (a kid inside a cartridge) and opening ④ (putting away the last toy), which tell one story; the settings page got a night sky and a goodnight line at the bottom.</p></div></aside>
+
+
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Bedtime Games · App Icon + Opening + Settings · Draft 4</span>
+    <h1>晚安游戏机 · 图标与开场</h1>
+    <p class="lead">第三版。图标和开场已定：<b style="color:var(--star)">E「卡带里的小孩」+ ④「收好最后一个玩具」</b>，上面三节留作记录。最后一节是设置页：背景加些小元素，分组旁白都已删掉，只在页尾留一句晚安。</p>
+    <div class="note kidcard"><canvas id="kidPortrait" width="96" height="96" style="width:96px;height:96px"></canvas>
+      <div><b>主角：戴睡帽的小孩。</b>App 里本来就有他：推箱子里他在收玩具，迷宫里是他提着灯走夜路。淡紫睡帽顶着一颗金色绒球，穿蓝色睡衣，脸上有两团红晕。他身上的颜色刚好取自六款游戏的卡带色，所以不用另外设计角色，拿他当吉祥物也不会和游戏里的形象对不上。</div></div>
+  </header>
+
+  <section>
+    <span class="eyebrow">01 · 图标方向</span>
+    <h2>选一个图标</h2>
+    <p class="sub">点选一个，下面的主屏预览和「月亮升起」会换成它。大图是 1024 原图按 iOS 圆角遮罩缩小后的样子；下排按 60pt、29pt、20pt 的实际像素显示。</p>
+    <div class="icons" id="icons"></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">02 · 放在主屏上</span>
+    <h2>和别的 App 摆在一起</h2>
+    <p class="sub">深色壁纸、浅色壁纸，还有 iOS 18 起的「染色」模式（系统把图标转成单色再上色）。</p>
+    <div class="screens" id="screens"></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">03 · 开场动画</span>
+    <h2>小孩当主角的开场</h2>
+    <p class="sub">每部手机都从静态启动屏开始（系统显示，App 还没跑起来），第一帧就是启动屏那张图，所以接上时没有跳变。页面会自动循环，点手机或按钮可以重播。</p>
+    <div class="phones" id="phones"></div>
+  </section>
+
+  <section>
+    <span class="eyebrow">04 · 已定</span>
+    <h2>E + ④，一条故事线</h2>
+    <ol class="rec-list">
+      <li><b>图标</b>：E「卡带里的小孩」。</li>
+      <li><b>开场</b>：④「收好最后一个玩具」。他把最后一个箱子推上星星，星光升空变成月亮，然后进首页。每晚第一次打开播完整版（约 2.4 秒），同一晚再打开只播 0.6 秒短版；点一下屏幕就跳过；开启「减弱动态效果」时直接进首页。</li>
+      <li><b>启动屏</b>：底色改成月光深蓝，画面就是开场的第一帧（地板、小孩、箱子、星星），系统启动屏和 App 之间没有跳变。</li>
+      <li><b>设置页接着讲这个故事</b>：开场里他刚把玩具收好；到了设置页最底下，他已经靠着收好的箱子睡着了，旁边一句晚安。</li>
+    </ol>
+  </section>
+
+  <section>
+    <span class="eyebrow">05 · 设置页</span>
+    <h2>设置页：夜空和页尾的一句晚安</h2>
+    <p class="sub">分组旁白已经删掉，文字只保留页尾这一句。左边的设置页已经滚到了最底下，可以往上滚看全页；右边选文案和字体，左边会跟着变，三种语言都能看。</p>
+    <div class="set-wrap">
+      <div class="set-col">
+        <div class="lang" role="group" aria-label="文案语言">
+          <button type="button" data-lang="zh" aria-pressed="true">中文</button>
+          <button type="button" data-lang="en" aria-pressed="false">English</button>
+          <button type="button" data-lang="es" aria-pressed="false">Español</button>
+        </div>
+        <div class="setphone"><div class="setscreen" id="setscreen">
+          <canvas id="setsky" aria-hidden="true"></canvas>
+          <div class="setnav"><span class="back">‹</span><span class="settitle" data-k="title"></span><span></span></div>
+          <div class="setlist" id="setlist"></div>
+        </div></div>
+      </div>
+      <div class="set-notes">
+        <h3>背景里多了什么</h3>
+        <ul>
+          <li><b>星星</b>：十几颗像素星固定在背景上，列表滚动时不跟着动，像隔着窗看夜空。每颗按自己的节奏慢慢闪，最快一次约 3 秒，不会抢注意力。</li>
+          <li><b>月亮</b>：右上角露出半个像素月牙，就在标题栏后面，带一圈很淡的光晕。和首页、开场是同一个月亮。</li>
+          <li><b>分组小图标</b>：每个分组标题前加一个 9×9 的像素小图标：闹钟、星星、卡带、铃铛、信封。</li>
+          <li><b>页尾小场景</b>：滚到最底下，推箱子的地板上，小孩靠着一个已经收好的薄荷色箱子睡着了，头顶慢慢飘出 z，下面是一句晚安。</li>
+          <li><b>跟着主题走</b>：这些元素都用场景配色画。切到琥珀、豆绿、墨水屏这些单色主题时，会自动换成对应的单色，不用单独适配。开启「减弱动态效果」时，星星不闪，z 也不飘。</li>
+        </ul>
+        <h3>页尾文案</h3>
+        <div class="pick" id="copyPick"></div>
+        <h3>页尾字体</h3>
+        <div class="pick" id="fontPick"></div>
+        <p class="fontnote">三款都是 SIL 开源字体，可以免费打包进 App。只打包这一句用到的字（三种语言加起来几十个字），体积只有几十 KB。中文和拉丁字母各配一款气质相近的字体：中文字体里的西文字母不全，西班牙语的重音字母可能缺字。</p>
+      </div>
+    </div>
+    <p class="choose">回复一个组合就行，比如「文案 1 + 小薇」。也可以说想怎么改。选定后我把图标、开场、设置页三件事写进同一份规格，然后开工。</p>
+  </section>
+</div>
+
+<script>
+(() => {
+const C = {
+  bg:"#0D1221", glass:"#0A1122", surface:"#162038", surface2:"#1F2C4A", line:"#24314F",
+  brick:"#2A3960", brickLight:"#3A4C7C", mortar:"#141C34", shadow:"#070A13",
+  floor:"#121A2E", floorAlt:"#141D33", floorSeam:"#0E1528", floorNail:"#1D2844",
+  star:"#F1D48C", moonLight:"#F4EACB", moon:"#EDE3C0", crater:"#C9BC92", text:"#D2DEE6", muted:"#6F819A", mint:"#A8E0C8",
+};
+const CARTS = [["#A8E0C8","#1F4A40"],["#B3A6E6","#3A3468"],["#E8B48C","#5A3A26"],["#8EC3EA","#223F5E"],["#F1D48C","#5A4A22"],["#E3A0AE","#5A2C38"]];
+// ---- App 里的原版精灵（SpriteLibrary.kid / crate / crateOnGoal，逐字照搬） ----
+const KID = ["....cccc....","...cccccc...","..ccccccccp.","..hhhhhhhh..","..ffffffff..","..fkkffkkf..","..frffffrf..","...ffffff...","..bbbbbbbb..",".bbbwbbbwbb.",".bbbbbbbbbb.","..dd....dd.."];
+const KID_SLEEP = KID.map((r,i)=> i===5 ? "..fllffllf.." : r);   // 闭眼：眼睛换成浅一档的眼睑线
+const KID_YAWN = KID.map((r,i)=> i===7 ? "...ffkkfff.." : r);
+const KIDPAL = {l:"#B88E7A",c:"#B3A6E6",h:"#D8D0F0",p:"#F1D48C",f:"#E6C3A5",k:"#2A2238",r:"#E3A0AE",b:"#8EC3EA",w:"#D6ECFA",d:"#4D5E8E"};
+const CRATE = ["oooooooooooo","ohhhhhhhhhho","ohwwwwwwwwso","ohxwwwwwwxso","ohwxwwwwxwso","ohwwxwwxwwso","ohwwwxxwwwso","ohwwxwwxwwso","ohwxwwwwxwso","ohxwwwwwwxso","ohssssssssso","oooooooooooo"];
+const CRATEPAL = {o:"#3E2818",h:"#E0B07A",w:"#C08A58",x:"#7A5234",s:"#8E6440"};
+const CRATEGOAL = {o:"#173C34",h:"#CDEFE0",w:"#8FD6BA",x:"#3F8A72",s:"#5FA88E"};
+const N = 32;
+
+function hexA(hex, a){ const n=parseInt(hex.slice(1),16); return `rgba(${n>>16},${n>>8&255},${n&255},${a})`; }
+function sprite(g, rows, pal, x, y, px, alpha=1){
+  g.save(); g.globalAlpha*=alpha;
+  rows.forEach((row,r)=>{ [...row].forEach((ch,c)=>{ const col=pal[ch]; if(!col) return; g.fillStyle=col; g.fillRect(Math.round(x+c*px),Math.round(y+r*px),Math.ceil(px),Math.ceil(px)); }); });
+  g.restore();
+}
+
+// ---------- 图标像素画：32×32 格 ----------
+const SKY=["#0A1122","#0B1325","#0C1628","#0E192D","#101C32"];
+function skyCells(out){ for(let y=0;y<N;y++) for(let x=0;x<N;x++) out.push({x,y,c:SKY[Math.min(4,Math.floor(y/6.5))],sky:1}); }
+function starsCells(out, list){
+  for(const [x,y,big,a] of list){ out.push({x,y,c:C.star,a:a??0.85}); if(big) for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]) out.push({x:x+dx,y:y+dy,c:C.star,a:0.35}); }
+}
+function crescent(out, cx, cy, r, ox, oy, r2){
+  for(let y=0;y<N;y++) for(let x=0;x<N;x++){
+    const d=Math.hypot(x+.5-cx,y+.5-cy), d2=Math.hypot(x+.5-ox,y+.5-oy);
+    if(d<=r && d2>r2) out.push({x,y,c:(x+y < cx+cy+r*0.2)?C.moonLight:C.moon});
+  }
+}
+function spriteCells(out, rows, pal, x0, y0, scale=1){
+  rows.forEach((row,r)=>[...row].forEach((ch,c)=>{ const col=pal[ch]; if(!col) return;
+    for(let dy=0;dy<scale;dy++) for(let dx=0;dx<scale;dx++) out.push({x:x0+c*scale+dx,y:y0+r*scale+dy,c:col}); }));
+}
+function cartridgeCells(o, windowContent){
+  for(let y=6;y<=29;y++) o.push({x:25,y,c:C.shadow,a:.8});
+  for(let x=8;x<=25;x++) o.push({x,y:29,c:C.shadow,a:.8});
+  for(let y=3;y<=28;y++) for(let x=7;x<=24;x++){
+    if(x>=23&&y<=4) continue;
+    let c=C.surface2; if(x===7||y===3) c=C.brickLight; else if(x===24||y===28||(x===22&&y===4)) c=C.mortar;
+    o.push({x,y,c});
+  }
+  for(let y=5;y<=18;y++) for(let x=9;x<=22;x++) o.push({x,y,c:(x===9||x===22||y===5||y===18)?C.line:C.glass});
+  windowContent(o);
+  CARTS.forEach(([m],i)=>{ for(let x=10+i*2;x<12+i*2;x++) for(let y=20;y<=21;y++) o.push({x,y,c:m}); });
+  for(let x=10;x<=21;x+=2) for(let y=23;y<=26;y++) o.push({x,y,c:C.mortar});
+}
+const ICONS = {
+  A:{ name:"A · 卡带", tag:["上一版",""], desc:"上一版里你看中的方向：一盘像素卡带，标签窗里是月牙和星星，下面一条六色标签。和首页轮播是同一个物件。缩到 29pt 以下时，月牙会糊成一个亮点。",
+    cells(){ const o=[]; skyCells(o); starsCells(o,[[4,4,1],[28,7,0,.6],[27,26,1],[3,21,0,.5]]);
+      cartridgeCells(o, w=>{ const m=[]; crescent(m,15.2,11.9,4.3,17.4,10.5,3.7); w.push(...m.filter(p=>p.x>9&&p.x<22&&p.y>5&&p.y<18)); w.push({x:20,y:8,c:C.star},{x:11,y:16,c:C.star,a:.6},{x:20,y:16,c:C.star,a:.8}); });
+      return o; } },
+  E:{ name:"E · 卡带里的小孩", tag:["推荐","rec"], desc:"卡带外形不变，标签窗里换成戴睡帽的小孩，1:1 用 App 里的原版精灵，窗后衬两颗星。像他住在卡带里，每晚被你插进掌机里叫醒。",
+    cells(){ const o=[]; skyCells(o); starsCells(o,[[4,4,1],[28,7,0,.6],[27,26,1],[3,21,0,.5]]);
+      cartridgeCells(o, w=>{ w.push({x:11,y:7,c:C.star,a:.7},{x:20,y:15,c:C.star,a:.45}); spriteCells(w,KID,KIDPAL,10,6); });
+      return o; } },
+  D:{ name:"D · 睡帽小孩", tag:["新","new"], desc:"只有他：两倍大站在推箱子的地板上，头顶挂一弯小月牙。整张图主体最大，20pt 下还能看出睡帽和红脸蛋，但卡带和「合集」的意思没了。",
+    cells(){ const o=[]; skyCells(o); starsCells(o,[[26,5,1],[29,12,0,.6],[3,13,0,.55],[24,17,0,.45]]);
+      crescent(o,5.2,5.2,3.3,6.9,3.9,2.8);
+      for(let x=0;x<N;x++) for(let y=30;y<N;y++){ o.push({x,y,c:((Math.floor(x/4))%2)?C.brick:C.brickLight}); if(y===30) o.push({x,y,c:C.mortar}); }
+      spriteCells(o,KID,KIDPAL,4,6,2);
+      return o; } },
+};
+
+function paint(ctx, size, key, {noSky=false}={}){
+  const u=size/N; ctx.clearRect(0,0,size,size);
+  for(const p of ICONS[key].cells()){
+    if(noSky && p.sky) continue;
+    ctx.fillStyle = p.a!==undefined ? hexA(p.c,p.a) : p.c;
+    ctx.fillRect(Math.floor(p.x*u), Math.floor(p.y*u), Math.ceil(u)+0.5, Math.ceil(u)+0.5);
+  }
+}
+function iconCanvas(key, css, radius){
+  const dpr=Math.min(3,window.devicePixelRatio||1), px=Math.round(css*dpr);
+  const cv=document.createElement("canvas"); cv.width=cv.height=px; cv.style.width=cv.style.height=css+"px";
+  cv.style.borderRadius=(radius ?? css*0.2237)+"px"; paint(cv.getContext("2d"),px,key); return cv;
+}
+function tinted(key, css){
+  const cv=iconCanvas(key,css); const g=cv.getContext("2d"); const im=g.getImageData(0,0,cv.width,cv.height); const t=[241,212,140];
+  for(let i=0;i<im.data.length;i+=4){ const l=(0.3*im.data[i]+0.59*im.data[i+1]+0.11*im.data[i+2])/255; im.data[i]=t[0]*l; im.data[i+1]=t[1]*l; im.data[i+2]=t[2]*l; }
+  g.putImageData(im,0,0); return cv;
+}
+
+// 头部角色小像
+{ const cv=document.getElementById("kidPortrait"); const g=cv.getContext("2d"); g.fillStyle=C.glass; g.fillRect(0,0,96,96); sprite(g,KID,KIDPAL,12,12,6); }
+
+let chosen="E";
+try{ const s=localStorage.getItem("bg-icon-choice-v2"); if(s&&ICONS[s]) chosen=s; }catch(e){}
+
+const iconsEl=document.getElementById("icons");
+for(const key of ["A","E","D"]){
+  const d=ICONS[key]; const b=document.createElement("button"); b.className="opt"; b.dataset.key=key;
+  b.innerHTML=`<div class="top"><span class="name">${d.name}</span><span class="tag ${d.tag[1]}">${d.tag[0]}</span></div>`;
+  const big=iconCanvas(key,180,40); big.className="big"; b.append(big);
+  const p=document.createElement("p"); p.className="desc"; p.textContent=d.desc; b.append(p);
+  const row=document.createElement("div"); row.className="sizes";
+  for(const s of [60,29,20]){ const f=document.createElement("figure"); f.append(iconCanvas(key,s)); const cap=document.createElement("figcaption"); cap.textContent=s+"PT"; f.append(cap); row.append(f); }
+  b.append(row); b.addEventListener("click",()=>select(key)); iconsEl.append(b);
+}
+
+const screensEl=document.getElementById("screens");
+const fillers=[["#3a7bd5","#00d2ff"],["#f7971e","#ffd200"],["#8e2de2","#4a00e0"],["#11998e","#38ef7d"],["#ee0979","#ff6a00"],["#636363","#a2ab58"],["#2c3e50","#4ca1af"]];
+const names=["天气","备忘录","相机","健康","音乐","计算器","地图"];
+function renderScreens(){
+  screensEl.innerHTML="";
+  for(const [cls,label] of [["dark","深色壁纸"],["light","浅色壁纸"],["tint","染色模式"]]){
+    const w=document.createElement("div"); w.className="wall "+cls; w.innerHTML=`<span class="walltitle">${label}</span>`;
+    const g=document.createElement("div"); g.className="grid4";
+    for(let i=0;i<8;i++){
+      const a=document.createElement("div"); a.className="app";
+      if(i===5){ const cv=cls==="tint"?tinted(chosen,60):iconCanvas(chosen,60); cv.className="ph"; a.append(cv); a.insertAdjacentHTML("beforeend","<span>晚安游戏机</span>"); }
+      else { const j=i<5?i:i-1; const ph=document.createElement("div"); ph.className="ph"; const [c1,c2]=fillers[j];
+        ph.style.background=cls==="tint"?`linear-gradient(160deg,#6b5a37,#2a2215)`:`linear-gradient(160deg,${c1},${c2})`;
+        a.append(ph); a.insertAdjacentHTML("beforeend",`<span>${names[j]}</span>`); }
+      g.append(a);
+    }
+    w.append(g); screensEl.append(w);
+  }
+}
+
+// ---------- 开场动画 ----------
+const W=204, H=454;
+const ease=t=>1-Math.pow(1-t,3), inOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2, clamp=t=>Math.max(0,Math.min(1,t));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const homeStars=[[26,58,1],[178,40,1],[160,120,0],[20,150,0],[186,210,0],[40,300,0],[170,330,1],[100,24,0]];
+function rr(g,x,y,w,h,r,fill,stroke){ g.beginPath(); g.roundRect(x,y,w,h,r); if(fill){g.fillStyle=fill;g.fill();} if(stroke){g.strokeStyle=stroke;g.lineWidth=2;g.stroke();} }
+function bgFill(g){ g.fillStyle=C.bg; g.fillRect(0,0,W,H); }
+function moonDisc(g,cx,cy,r,alpha=1,crescentCut=true){
+  g.save(); g.globalAlpha*=alpha;
+  const grd=g.createRadialGradient(cx,cy,r*.6,cx,cy,r*2.2); grd.addColorStop(0,hexA(C.star,.25)); grd.addColorStop(1,hexA(C.star,0));
+  g.fillStyle=grd; g.beginPath(); g.arc(cx,cy,r*2.2,0,Math.PI*2); g.fill();
+  const off=document.createElement("canvas"); const S=Math.ceil(r*2+4); off.width=off.height=S; const o=off.getContext("2d");
+  o.fillStyle=C.moonLight; o.beginPath(); o.arc(S/2,S/2,r,0,Math.PI*2); o.fill();
+  if(crescentCut){ o.globalCompositeOperation="destination-out"; o.beginPath(); o.arc(S/2+r*.5,S/2-r*.35,r*.85,0,Math.PI*2); o.fill(); }
+  g.imageSmoothingEnabled=false; g.drawImage(off,cx-S/2,cy-S/2); g.restore();
+}
+// 首页上的卡带：几何与首页一致（x34 y140 w136），窗内容可换
+const HOMECART={x:34,y:140,w:136};
+function drawCart(g,x,y,w,content){
+  const s=w/136;
+  rr(g,x,y,w,176*s,16*s,C.surface);
+  rr(g,x+12*s,y+12*s,112*s,112*s,10*s,C.glass,C.line);
+  if(content) content(g,x+12*s,y+12*s,112*s);
+  for(let i=0;i<6;i++){ g.fillStyle=CARTS[i][0]; g.fillRect(x+18*s+i*17*s,y+136*s,15*s,6*s); }
+  for(let i=0;i<9;i++){ g.fillStyle=C.mortar; g.fillRect(x+18*s+i*12*s,y+152*s,6*s,14*s); }
+}
+const moonWindow=(g,x,y,w)=>{ moonDisc(g,x+w*.46,y+w*.45,w*.16,1); g.fillStyle=C.star; g.fillRect(x+w*.77,y+w*.18,3,3); g.fillRect(x+w*.16,y+w*.77,2,2); };
+const kidWindow=(sleep)=>(g,x,y,w)=>{ g.fillStyle=hexA(C.star,.7); g.fillRect(x+w*.14,y+w*.14,3,3); g.fillRect(x+w*.82,y+w*.72,2,2); const px=w*.72/12; sprite(g,sleep?KID_SLEEP:KID,KIDPAL,x+w*.14,y+w*.16,px); };
+function drawHome(g,{alpha=1,rise=0,starsA=1,cart=true,cartContent=moonWindow}={}){
+  g.save(); g.globalAlpha=alpha;
+  for(const [x,y,b] of homeStars){ g.fillStyle=hexA(C.star,(b?.8:.5)*starsA); g.fillRect(x,y,b?3:2,b?3:2); }
+  g.translate(0,rise);
+  g.fillStyle=C.text; g.textAlign="center"; g.font="30px 'ZCOOL QingKe HuangYou','PingFang SC',sans-serif"; g.fillText("晚安游戏机",W/2,92);
+  g.fillStyle=C.muted; g.font="6px 'Press Start 2P',monospace"; g.fillText("SLEEPY · 6 CARTS",W/2,110);
+  rr(g,-50,168,62,150,12,C.surface); rr(g,W-12,168,62,150,12,C.surface);
+  if(cart) drawCart(g,HOMECART.x,HOMECART.y,HOMECART.w,cartContent);
+  g.fillStyle=C.text; g.font="22px 'ZCOOL QingKe HuangYou','PingFang SC',sans-serif"; g.fillText("推箱子",W/2,352);
+  g.fillStyle=C.muted; g.font="11px -apple-system,'PingFang SC',sans-serif"; g.fillText("第 9 关",W/2,370);
+  rr(g,52,388,100,34,17,"#8C9AAE"); g.fillStyle=C.bg; g.font="15px 'ZCOOL QingKe HuangYou',sans-serif"; g.fillText("开 始",W/2,410);
+  for(let i=0;i<8;i++){ g.fillStyle=i<5?"#3A4C7C":C.line; g.fillRect(34+i*18,438,14,4); }
+  g.restore();
+}
+function floorStrip(g,y,alpha=1){
+  g.save(); g.globalAlpha*=alpha;
+  for(let x=0;x<W;x+=34){ g.fillStyle=(x/34)%2?C.floorAlt:C.floor; g.fillRect(x,y,34,34); g.fillStyle=C.floorSeam; g.fillRect(x,y,34,2); g.fillStyle=C.floorNail; g.fillRect(x+27,y+17,2,2); }
+  const grd=g.createLinearGradient(0,y+20,0,y+70); grd.addColorStop(0,hexA(C.bg,0)); grd.addColorStop(1,C.bg); g.fillStyle=grd; g.fillRect(0,y+10,W,60);
+  g.restore();
+}
+function starMark(g,cx,cy,u,alpha){
+  g.save(); g.globalAlpha*=alpha;
+  const grd=g.createRadialGradient(cx,cy,1,cx,cy,u*7); grd.addColorStop(0,hexA(C.star,.35)); grd.addColorStop(1,hexA(C.star,0)); g.fillStyle=grd; g.fillRect(cx-u*7,cy-u*7,u*14,u*14);
+  for(let yy=-4;yy<=4;yy++) for(let xx=-4;xx<=4;xx++){ const ax=Math.abs(xx),ay=Math.abs(yy); if(!((ax===0&&ay<=4)||(ay===0&&ax<=4)||(ax+ay<=2))) continue; g.fillStyle=hexA(C.star,ax+ay<=1?.9:.7); g.fillRect(cx+(xx-.5)*u,cy+(yy-.5)*u,u,u); }
+  g.restore();
+}
+function lantern(g,x,y,px,glow){
+  const grd=g.createRadialGradient(x+px*2,y+px*3,2,x+px*2,y+px*3,glow); grd.addColorStop(0,hexA(C.star,.34)); grd.addColorStop(.55,hexA(C.star,.1)); grd.addColorStop(1,hexA(C.star,0));
+  g.fillStyle=grd; g.fillRect(x-glow,y-glow,glow*2+px*4,glow*2+px*6);
+  const L=[".dd.","d..d","dddd","dppd","dppd","dddd"]; sprite(g,L,{d:"#4D5E8E",p:"#F1D48C"},x,y,px);
+}
+const skyStars=[[30,90],[70,60],[120,110],[168,70],[186,150],[18,190],[60,150],[150,190],[100,40],[140,240],[40,250],[176,260],[90,200]];
+
+const SCENES = [
+  { title:"月亮升起", chips:[["上一版",0],["约 0.8 秒",0]], total:1.6,
+    text:"上一版的方案：启动屏正中是图标主体，App 接手后它上移、缩小、淡进夜空，首页从下方浮上来。放在这里做对比，图标换成什么它就用什么。",
+    draw(g,t,m){ bgFill(g); const k=ease(seg(t,.35,.9)); const s0=120,s1=44,s=s0+(s1-s0)*k;
+      g.globalAlpha=1-seg(t,.7,1); g.imageSmoothingEnabled=false; g.drawImage(m,W/2-s/2,(H/2-s0/2)+(28-(H/2-s0/2))*k,s,s); g.globalAlpha=1;
+      const h=ease(seg(t,.5,.9)); if(h>0) drawHome(g,{alpha:h,rise:(1-h)*18,starsA:seg(t,.8,1.15),cartContent:chosen==="A"?moonWindow:kidWindow(false)}); } },
+  { title:"④ 收好最后一个玩具", chips:[["约 2.4 秒",0],["新",1],["故事最完整",0]], total:2.9,
+    text:"推箱子的地板上，小孩把最后一个玩具箱推上星星。箱子一到位就变成薄荷色、亮起来，星星的光升上天空变成月亮，四周的星星一颗颗亮起。玩具收好了，可以睡了。",
+    draw(g,t){ bgFill(g); const fy=330, px=3, S=36;
+      const push=inOut(seg(t,.35,1.15)), step=Math.abs(Math.sin(push*Math.PI*3))*3;
+      const kidX=12+54*push, crateX=48+54*push, onGoal=t>=1.15;
+      const fade=1-seg(t,1.95,2.45);
+      g.save(); g.globalAlpha=fade;
+      floorStrip(g,fy);
+      const lift=ease(seg(t,1.2,1.95));
+      if(!onGoal) starMark(g,120,fy-S/2,3,1);
+      // 星光升起成月亮
+      if(onGoal){ const cx=120+(150-120)*lift, cy=(fy-S/2)+(120-(fy-S/2))*lift, r=4+14*lift; moonDisc(g,cx,cy,r,1,lift>.5); }
+      skyStars.forEach(([x,y],i)=>{ const a=seg(t,1.3+i*.045,1.45+i*.045); if(a>0){ g.fillStyle=hexA(C.star,.75*a); g.fillRect(x,y,i%3?2:3,i%3?2:3);} });
+      if(onGoal){ const b=1-seg(t,1.15,1.6); if(b>0){ const grd=g.createRadialGradient(crateX+S/2,fy-S/2,4,crateX+S/2,fy-S/2,70); grd.addColorStop(0,hexA(C.mint,.5*b)); grd.addColorStop(1,hexA(C.mint,0)); g.fillStyle=grd; g.fillRect(crateX-60,fy-S/2-70,S+120,140);} }
+      sprite(g,CRATE,onGoal?CRATEGOAL:CRATEPAL,crateX,fy-S,px);
+      const hop=t>1.75&&t<2.05? Math.sin(seg(t,1.75,2.05)*Math.PI)*8:0;
+      sprite(g,KID,KIDPAL,kidX,fy-S-(push<1?step:0)-hop,px);
+      g.restore();
+      const h=ease(seg(t,2.05,2.6)); if(h>0) drawHome(g,{alpha:h,rise:(1-h)*18,cartContent:kidWindow(false)}); } },
+  { title:"⑤ 提灯夜行", chips:[["约 2.4 秒",0],["新",1],["意境最足",2]], total:2.9,
+    text:"一片漆黑里只有一盏小灯。小孩提着灯从左边走进来，灯照到哪儿，哪儿的星星就亮起。他在正中停下，把灯高高举起，灯光飘上去变成月亮，首页随之亮起。",
+    draw(g,t){ g.fillStyle="#070B16"; g.fillRect(0,0,W,H); const fy=320, px=3, S=36;
+      const walk=inOut(seg(t,.35,1.3)); const kidX=-6+90*walk; const bob=walk<1?Math.abs(Math.sin(walk*Math.PI*4))*3:0;
+      const raise=ease(seg(t,1.35,1.65)); const release=ease(seg(t,1.65,2.15));
+      const fade=1-seg(t,2.0,2.5);
+      g.save(); g.globalAlpha=fade;
+      const lx=kidX+S-2, ly=fy-22-raise*34;
+      // 被灯照过的星星保持点亮
+      skyStars.forEach(([x,y],i)=>{ const litAt=clamp((x+10)/100)*0.95+0.35; const a=seg(t,litAt,litAt+.2); if(a>0){ g.fillStyle=hexA(C.star,.8*a); g.fillRect(x,y,i%3?2:3,i%3?2:3);} });
+      // 地面只在灯下看得见
+      g.save(); const clip=g.createRadialGradient(lx+6,fy,4,lx+6,fy,90); clip.addColorStop(0,"rgba(0,0,0,1)"); clip.addColorStop(1,"rgba(0,0,0,0)");
+      const off=document.createElement("canvas"); off.width=W; off.height=H; const o=off.getContext("2d"); floorStrip(o,fy); o.globalCompositeOperation="destination-in"; o.fillStyle=clip; o.fillRect(0,0,W,H); g.drawImage(off,0,0); g.restore();
+      sprite(g,KID,KIDPAL,kidX,fy-S-bob,px);
+      if(release<1){ lantern(g,lx,ly-bob,3,70*(1-release*.6)); }
+      if(release>0){ const cx=lx+6+(W/2+30-(lx+6))*release, cy=ly+(118-ly)*release; moonDisc(g,cx,cy,4+14*release,1,release>.55); }
+      g.restore();
+      const h=ease(seg(t,2.15,2.7)); if(h>0) drawHome(g,{alpha:h,rise:(1-h)*18,cartContent:kidWindow(false)}); } },
+  { title:"⑥ 钻进卡带", chips:[["约 2.2 秒",0],["新",1],["配 E 图标",0]], total:2.8,
+    text:"小孩站在一盘空卡带旁边，打个哈欠，一跃钻进标签窗，像钻进被窝。窗里他闭上眼，飘出两个 z，卡带缩回首页的位置。那张卡带窗里，他一直睡着。",
+    draw(g,t){ bgFill(g); const fy=340, S=36;
+      const bigCart={x:52,y:150,w:100};
+      const shrink=inOut(seg(t,1.55,2.1));
+      const cx=bigCart.x+(HOMECART.x-bigCart.x)*shrink, cy=bigCart.y+(HOMECART.y-bigCart.y)*shrink, cw=bigCart.w+(HOMECART.w-bigCart.w)*shrink;
+      const hopK=seg(t,.7,1.15); const inside=t>=1.15;
+      const h=ease(seg(t,1.6,2.2));
+      if(h>0) drawHome(g,{alpha:h,rise:0,cart:false});
+      drawCart(g,cx,cy,cw,(gg,x,y,w)=>{ if(inside){ kidWindow(t>1.3)(gg,x,y,w); } else { gg.fillStyle=hexA(C.star,.7); gg.fillRect(x+w*.14,y+w*.14,3,3); gg.fillRect(x+w*.82,y+w*.72,2,2);} });
+      if(inside && t<2.3){ const zs=seg(t,1.3,2.2); g.fillStyle=hexA(C.text,1-zs); g.font="10px 'Press Start 2P',monospace"; g.textAlign="left"; g.fillText("z",cx+cw*.78,cy+cw*.35-zs*26); g.font="7px 'Press Start 2P',monospace"; g.fillText("z",cx+cw*.88,cy+cw*.2-zs*20); }
+      if(!inside){
+        g.save(); floorStrip(g,fy,1-hopK);
+        const wx=bigCart.x+12*bigCart.w/136, wy=bigCart.y+12*bigCart.w/136, ww=112*bigCart.w/136;
+        const s0=3, s1=ww*.72/12, sc=s0+(s1-s0)*ease(hopK);
+        const x0=150, y0=fy-S;
+        const tx=wx+ww*.14, ty=wy+ww*.16;
+        const kx=x0+(tx-x0)*hopK, ky=y0+(ty-y0)*hopK - Math.sin(hopK*Math.PI)*70;
+        const yawn=t>.35&&t<.7; const stretch=yawn?1+Math.sin(seg(t,.35,.7)*Math.PI)*.06:1;
+        g.translate(kx,ky+S*(1-stretch)); g.scale(1,stretch);
+        sprite(g,yawn?KID_YAWN:KID,KIDPAL,0,0,sc);
+        g.restore();
+      } } },
+];
+const phonesEl=document.getElementById("phones");
+const players=[];
+SCENES.forEach((sc,i)=>{
+  const card=document.createElement("div"); card.className="phonecard";
+  const ph=document.createElement("div"); ph.className="phone"; ph.title="点一下重播";
+  const cv=document.createElement("canvas"); const dpr=Math.min(3,window.devicePixelRatio||1); cv.width=W*dpr; cv.height=H*dpr; ph.append(cv);
+  const g=cv.getContext("2d"); g.scale(dpr,dpr);
+  const btn=document.createElement("button"); btn.className="play"; btn.textContent="▶ 重播";
+  card.append(ph);
+  card.insertAdjacentHTML("beforeend",`<h3>${sc.title}</h3><div class="meta">${sc.chips.map(([c,r])=>`<span class="chip${r===2?" rec":r===1?" new":""}">${c}</span>`).join("")}</div><p>${sc.text}</p>`);
+  card.append(btn); phonesEl.append(card);
+  const pl={g,sc,start:null,m:null};
+  pl.drawAt=t=>{ g.clearRect(0,0,W,H); g.save(); sc.draw(g,t,pl.m); g.restore(); };
+  const replay=()=>{ pl.start=performance.now(); };
+  btn.addEventListener("click",replay); ph.addEventListener("click",replay);
+  players.push(pl);
+});
+const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function refreshMotifs(){ const cv=document.createElement("canvas"); cv.width=cv.height=360; paint(cv.getContext("2d"),360,chosen,{noSky:true}); players.forEach(p=>{p.m=cv; p.drawAt(p.sc.total);}); }
+function loop(now){
+  players.forEach((p,i)=>{
+    if(p.start===null && !reduce) p.start=now+1200+i*300;
+    if(p.start===null) return;
+    const t=(now-p.start)/1000;
+    if(t<0){ p.drawAt(p.sc.total); return; }
+    if(t<=p.sc.total) p.drawAt(t);
+    else { p.drawAt(p.sc.total); if(reduce) p.start=null; else if(t>p.sc.total+2.4) p.start=now; }
+  });
+  requestAnimationFrame(loop);
+}
+function select(key){
+  chosen=key; try{localStorage.setItem("bg-icon-choice-v2",key);}catch(e){}
+  document.querySelectorAll(".opt").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.key===key)));
+  renderScreens(); refreshMotifs();
+}
+select(chosen);
+const freeze=parseFloat(new URLSearchParams(location.search).get("t"));
+(document.fonts?.ready ?? Promise.resolve()).then(()=>{ refreshMotifs(); if(!isNaN(freeze)) players.forEach(p=>p.drawAt(freeze)); else requestAnimationFrame(loop); });
+})();
+</script>
+
+<script>
+(() => {
+const STAR="#F1D48C", MOON_L="#F4EACB", MOON="#EDE3C0";
+const hexA=(hex,a)=>{const n=parseInt(hex.slice(1),16);return `rgba(${n>>16},${n>>8&255},${n&255},${a})`;};
+const T = {
+  title:{zh:"设置",en:"Settings",es:"Ajustes"},
+  groups:[
+    {icon:"clock", t:{zh:"睡前提醒",en:"Bedtime Reminder",es:"Recordatorio"},
+      s:{zh:"到了就寝时间，他会轻轻敲一敲屏幕。",en:"At bedtime, he'll tap softly on the glass.",es:"A la hora de dormir, tocará suave el cristal."},
+      rows:[["step",{zh:"提醒时长",en:"Duration",es:"Duración"},{zh:"30 分",en:"30 min",es:"30 min"}],["step",{zh:"就寝时间",en:"Bedtime",es:"Hora de dormir"},"22:00"]]},
+    {icon:"star", t:{zh:"外观",en:"Appearance",es:"Apariencia"},
+      s:{zh:"今晚的天空，换一种颜色。",en:"Pick a color for tonight's sky.",es:"Elige un color para el cielo de esta noche."},
+      rows:[["step",{zh:"主题",en:"Theme",es:"Tema"},{zh:"月光",en:"Moonlight",es:"Luz de luna"}]]},
+    {icon:"cart", t:{zh:"游戏设置",en:"Game Settings",es:"Juego"},
+      s:{zh:"手柄怎么握，迷宫里点多少灯。",en:"How you hold the controls, how much light the maze gets.",es:"Cómo sostienes los controles y cuánta luz tiene el laberinto."},
+      rows:[["step",{zh:"操作方式",en:"Control Mode",es:"Control"},{zh:"方向键",en:"Directions",es:"Cruceta"}],["step",{zh:"按键布局",en:"Controls Layout",es:"Disposición"},{zh:"靠左",en:"Left",es:"Izquierda"}],["step",{zh:"迷宫视野",en:"Maze Vision",es:"Visión"},{zh:"全图",en:"Full",es:"Completa"}]]},
+    {icon:"bell", t:{zh:"声音与震动",en:"Sound & Haptics",es:"Sonido y vibración"},
+      s:{zh:"家里有人睡了的话，关掉也没关系。",en:"If someone's already asleep, it's fine to turn these off.",es:"Si alguien ya duerme, puedes apagarlos."},
+      rows:[["tog",{zh:"音效",en:"Sound",es:"Sonido"}],["tog",{zh:"按键震动",en:"Key Haptics",es:"Vibración"}]]},
+    {icon:"mail", t:{zh:"更多",en:"More",es:"Más"},
+      s:{zh:"这台小游戏机是怎么来的。",en:"Where this little console came from.",es:"De dónde salió esta pequeña consola."},
+      rows:[["link",{zh:"关于",en:"About",es:"Acerca de"}],["link",{zh:"给我留言",en:"Write to Me",es:"Escríbeme"}]]},
+  ],
+  copies:[
+    {zh:"辛苦的一天终于结束了，\n愿你做个好梦。",en:"The long day is finally over.\nSweet dreams.",es:"Por fin terminó el largo día.\nDulces sueños."},
+    {zh:"今天辛苦了。\n晚安，好梦。",en:"You did well today.\nGood night, sweet dreams.",es:"Hoy lo hiciste bien.\nBuenas noches, dulces sueños."},
+    {zh:"把今天轻轻放下吧，\n祝你做个好梦。",en:"Set today down gently.\nSweet dreams.",es:"Deja el día con suavidad.\nDulces sueños."},
+  ],
+  fonts:[
+    {name:"站酷小薇 + Cormorant 斜体",zh:"'ZCOOL XiaoWei'",lt:"'Cormorant Garamond'",ltStyle:"italic",size:[16,17],desc:"清秀的宋体风，笔画细，像绘本里的一行字。安静、耐看，最稳妥。"},
+    {name:"龙藏体 + Caveat",zh:"'Long Cang'",lt:"'Caveat'",ltStyle:"normal",size:[19,19],desc:"手写字，像床头留的一张便条。最亲切，最有「有人对你说」的感觉。"},
+    {name:"马善政毛笔 + Dancing Script",zh:"'Ma Shan Zheng'",lt:"'Dancing Script'",ltStyle:"normal",size:[18,17],desc:"毛笔楷书，墨味重一些，更正式，也更像一句题字。"},
+  ],
+};
+const ICON={ // 9×9 像素小图标
+  clock:["..s...s..","...sss...","..s...s..",".s..s..s.",".s..ss.s.",".s.....s.","..s...s..","...sss...",".s.....s."],
+  star:["....s....","....s....","...sss...","sssssssss",".sssssss.","..sssss..","..ss.ss..",".s.....s.","........."],
+  cart:[".ssssss..",".s....ss.",".s.mm..s.",".s.mm..s.",".s....ss.",".sccccss.",".ssssss..",".s.s.s.s.",".ssssss.."],
+  bell:["....s....","...sss...","..sssss..","..sssss..","..sssss..",".sssssss.","sssssssss","....s....","........."],
+  mail:[".........","sssssssss","ss.....ss","s.s...s.s","s..s.s..s","s...s...s","s.......s","sssssssss","........."],
+};
+const ICONPAL={s:"#8FA0B8",m:MOON_L,c:"#A8E0C8"};
+const KID=["....cccc....","...cccccc...","..ccccccccp.","..hhhhhhhh..","..ffffffff..","..fllffllf..","..frffffrf..","...ffffff...","..bbbbbbbb..",".bbbwbbbwbb.",".bbbbbbbbbb.","..dd....dd.."];
+const KPAL={l:"#B88E7A",c:"#B3A6E6",h:"#D8D0F0",p:"#F1D48C",f:"#E6C3A5",r:"#E3A0AE",b:"#8EC3EA",w:"#D6ECFA",d:"#4D5E8E"};
+const CRATE=["oooooooooooo","ohhhhhhhhhho","ohwwwwwwwwso","ohxwwwwwwxso","ohwxwwwwxwso","ohwwxwwxwwso","ohwwwxxwwwso","ohwwxwwxwwso","ohwxwwwwxwso","ohxwwwwwwxso","ohssssssssso","oooooooooooo"];
+const CPAL={o:"#173C34",h:"#CDEFE0",w:"#8FD6BA",x:"#3F8A72",s:"#5FA88E"};
+function spr(g,rows,pal,x,y,px){ rows.forEach((r,i)=>[...r].forEach((ch,j)=>{const c=pal[ch]; if(!c) return; g.fillStyle=c; g.fillRect(Math.round(x+j*px),Math.round(y+i*px),Math.ceil(px),Math.ceil(px));})); }
+let lang="zh", copyIdx=0, fontIdx=0;
+try{ copyIdx=+(localStorage.getItem("bg-foot-copy")||0)%3; fontIdx=+(localStorage.getItem("bg-foot-font")||0)%3; }catch(e){}
+const list=document.getElementById("setlist"), titleEl=document.querySelector(".settitle");
+const L=v=>typeof v==="string"?v:v[lang];
+let footCanvas=null;
+function render(){
+  titleEl.textContent=L(T.title);
+  list.innerHTML="";
+  for(const gp of T.groups){
+    const g=document.createElement("div"); g.className="sg";
+    const h=document.createElement("div"); h.className="sgh";
+    const ic=document.createElement("canvas"); ic.width=ic.height=18; ic.style.width=ic.style.height="13px"; spr(ic.getContext("2d"),ICON[gp.icon],ICONPAL,0,0,2);
+    h.append(ic); h.insertAdjacentHTML("beforeend",`<span class="sgt">${L(gp.t)}</span>`); g.append(h);
+    const card=document.createElement("div"); card.className="sgc";
+    for(const [kind,label,val] of gp.rows){
+      let right = kind==="step" ? `<span class="sval"><i>‹</i><span>${L(val)}</span><i>›</i></span>` : kind==="tog" ? `<span class="tog"></span>` : `<span class="chev">›</span>`;
+      card.insertAdjacentHTML("beforeend",`<div class="srow"><span>${L(label)}</span>${right}</div>`);
+    }
+    g.append(card); list.append(g);
+  }
+  const foot=document.createElement("div"); foot.className="setfoot";
+  footCanvas=document.createElement("canvas"); footCanvas.width=520; footCanvas.height=210; footCanvas.style.width="260px"; footCanvas.style.height="105px";
+  foot.append(footCanvas); const f=T.fonts[fontIdx], fp=document.createElement("p"); fp.textContent=L(T.copies[copyIdx]);
+  fp.style.fontFamily=(lang==="zh"?f.zh:f.lt)+",serif"; fp.style.fontStyle=lang==="zh"?"normal":f.ltStyle; fp.style.fontSize=(lang==="zh"?f.size[0]:f.size[1])+"px"; fp.style.color="#C9D4E0"; fp.style.letterSpacing=lang==="zh"?".08em":".01em";
+  foot.append(fp); list.append(foot);
+  renderPicks();
+}
+function renderPicks(){
+  const cp=document.getElementById("copyPick"); cp.innerHTML="";
+  T.copies.forEach((c,i)=>{ const b=document.createElement("button"); b.type="button"; b.className="pk"; b.setAttribute("aria-pressed",String(i===copyIdx));
+    b.innerHTML=`<span class="n">文案 ${i+1}</span><span class="zh">${c.zh.replace("\n","")}</span><span class="lt">${c.en.replace("\n"," ")}</span><span class="lt">${c.es.replace("\n"," ")}</span>`;
+    b.addEventListener("click",()=>{copyIdx=i; render(); scrollFoot();}); cp.append(b); });
+  const fpk=document.getElementById("fontPick"); fpk.innerHTML="";
+  T.fonts.forEach((f,i)=>{ const b=document.createElement("button"); b.type="button"; b.className="pk"; b.setAttribute("aria-pressed",String(i===fontIdx));
+    const c=T.copies[copyIdx];
+    b.innerHTML=`<span class="n">${f.name}</span><span class="sample" style="font-family:${f.zh},serif">${c.zh.replace("\n","")}</span><span class="sample-lt" style="font-family:${f.lt},serif;font-style:${f.ltStyle}">${c.en.replace("\n"," ")}</span><span class="lt">${f.desc}</span>`;
+    b.addEventListener("click",()=>{fontIdx=i; render(); scrollFoot();}); fpk.append(b); });
+}
+function scrollFoot(){ list.scrollTop=list.scrollHeight; try{localStorage.setItem("bg-foot-copy",copyIdx);localStorage.setItem("bg-foot-font",fontIdx);}catch(e){} }
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{ lang=b.dataset.lang; document.querySelectorAll(".lang button").forEach(x=>x.setAttribute("aria-pressed",String(x===b))); render(); scrollFoot(); }));
+render();
+
+// 背景夜空：固定不随列表滚动
+const sky=document.getElementById("setsky"), screen=document.getElementById("setscreen");
+const dpr=Math.min(3,window.devicePixelRatio||1);
+function sizeSky(){ sky.width=screen.clientWidth*dpr; sky.height=screen.clientHeight*dpr; }
+sizeSky();
+const stars=[[.08,.16,1,0],[.3,.09,0,1.3],[.52,.2,0,2.1],[.9,.3,1,.7],[.14,.38,0,2.6],[.78,.46,0,1.8],[.05,.6,1,.4],[.62,.62,0,2.9],[.94,.7,0,1.1],[.26,.78,0,2.2],[.7,.86,1,1.6],[.44,.94,0,.9],[.86,.97,0,2.4],[.2,.52,0,1.5]];
+const reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function drawSky(t){
+  const g=sky.getContext("2d"); const W=sky.width/dpr, H=sky.height/dpr;
+  g.setTransform(dpr,0,0,dpr,0,0); g.clearRect(0,0,W,H);
+  // 右上角月牙（在标题栏后面露出半个）
+  const cx=W-40, cy=34, r=22;
+  const grd=g.createRadialGradient(cx,cy,r*.8,cx,cy,r*2.4); grd.addColorStop(0,hexA(STAR,.14)); grd.addColorStop(1,hexA(STAR,0)); g.fillStyle=grd; g.fillRect(cx-r*3,cy-r*3,r*6,r*6);
+  const u=4; for(let y=-r;y<=r;y+=u) for(let x=-r;x<=r;x+=u){ const d=Math.hypot(x+u/2,y+u/2), d2=Math.hypot(x+u/2-r*.5,y+u/2+r*.3); if(d<=r&&d2>r*.82){ g.fillStyle=(x+y<0?MOON_L:MOON); g.globalAlpha=.85; g.fillRect(cx+x,cy+y,u,u); g.globalAlpha=1; } }
+  for(const [fx,fy,big,ph] of stars){ const a=reduce?.6:.35+.45*(.5+.5*Math.sin(t*2*Math.PI/3.2+ph*2)); const s=big?3:2; g.fillStyle=hexA(STAR,a); g.fillRect(Math.round(fx*W),Math.round(fy*H),s,s); if(big){ g.fillStyle=hexA(STAR,a*.35); g.fillRect(Math.round(fx*W)-2,Math.round(fy*H)+1,7,1); g.fillRect(Math.round(fx*W)+1,Math.round(fy*H)-2,1,7);} }
+}
+function drawFoot(t){
+  if(!footCanvas) return; const g=footCanvas.getContext("2d"); const W=260,H=105; g.setTransform(2,0,0,2,0,0); g.clearRect(0,0,W,H);
+  const fy=72;
+  for(let x=0;x<W;x+=26){ g.fillStyle=(x/26)%2?"#141D33":"#121A2E"; g.fillRect(x,fy,26,26); g.fillStyle="#0E1528"; g.fillRect(x,fy,26,2); }
+  const fade=g.createLinearGradient(0,0,W,0); fade.addColorStop(0,"#0D1221"); fade.addColorStop(.18,"rgba(13,18,33,0)"); fade.addColorStop(.82,"rgba(13,18,33,0)"); fade.addColorStop(1,"#0D1221"); g.fillStyle=fade; g.fillRect(0,fy,W,30);
+  const fd=g.createLinearGradient(0,fy+8,0,H); fd.addColorStop(0,"rgba(13,18,33,0)"); fd.addColorStop(1,"#0D1221"); g.fillStyle=fd; g.fillRect(0,fy,W,H-fy);
+  // 收好的箱子 + 薄荷光
+  const bx=132, by=fy-36;
+  const glow=g.createRadialGradient(bx+18,by+18,4,bx+18,by+18,46); glow.addColorStop(0,"rgba(168,224,200,.22)"); glow.addColorStop(1,"rgba(168,224,200,0)"); g.fillStyle=glow; g.fillRect(bx-40,by-40,120,120);
+  spr(g,CRATE,CPAL,bx,by,3);
+  // 靠着箱子睡着的小孩（身体微微起伏）
+  const breathe=reduce?0:Math.round((.5+.5*Math.sin(t*2*Math.PI/3.6))*1);
+  spr(g,KID,KPAL,bx-34,fy-36+breathe,3);
+  // 飘出的 z
+  if(!reduce){ for(let k=0;k<2;k++){ const p=((t/2.8)+k*.5)%1; g.fillStyle=hexA("#D2DEE6",(1-p)*.8); g.font=(k?7:9)+"px 'Press Start 2P',monospace"; g.fillText("z",bx-6+p*10+k*6,fy-40-p*26-k*6); } }
+  else { g.fillStyle=hexA("#D2DEE6",.7); g.font="9px 'Press Start 2P',monospace"; g.fillText("z",bx-4,fy-48); }
+}
+function tick(now){ const t=now/1000; drawSky(t); drawFoot(t); if(!reduce) requestAnimationFrame(tick); }
+const fz=parseFloat(new URLSearchParams(location.search).get("t"));
+(document.fonts?.ready ?? Promise.resolve()).then(()=>{ list.scrollTop=list.scrollHeight; if(!isNaN(fz)||reduce){ drawSky(1); drawFoot(1);} else requestAnimationFrame(tick); });
+window.addEventListener("resize",()=>{ sizeSky(); drawSky(performance.now()/1000); });
+})();
+</script>

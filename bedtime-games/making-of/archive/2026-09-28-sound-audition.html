@@ -1,0 +1,130 @@
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<title>晚安游戏机音色试听</title>
+<style>
+/* 整页刻意单一深色：与 App 夜间氛围一致 */
+:root{color-scheme:dark;--page:#0D1221;--sf:#162038;--sf2:#1F2C4A;--line:#24314F;--ink:#D2DEE6;--mute:#8793A8;--star:#F1D48C;--mint:#A8E0C8;
+  --sans:"Noto Sans SC","PingFang SC",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;--block:"ZCOOL QingKe HuangYou","Noto Sans SC",sans-serif}
+*{box-sizing:border-box}
+body{background:var(--page);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65;margin:0}
+.wrap{max-width:980px;margin:0 auto;padding-inline:20px;padding-block:40px 72px}
+h1,h2{margin:0;text-wrap:balance}p{margin:0}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+h1{font-family:var(--block);font-weight:400;font-size:clamp(30px,4.2vw,42px);letter-spacing:.04em;margin-block:8px 12px}
+.lead{color:var(--mute);max-width:44em}
+.lead b{color:var(--ink);font-weight:500}
+.vol{display:flex;align-items:center;gap:12px;margin-top:22px;font-size:13px;color:var(--mute)}
+.vol input{width:180px;accent-color:var(--mint)}
+.grid{margin-top:26px;display:grid;gap:14px}
+.style{background:var(--sf);border-radius:18px;padding:18px 20px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.style.cur{background:transparent;box-shadow:inset 0 0 0 1.5px var(--line)}
+.style h2{font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
+.style h2 small{font-family:var(--mono);font-size:11px;font-weight:400;color:var(--mute);letter-spacing:.06em}
+.style p{font-size:13px;color:var(--mute);margin-top:4px;max-width:34em}
+.btns{display:flex;gap:8px;flex-wrap:wrap}
+.btns button{font:inherit;font-size:14px;color:var(--ink);background:var(--sf2);border:0;border-radius:999px;padding:9px 16px;cursor:pointer;box-shadow:0 4px 0 #070A13;display:flex;align-items:center;gap:8px}
+.btns button:active{transform:translateY(2px);box-shadow:0 2px 0 #070A13}
+.btns button:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.btns button i{font-style:normal;font-size:11px;color:var(--mute)}
+.btns button.play-on{background:var(--mint);color:#0D1221}
+.rec{margin-top:30px;background:var(--sf);border-radius:18px;padding:20px 22px;max-width:52em}
+.rec h2{font-size:16px;margin-bottom:8px}
+.rec p{color:var(--mute);font-size:14px}
+.rec p+p{margin-top:8px}
+.rec b{color:var(--ink);font-weight:500}
+.tag{font-size:11px;background:var(--star);color:#0D1221;border-radius:6px;padding:1px 7px;font-weight:700}
+@media (max-width:640px){.style{grid-template-columns:1fr}}
+</style>
+<style>.mo-banner{all:initial;display:block;box-sizing:border-box;margin:0;padding:14px 16px;background:#162038;border-bottom:1px solid #24314F;color:#D2DEE6;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif}.mo-banner *{box-sizing:border-box;font:inherit;color:inherit;margin:0;padding:0}.mo-banner .mo-in{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px}.mo-banner a{color:#F1D48C;text-decoration:none}.mo-banner a:hover{text-decoration:underline}.mo-banner .mo-k{font-size:12px;letter-spacing:.08em;color:#6F819A}.mo-banner strong{font-weight:600;color:#F4EACB}.mo-banner p{color:#AFBDCB}</style>
+<aside class="mo-banner" aria-label="说明 · Note"><div class="mo-in"><span class="mo-k"><a href="../">← 幕后 · Behind Nighty</a> · 原稿存档 · Archived draft</span><strong>音色试听 · 第一轮 · Sound audition · round 1</strong><p>当时要定：原来的 8-bit 音效太刺耳，换成什么音色。结果：得分和过关用竖琴，按键和碰撞用轻木琴；后来按键音又降了一个八度、缩短。</p><p>The question: the original 8-bit sounds were too harsh for bedtime, so what should replace them. Outcome: harp for scoring and clearing a level, soft xylophone for buttons and bounces. Button sounds were later lowered an octave and shortened.</p></div></aside>
+
+
+<div class="wrap">
+  <div class="eyebrow">晚安游戏机 · 音色</div>
+  <h1>四种音色，点开听</h1>
+  <p class="lead">每种音色都做了游戏里的三个声音：<b>按键</b>（每次按方向键）、<b>得分</b>（吃到食物、消行）、<b>过关</b>（推箱子推完一关）。全部是代码实时合成的，和 App 里的做法一样，选中哪种都能原样搬进 App。建议戴耳机或调低音量，按睡前的状态来听。</p>
+  <div class="vol"><label for="vol">音量</label><input id="vol" type="range" min="0" max="1" step="0.01" value="0.5"></div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="rec">
+    <h2>我的建议</h2>
+    <p><b>得分和过关用竖琴</b>：音高清楚，一听就知道“成功了”，尾音自然消失，不刺耳。</p>
+    <p><b>按键用柔和木琴</b>，而且把音量压得更低：按键音一分钟可能响上百次，竖琴或风铃连着响会显得吵，木琴短促的一声“嘟”最不打扰。</p>
+    <p>风铃最有催眠感，但尾音很长，适合偶尔出现一次的声音（比如过关），不适合频繁出现的声音。选定以后，设置里的“8-bit 音效”也会改名为“音效”。</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  let ctx=null,master=null;
+  const volEl=document.getElementById("vol");
+  function ensure(){
+    if(!ctx){ctx=new (window.AudioContext||window.webkitAudioContext)();master=ctx.createGain();master.connect(ctx.destination)}
+    master.gain.value=+volEl.value;if(ctx.state==="suspended")ctx.resume();return ctx;
+  }
+  volEl.addEventListener("input",()=>{if(master)master.gain.value=+volEl.value});
+
+  /* ---- 合成：全部离线生成采样再播放，与 App 端 AVAudioPCMBuffer 同思路 ---- */
+  const SR=44100;
+  function buf(samples){const b=ctx.createBuffer(1,samples.length,SR);b.getChannelData(0).set(samples);return b}
+  function play(samples,when){const s=ctx.createBufferSource();s.buffer=buf(samples);s.connect(master);s.start(ctx.currentTime+(when||0))}
+  function concat(parts){let n=0;parts.forEach(p=>n+=p.length);const out=new Float32Array(n);let o=0;parts.forEach(p=>{out.set(p,o);o+=p.length});return out}
+  function mixAt(dst,src,offset){for(let i=0;i<src.length&&offset+i<dst.length;i++)dst[offset+i]+=src[i]}
+
+  // 现在的 8-bit：方波 + 线性衰减
+  function square(f,d,a){const n=Math.floor(d*SR),o=new Float32Array(n);for(let i=0;i<n;i++){const ph=(i*f/SR)%1;o[i]=(ph<.5?a:-a)*(1-i/n)}return o}
+  // 柔和木琴：正弦 + 快起音 + 指数衰减，带一点 4 倍泛音做木质感
+  function marimba(f,d,a){const n=Math.floor(d*SR),o=new Float32Array(n);for(let i=0;i<n;i++){const t=i/SR,env=Math.min(1,t/0.004)*Math.exp(-t*18);o[i]=a*env*(Math.sin(2*Math.PI*f*t)+0.12*Math.sin(2*Math.PI*f*4*t)*Math.exp(-t*40))}return o}
+  // 竖琴：Karplus-Strong 拨弦（噪声激励 + 延迟线低通），尾音自然
+  function harp(f,d,a,seed){const n=Math.floor(d*SR),o=new Float32Array(n),N=Math.max(2,Math.round(SR/f));const line=new Float32Array(N);let s=seed||7;
+    for(let i=0;i<N;i++){s=(s*16807)%2147483647;line[i]=(s/2147483647)*2-1}
+    // 先对激励做一次平滑，去掉刺耳的高频
+    for(let k=0;k<3;k++)for(let i=0;i<N;i++)line[i]=(line[i]+line[(i+1)%N])*0.5;
+    let idx=0;for(let i=0;i<n;i++){const cur=line[idx],nxt=line[(idx+1)%N];const v=0.996*0.5*(cur+nxt);line[idx]=v;o[i]=a*cur*Math.min(1,i/(SR*0.002));idx=(idx+1)%N}
+    const fade=Math.floor(0.05*SR);for(let i=0;i<fade&&i<n;i++)o[n-1-i]*=i/fade;return o}
+  // 风铃：非谐泛音（1, 2.76, 5.40, 8.93）的正弦，各自衰减，柔和起音
+  function chime(f,d,a){const n=Math.floor(d*SR),o=new Float32Array(n),parts=[[1,1,2.2],[2.76,.45,3.5],[5.4,.22,5.5],[8.93,.1,8]];
+    for(let i=0;i<n;i++){const t=i/SR,att=Math.min(1,t/0.006);let v=0;for(const[r,g,k]of parts)v+=g*Math.sin(2*Math.PI*f*r*t)*Math.exp(-t*k);o[i]=a*att*v*0.55}return o}
+
+  // 旋律：按起始时间叠加（音符之间可以重叠，余音相接）
+  function seq(fn,notes,total,a){const out=new Float32Array(Math.floor(total*SR));notes.forEach(([f,t,d])=>mixAt(out,fn(f,d,a,Math.round(f)),Math.floor(t*SR)));return out}
+
+  const C6=1047,E6=1319,G6=1568,C7=2093,G5=784,C5=523,E5=659;
+  const STYLES=[
+    {id:"cur",name:"现在的 8-bit",en:"SQUARE",desc:"方波“滴滴”声，复古掌机味道最足，但高频刺耳，睡前听着容易精神。",
+      key:()=>square(880,.03,.15),
+      score:()=>concat([square(880,.06,.18),square(1320,.09,.18)]),
+      clear:()=>concat([square(C6,.08,.16),square(E6,.08,.16),square(G6,.08,.16),square(C7,.22,.16)])},
+    {id:"marimba",name:"柔和木琴",en:"MARIMBA",desc:"圆润短促的“嘟”，像木琴轻敲。不刺耳、不拖尾，适合频繁出现的按键音。",
+      key:()=>marimba(C6,.12,.22),
+      score:()=>seq(marimba,[[G5,0,.3],[C6,.09,.4]],.55,.26),
+      clear:()=>seq(marimba,[[C5,0,.4],[E5,.1,.4],[G5,.2,.4],[C6,.3,.7]],1.1,.26)},
+    {id:"harp",name:"竖琴",en:"HARP",desc:"拨弦声，温暖清亮，尾音自然消失。有“成功了”的愉悦感，又不吵。",
+      key:()=>harp(G6,.25,.28),
+      score:()=>seq(harp,[[C6,0,.8],[G6,.1,1.0]],1.2,.3),
+      clear:()=>seq(harp,[[C5,0,1.4],[E5,.12,1.4],[G5,.24,1.4],[C6,.36,1.6],[E6,.48,1.8]],2.4,.28)},
+    {id:"chime",name:"风铃",en:"CHIME",desc:"清脆空灵、尾音很长，最有催眠感。但连着响会叠在一起，只适合偶尔出现的声音。",
+      key:()=>chime(C7,.5,.16),
+      score:()=>seq(chime,[[G6,0,1.4],[C7,.14,1.6]],1.9,.2),
+      clear:()=>seq(chime,[[C6,0,2.4],[G6,.18,2.4],[E6,.36,2.4],[C7,.6,3]],3.8,.2)},
+  ];
+
+  const grid=document.getElementById("grid");
+  grid.innerHTML=STYLES.map(s=>`<div class="style ${s.id==="cur"?"cur":""}">
+      <div><h2>${s.name}<small>${s.en}</small>${s.id==="harp"?'<span class="tag">推荐</span>':""}</h2><p>${s.desc}</p></div>
+      <div class="btns">
+        <button type="button" data-s="${s.id}" data-k="key">按键<i>×3</i></button>
+        <button type="button" data-s="${s.id}" data-k="score">得分</button>
+        <button type="button" data-s="${s.id}" data-k="clear">过关</button>
+      </div></div>`).join("");
+
+  grid.addEventListener("click",e=>{
+    const b=e.target.closest("button");if(!b)return;ensure();
+    const s=STYLES.find(v=>v.id===b.dataset.s),k=b.dataset.k;
+    if(k==="key"){const smp=s.key();[0,.22,.44].forEach(t=>play(smp,t))}  // 连按三下，听连续出现的效果
+    else play(s[k]());
+    b.classList.add("play-on");setTimeout(()=>b.classList.remove("play-on"),300);
+  });
+})();
+</script>

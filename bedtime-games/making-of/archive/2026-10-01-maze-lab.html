@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<title>迷宫算法试验台 · Maze test bench</title>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0D1221; --panel:#141B30; --panel2:#1B2440; --line:#2A3558;
+  --hedge:#35584C; --hedge-hi:#4A7667; --floor:#101830;
+  --text:#D5DDEE; --muted:#8693B2; --lantern:#8EC3EA; --star:#E8C46E; --foot:#3E5E8C; --warn:#E3A0AE;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 -apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:flex;flex-direction:column;gap:18px}
+h1{font-size:20px;margin:0;letter-spacing:.04em;text-wrap:balance}
+.lead{margin:0;color:var(--muted);max-width:64ch}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;border-radius:0}
+.seg button[aria-pressed="true"]{background:var(--lantern);color:#0D1221;font-weight:600}
+button{font:inherit;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+button:hover{border-color:var(--lantern)}
+button:focus-visible,canvas:focus-visible,input:focus-visible{outline:2px solid var(--star);outline-offset:2px}
+.knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 24px}
+.knob{display:flex;flex-direction:column;gap:2px}
+.knob label{display:flex;justify-content:space-between;gap:8px}
+.knob output{font-family:var(--mono);color:var(--star);font-variant-numeric:tabular-nums}
+.knob small{color:var(--muted);line-height:1.4}
+input[type=range]{width:100%;accent-color:var(--lantern)}
+.badge{font-size:12.5px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+.badge.same{color:#0D1221;background:var(--star);border-color:var(--star);font-weight:600}
+.pager input{width:5.5em;font:inherit;font-family:var(--mono);color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+.pager label,.pager span{color:var(--muted)}
+.recipe{font-family:var(--mono);font-size:12px;color:var(--muted);background:var(--bg);border:1px dashed var(--line);border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:nowrap;user-select:all}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.card.active{border-color:var(--lantern)}
+.card header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.card h2{font-size:15px;margin:0}
+.card .size{color:var(--muted);font-family:var(--mono);font-size:12px}
+canvas{display:block;width:100%;height:auto;border-radius:6px;touch-action:none;cursor:grab;background:var(--hedge)}
+.status{display:flex;justify-content:space-between;gap:8px;font-variant-numeric:tabular-nums}
+.status .done{color:var(--star)}
+.stats{display:grid;grid-template-columns:1fr auto;gap:2px 10px;margin:0;font-size:12.5px;color:var(--muted)}
+.stats dd{margin:0;text-align:right;font-family:var(--mono);color:var(--text);font-variant-numeric:tabular-nums}
+.stats dd.hot{color:var(--star)}
+.stats dd.cold{color:var(--warn)}
+.card .row{gap:8px}
+.card button{padding:4px 10px;font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;color:var(--muted);font-size:12.5px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.langs{display:inline-flex;gap:6px;margin-left:auto}.langs button[aria-pressed="true"]{border-color:var(--star);color:var(--star)}.top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.legend b{font-weight:400}
+</style>
+</head><body>
+<style>.mo-banner{all:initial;display:block;box-sizing:border-box;margin:0;padding:14px 16px;background:#162038;border-bottom:1px solid #24314F;color:#D2DEE6;font:14px/1.6 -apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif}.mo-banner *{box-sizing:border-box;font:inherit;color:inherit;margin:0;padding:0}.mo-banner .mo-in{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:6px}.mo-banner a{color:#F1D48C;text-decoration:none}.mo-banner a:hover{text-decoration:underline}.mo-banner .mo-k{font-size:12px;letter-spacing:.08em;color:#6F819A}.mo-banner strong{font-weight:600;color:#F4EACB}.mo-banner p{color:#AFBDCB}</style>
+<aside class="mo-banner" aria-label="说明 · Note"><div class="mo-in"><span class="mo-k"><a href="../">← 幕后 · Behind Nighty</a> · 原稿存档 · Archived draft</span><strong>迷宫算法试验台 · Maze generation test bench</strong><p>当时要定：迷宫「一眼看穿」，新算法和参数怎么定。我在这页上调定了参数，App 里的关卡和这里逐格一致。可以直接玩，也可以拖滑块改参数、切回旧算法对比。完整过程见「迷宫案例」页。</p><p>The question: the mazes were too easy to read at a glance, so what algorithm and parameters should replace the old one. I tuned the parameters on this page, and the app&#x27;s levels match it cell for cell. You can play any maze, drag the sliders, or switch back to the old algorithm. The full story is on the maze case page.</p></div></aside>
+
+<div class="wrap">
+  <div>
+    <div class="top"><h1 data-t="title"></h1>
+      <span class="langs" role="group" aria-label="语言 · Language"><button type="button" data-lang="zh-Hans">中文</button><button type="button" data-lang="en">EN</button></span></div>
+    <p class="lead" data-t="lead"></p>
+  </div>
+
+  <section class="panel" aria-label="Parameters">
+    <div class="row">
+      <div class="seg" role="group" aria-label="Algorithm">
+        <button id="algo-new" type="button" aria-pressed="true" data-t="algoNew"></button>
+        <button id="algo-old" type="button" aria-pressed="false" data-t="algoOld"></button>
+      </div>
+      <button id="reseed" type="button" data-t="reseed"></button>
+      <button id="reveal" type="button"></button>
+      <button id="defaults" type="button" data-t="defaults"></button>
+      <span class="badge" id="badge"></span>
+    </div>
+    <div class="row pager">
+      <button id="prev" type="button" data-t="prev"></button>
+      <label for="from" data-t="from1"></label><input id="from" type="number" min="1" max="9999" value="1" inputmode="numeric"><span data-t="from2"></span>
+      <button id="next" type="button" data-t="next"></button>
+      <button id="sample" type="button"></button>
+    </div>
+    <div class="knobs" id="knobs"></div>
+    <div class="recipe" id="recipe" aria-label="Current parameters"></div>
+  </section>
+
+  <div class="legend">
+    <span><i style="background:var(--lantern)"></i><b data-t="lgMe"></b></span>
+    <span><i style="background:var(--star)"></i><b data-t="lgExit"></b></span>
+    <span><i style="background:var(--foot)"></i><b data-t="lgTrail"></b></span>
+    <span><i style="background:var(--star);opacity:.45"></i><b data-t="lgAnswer"></b></span>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+// ===== 迷宫算法（试验版，定稿后移植到 Swift）=====
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const DR=[-1,0,1,0], DC=[0,1,0,-1];           // 0 上 1 右 2 下 3 左
+function sizeFor(level){ const g=Math.floor(level/3); return [Math.min(17,8+g), Math.min(12,6+g)]; } // level 0 基，与 App 一致
+function blank(R,C){ return {R,C,open:new Uint8Array(R*C)}; }
+function link(m,a,d){ const r=(a/m.C|0)+DR[d], c=a%m.C+DC[d]; const b=r*m.C+c; m.open[a]|=1<<d; m.open[b]|=1<<((d+2)%4); return b; }
+function closedDirs(m,a,pred){ const out=[]; const r=a/m.C|0,c=a%m.C;
+  for(let d=0;d<4;d++){ const nr=r+DR[d],nc=c+DC[d]; if(nr<0||nc<0||nr>=m.R||nc>=m.C) continue; if(pred(nr*m.C+nc,d)) out.push(d);} return out; }
+// 现在的算法：从左上角出发的带回溯深度优先
+function genDFS(R,C,rng){ const m=blank(R,C), seen=new Uint8Array(R*C); seen[0]=1; const st=[0];
+  while(st.length){ const a=st[st.length-1]; const ds=closedDirs(m,a,b=>!seen[b]); if(!ds.length){st.pop();continue;}
+    const b=link(m,a,ds[rng()*ds.length|0]); seen[b]=1; st.push(b);} return m; }
+// 生长树：以概率 p 从最新的格子继续挖（长走廊），否则从已挖的格子里随机挑一个分叉
+function genGrow(R,C,rng,p){ const m=blank(R,C), seen=new Uint8Array(R*C); const s=rng()*R*C|0; seen[s]=1; const act=[s];
+  while(act.length){ const i=rng()<p?act.length-1:rng()*act.length|0; const a=act[i]; const ds=closedDirs(m,a,b=>!seen[b]);
+    if(!ds.length){act.splice(i,1);continue;} const b=link(m,a,ds[rng()*ds.length|0]); seen[b]=1; act.push(b);} return m; }
+// 环路：把一部分死胡同的尽头打通到隔壁，只加通路不堵路，所以仍然必有解
+function braid(m,rng,ratio){ if(ratio<=0) return 0; const ends=[]; const n=m.R*m.C;
+  for(let a=0;a<n;a++){ const o=m.open[a]; if(o&&(o&(o-1))===0) ends.push(a); }
+  for(let i=ends.length-1;i>0;i--){ const j=rng()*(i+1)|0; [ends[i],ends[j]]=[ends[j],ends[i]]; }
+  let made=0; const want=Math.round(ends.length*ratio);
+  for(const a of ends){ if(made>=want) break; const o=m.open[a]; if(!(o&&(o&(o-1))===0)) continue;
+    const ds=closedDirs(m,a,(b,d)=>!(o&(1<<d))); if(!ds.length) continue; link(m,a,ds[rng()*ds.length|0]); made++; }
+  return made; }
+function neighbors(m,a){ const out=[]; const o=m.open[a]; for(let d=0;d<4;d++) if(o&(1<<d)) out.push(a+DR[d]*m.C+DC[d]); return out; }
+// 难度体检
+function analyze(m){ const n=m.R*m.C, exit=n-1, C=m.C;
+  const dist=new Int32Array(n).fill(-1); dist[exit]=0; const q=[exit];
+  for(let i=0;i<q.length;i++){ const u=q[i]; for(const v of neighbors(m,u)) if(dist[v]<0){dist[v]=dist[u]+1;q.push(v);} }
+  const path=[0]; let away=0; let u=0;
+  while(u!==exit){ let nx=-1; for(const v of neighbors(m,u)) if(dist[v]===dist[u]-1){nx=v;break;}
+    if(nx<u) away++; u=nx; path.push(u); }                     // 编号变小 = 往上或往左 = 背着出口走
+  const onPath=new Uint8Array(n); for(const a of path) onPath[a]=1;
+  let junctions=0, deep=0, shortB=0, loops=0, wrongCells=0; const claimed=new Uint8Array(n);
+  const deepSize=Math.max(5,Math.round(n*0.07));
+  for(const a of path){ if(a===exit) continue; let has=false;
+    for(const v of neighbors(m,a)){ if(onPath[v]||claimed[v]) { if(!onPath[v]) has=true; continue; } has=true;
+      let size=0, back=false; const st=[v]; claimed[v]=1;
+      while(st.length){ const x=st.pop(); size++;
+        for(const y of neighbors(m,x)){ if(onPath[y]){ if(!(x===v&&y===a)) back=true; continue; } if(!claimed[y]){claimed[y]=1;st.push(y);} } }
+      wrongCells+=size; if(back) loops++; else if(size>=deepSize) deep++; else if(size<=3) shortB++; }
+    if(has) junctions++; }
+  // 「一直朝出口方向走」的玩家：每个岔口优先选离出口更近的方向，走不通再回头
+  const er=m.R-1, ec=m.C-1; const seen=new Uint8Array(n); seen[0]=1; const st=[0]; let greedy=0;
+  while(st.length){ const a=st[st.length-1]; if(a===exit) break;
+    let best=-1,bk=1e9; for(const v of neighbors(m,a)){ if(seen[v]) continue; const r=v/C|0,c=v%C; const k=(er-r)+(ec-c); if(k<bk){bk=k;best=v;} }
+    greedy++; if(best<0){ st.pop(); } else { seen[best]=1; st.push(best); } }
+  const L=path.length-1;
+  return {L,path,away,awayFrac:away/L,junctions,deep,shortB,loops,wrongFrac:wrongCells/n,greedy,greedyRatio:greedy/L,deepSize}; }
+function scoreOf(m,a,w){ const n=m.R*m.C;
+  return w.greedy*Math.min(a.greedy/n,2.5) + w.deep*a.deep/(n/24) + w.away*a.awayFrac*3 + 0.5*a.junctions/(n/10) - 0.3*a.shortB/(n/12); }
+// 生成第 level 关（0 基）。同样的参数永远出同一张图。
+function generate(level,P){ const [R,C]=sizeFor(level); const rng=mulberry32((P.seed*2654435761 ^ (level+1)*40503)>>>0);
+  if(P.algo==='old'){ const m=genDFS(R,C,rng); return {m,a:analyze(m),tries:1}; }
+  let best=null;
+  for(let i=0;i<P.candidates;i++){ const p=1-P.branch*rng(); const m=genGrow(R,C,rng,p); braid(m,rng,P.braid);
+    const a=analyze(m), s=scoreOf(m,a,P); if(!best||s>best.s) best={m,a,s}; }
+  return {m:best.m,a:best.a,tries:P.candidates}; }
+// App 当前用的参数（SleepyGameKit/Sources/MazeGame/MazeGenTuning.swift），2026-10-01 定稿
+const DEFAULTS={algo:'new',seed:1,candidates:61,branch:0.5,braid:0.14,greedy:2.5,deep:1.2,away:1.5};
+// ===== 页面 =====
+const STR={
+ 'zh-Hans':{title:'迷宫算法试验台',lead:'这是我给 Nighty 调迷宫算法时用的页面。默认显示的就是 App 里现在的关卡，逐格一致。每张图都能玩：按住小人拖着走，或者先点一下那张图再用方向键。拖滑块可以改参数，也可以切回旧算法对比。画面没有还原 App。',
+  algoNew:'新算法',algoOld:'重做前的旧算法',reseed:'换一批图',revealOn:'全部显示答案',revealOff:'全部隐藏答案',defaults:'恢复 App 当前参数',
+  from1:'从第',from2:'关起，每页 12 关',prev:'◀ 上一页',next:'下一页 ▶',sampleOn:'只看各尺寸的代表关',sampleOff:'按顺序逐关看',
+  lgMe:'小人',lgExit:'出口（右下角）',lgTrail:'走过的路',lgAnswer:'答案（最短路线）',
+  same:'与 App 里的关卡逐格一致',old:'这是重做之前的旧算法',drift:'已偏离 App 当前参数，仅供试验',
+  recipeOld:s=>'算法=重做前的旧算法（深度优先） 批次='+s,
+  recipeNew:P=>`算法=新 候选=${P.candidates} 岔路密度=${P.branch.toFixed(2)} 环路=${Math.round(P.braid*100)}% 罚直走=${P.greedy.toFixed(1)} 深岔路=${P.deep.toFixed(1)} 绕路=${P.away.toFixed(1)} 批次=${P.seed}`,
+  level:n=>`第 ${n} 关`,canvas:n=>`第 ${n} 关迷宫，方向键移动`,again:'重来',show:'看答案',hide:'收起答案',
+  done:n=>`到了！走了 ${n} 步`,walked:n=>`已走 ${n} 步`,best:n=>`最短 ${n} 步`,
+  sGreedy:'一路朝出口走要多走',sJunc:'路线上的岔口',sDeep:n=>`深岔路（${n} 格以上的死路）`,sShort:'一眼看穿的短岔路（≤3 格）',sLoops:'环路',sAway:'背着出口走的步数',sWrong:'错路占全图',
+  kCand:['候选张数',v=>v+' 张','每关生成这么多张，挑难度分最高的一张。1 张 = 不挑。'],
+  kBranch:['岔路密度',null,'越大分叉越多、走廊越短；0 接近旧算法。'],
+  kBraid:['环路比例',null,'把这么多比例的死胡同打通成环。0 = 没有环路。'],
+  kGreedy:['罚「朝出口直走」',null,'挑图时的权重：越大越偏爱一直朝右下走会碰壁的图。'],
+  kDeep:['偏爱深岔路',null,'挑图时的权重：越大越偏爱走进去很久才发现是死路的图。'],
+  kAway:['偏爱绕路',null,'挑图时的权重：越大正确路线越需要背着出口走。']},
+ en:{title:'Maze generation test bench',lead:'I used this page to tune Nighty\'s maze generator. By default it shows the levels currently in the app, matching cell for cell. Every maze is playable: drag the little figure, or click a maze and use the arrow keys. Drag the sliders to change parameters, or switch back to the old algorithm to compare. The visuals are not the app\'s.',
+  algoNew:'New algorithm',algoOld:'Old algorithm (before the rework)',reseed:'New batch',revealOn:'Show all solutions',revealOff:'Hide all solutions',defaults:'Reset to app parameters',
+  from1:'From level',from2:', 12 per page',prev:'◀ Prev',next:'Next ▶',sampleOn:'One level per size',sampleOff:'Back to sequential',
+  lgMe:'You',lgExit:'Exit (bottom right)',lgTrail:'Your trail',lgAnswer:'Solution (shortest path)',
+  same:'Matches the app\'s levels cell for cell',old:'This is the old algorithm',drift:'Differs from the app\'s parameters (experiment only)',
+  recipeOld:s=>'algo=old (depth-first) batch='+s,
+  recipeNew:P=>`algo=new candidates=${P.candidates} branching=${P.branch.toFixed(2)} loops=${Math.round(P.braid*100)}% straight-penalty=${P.greedy.toFixed(1)} deep-branches=${P.deep.toFixed(1)} detour=${P.away.toFixed(1)} batch=${P.seed}`,
+  level:n=>`Level ${n}`,canvas:n=>`Level ${n} maze, arrow keys to move`,again:'Restart',show:'Solution',hide:'Hide solution',
+  done:n=>`Made it in ${n} steps!`,walked:n=>`${n} steps`,best:n=>`shortest ${n}`,
+  sGreedy:'Extra walking if you always head for the exit',sJunc:'Junctions on the solution',sDeep:n=>`Deep dead ends (${n}+ cells)`,sShort:'Obvious short dead ends (≤3 cells)',sLoops:'Loops',sAway:'Solution steps away from the exit',sWrong:'Share of the map off the solution',
+  kCand:['Candidates',v=>v,'Generate this many mazes per level and keep the highest-scoring one. 1 = no selection.'],
+  kBranch:['Branching',null,'Higher means more forks and shorter corridors; 0 is close to the old algorithm.'],
+  kBraid:['Loop ratio',null,'Share of dead ends opened into loops. 0 = no loops.'],
+  kGreedy:['Penalize "walk straight to the exit"',null,'Selection weight: higher prefers mazes where always heading bottom-right runs into walls.'],
+  kDeep:['Prefer deep dead ends',null,'Selection weight: higher prefers dead ends you only discover after a long walk.'],
+  kAway:['Prefer detours',null,'Selection weight: higher means the solution has to walk away from the exit more.']}};
+const pickLang=()=>{ let q=new URLSearchParams(location.search).get('lang'); if(!q){ try{q=localStorage.getItem('bedtime-games-lang');}catch(e){} }
+  if(!q) q=(navigator.language||'').toLowerCase().startsWith('zh')?'zh-Hans':'en'; return q==='zh-Hans'?'zh-Hans':'en'; };
+let LANG=pickLang(); const T=()=>STR[LANG];
+function applyStatic(){ document.documentElement.lang=LANG; document.title=T().title+' · Nighty';
+  document.querySelectorAll('[data-t]').forEach(el=>{ el.textContent=T()[el.dataset.t]; });
+  document.querySelectorAll('.langs button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===LANG)); }
+const SAMPLE=[0,1,3,6,9,12,15,18,21,24,27,39]; // 0 基；尺寸跟 App 一样每 3 关长一圈，第 28 关起封顶
+const PAGE=12; let from=0, sampled=false;
+const levelsNow=()=>sampled?SAMPLE:Array.from({length:PAGE},(_,i)=>from+i);
+const KNOBS=[
+  {key:'candidates',t:'kCand',min:1,max:200,step:1,fmt:v=>T().kCand[1](v)},
+  {key:'branch',t:'kBranch',min:0,max:1,step:0.05,fmt:v=>v.toFixed(2)},
+  {key:'braid',t:'kBraid',min:0,max:0.5,step:0.02,fmt:v=>Math.round(v*100)+'%'},
+  {key:'greedy',t:'kGreedy',min:0,max:3,step:0.1,fmt:v=>'×'+v.toFixed(1)},
+  {key:'deep',t:'kDeep',min:0,max:3,step:0.1,fmt:v=>'×'+v.toFixed(1)},
+  {key:'away',t:'kAway',min:0,max:3,step:0.1,fmt:v=>'×'+v.toFixed(1)},
+];
+let P={...DEFAULTS}, revealAll=false, active=null; const cards=[];
+const $=id=>document.getElementById(id);
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const COL={}; ['hedge','hedge-hi','floor','lantern','star','foot'].forEach(k=>COL[k]=css('--'+k));
+
+function buildKnobs(){ const box=$('knobs'); box.textContent='';
+  for(const k of KNOBS){ const d=document.createElement('div'); d.className='knob';
+    d.innerHTML=`<label for="k-${k.key}"><span>${T()[k.t][0]}</span><output id="o-${k.key}"></output></label>
+      <input id="k-${k.key}" type="range" min="${k.min}" max="${k.max}" step="${k.step}"><small>${T()[k.t][2]}</small>`;
+    box.appendChild(d);
+    const inp=d.querySelector('input'); inp.value=P[k.key];
+    inp.addEventListener('input',()=>{ P[k.key]=Number(inp.value); syncKnobs(); schedule(); }); }
+  syncKnobs(); }
+function syncKnobs(){ for(const k of KNOBS){ $('o-'+k.key).textContent=k.fmt(P[k.key]); $('k-'+k.key).value=P[k.key]; $('k-'+k.key).disabled=P.algo==='old'; }
+  $('algo-new').setAttribute('aria-pressed',P.algo==='new'); $('algo-old').setAttribute('aria-pressed',P.algo==='old');
+  $('reveal').textContent=revealAll?T().revealOff:T().revealOn;
+  const same=Object.keys(DEFAULTS).every(k=>P[k]===DEFAULTS[k]); const b=$('badge'); b.className='badge'+(same?' same':'');
+  b.textContent=same?T().same:(P.algo==='old'?T().old:T().drift);
+  $('from').value=from+1; $('sample').textContent=sampled?T().sampleOff:T().sampleOn; $('prev').disabled=sampled||from===0; $('next').disabled=sampled; $('from').disabled=sampled;
+  $('recipe').textContent=P.algo==='old'?T().recipeOld(P.seed):T().recipeNew(P); }
+let timer=0; function schedule(){ clearTimeout(timer); timer=setTimeout(regenerate,120); }
+
+function makeCard(level){ const el=document.createElement('article'); el.className='card';
+  el.innerHTML=`<header><h2>${T().level(level+1)}</h2><span class="size"></span></header>
+    <canvas tabindex="0" aria-label="${T().canvas(level+1)}"></canvas>
+    <div class="status"><span class="steps"></span><span class="best"></span></div>
+    <dl class="stats"></dl>
+    <div class="row"><button type="button" class="again">${T().again}</button><button type="button" class="answer">${T().show}</button></div>`;
+  const c={level,el,cv:el.querySelector('canvas'),pos:0,steps:0,trail:new Set([0]),show:false,done:false};
+  c.cv.addEventListener('focus',()=>setActive(c));
+  c.cv.addEventListener('keydown',e=>{ const d={ArrowUp:0,ArrowRight:1,ArrowDown:2,ArrowLeft:3,w:0,d:1,s:2,a:3}[e.key]; if(d===undefined) return; e.preventDefault(); step(c,d); });
+  let dragging=false;
+  const follow=e=>{ const r=c.cv.getBoundingClientRect(); const m=c.g.m; const k=r.width/(2*m.C+1);
+    const tc=Math.max(0,Math.min(m.C-1,Math.floor(((e.clientX-r.left)/k-0.5)/2))), tr=Math.max(0,Math.min(m.R-1,Math.floor(((e.clientY-r.top)/k-0.5)/2)));
+    for(let i=0;i<60;i++){ const pr=c.pos/m.C|0, pc=c.pos%m.C, dr=tr-pr, dc=tc-pc; if(!dr&&!dc) break;
+      const first=Math.abs(dr)>=Math.abs(dc)?(dr>0?2:0):(dc>0?1:3), second=Math.abs(dr)>=Math.abs(dc)?(dc?(dc>0?1:3):-1):(dr?(dr>0?2:0):-1);
+      if(!step(c,first) && !(second>=0 && step(c,second))) break; } };
+  c.cv.addEventListener('pointerdown',e=>{ dragging=true; c.cv.setPointerCapture(e.pointerId); setActive(c); follow(e); });
+  c.cv.addEventListener('pointermove',e=>{ if(dragging) follow(e); });
+  const stop=()=>{dragging=false}; c.cv.addEventListener('pointerup',stop); c.cv.addEventListener('pointercancel',stop);
+  el.querySelector('.again').addEventListener('click',()=>{ reset(c); draw(c); });
+  el.querySelector('.answer').addEventListener('click',()=>{ c.show=!c.show; draw(c); });
+  return c; }
+function setActive(c){ if(active) active.el.classList.remove('active'); active=c; c.el.classList.add('active'); }
+function reset(c){ c.pos=0; c.steps=0; c.trail=new Set([0]); c.done=false; }
+function step(c,d){ const m=c.g.m; if(c.done||!(m.open[c.pos]&(1<<d))) return false;
+  c.pos+=DR[d]*m.C+DC[d]; c.steps++; c.trail.add(c.pos); if(c.pos===m.R*m.C-1) c.done=true; draw(c); return true; }
+
+function draw(c){ const m=c.g.m, a=c.g.a, cv=c.cv; const W=2*m.C+1, H=2*m.R+1;
+  const cssW=cv.clientWidth||270, dpr=window.devicePixelRatio||1; const k=Math.max(2,Math.floor(cssW*dpr/W));
+  if(cv.width!==W*k||cv.height!==H*k){ cv.width=W*k; cv.height=H*k; }
+  const x=cv.getContext('2d'); x.fillStyle=COL.hedge; x.fillRect(0,0,cv.width,cv.height);
+  const cell=(r,q,col,inset=0)=>{ x.fillStyle=col; x.fillRect(q*k+inset,r*k+inset,k-2*inset,k-2*inset); };
+  const n=m.R*m.C;
+  for(let i=0;i<n;i++){ const r=i/m.C|0,q=i%m.C; const on=c.trail.has(i); cell(2*r+1,2*q+1,on?COL.foot:COL.floor);
+    if(m.open[i]&2) cell(2*r+1,2*q+2,on&&c.trail.has(i+1)?COL.foot:COL.floor);
+    if(m.open[i]&4) cell(2*r+2,2*q+1,on&&c.trail.has(i+m.C)?COL.foot:COL.floor); }
+  cell(2*m.R,2*m.C-1,COL.star);                                   // 出口：右下外墙开口
+  if(c.show||revealAll){ x.globalAlpha=0.45; const p=a.path;
+    for(let i=0;i<p.length;i++){ const r=p[i]/m.C|0,q=p[i]%m.C; cell(2*r+1,2*q+1,COL.star,k*0.28);
+      if(i){ const r0=p[i-1]/m.C|0,q0=p[i-1]%m.C; cell(r+r0+1,q+q0+1,COL.star,k*0.28); } } x.globalAlpha=1; }
+  const pr=c.pos/m.C|0,pc=c.pos%m.C; cell(2*pr+1,2*pc+1,COL.lantern,k*0.12);
+  c.el.querySelector('.steps').innerHTML=c.done?`<span class="done">${T().done(c.steps)}</span>`:T().walked(c.steps);
+  c.el.querySelector('.best').textContent=T().best(a.L);
+  c.el.querySelector('.answer').textContent=c.show?T().hide:T().show; }
+function fillStats(c){ const a=c.g.a, m=c.g.m; c.el.querySelector('.size').textContent=`${m.R}×${m.C}`;
+  const rows=[
+    [T().sGreedy, '×'+a.greedyRatio.toFixed(1), a.greedyRatio>=2?'hot':a.greedyRatio<1.3?'cold':''],
+    [T().sJunc, a.junctions, ''],
+    [T().sDeep(a.deepSize), a.deep, a.deep?'hot':'cold'],
+    [T().sShort, a.shortB, ''],
+    [T().sLoops, a.loops, ''],
+    [T().sAway, Math.round(a.awayFrac*100)+'%', ''],
+    [T().sWrong, Math.round(a.wrongFrac*100)+'%', ''],
+  ];
+  c.el.querySelector('.stats').innerHTML=rows.map(([k,v,cls])=>`<dt>${k}</dt><dd class="${cls}">${v}</dd>`).join(''); }
+function regenerate(){ for(const c of cards){ c.g=generate(c.level,P); reset(c); fillStats(c); draw(c); } }
+
+function rebuild(){ const grid=$('grid'); grid.textContent=''; cards.length=0; active=null;
+  for(const lv of levelsNow()){ const c=makeCard(lv); cards.push(c); grid.appendChild(c.el); } syncKnobs(); regenerate(); }
+function start(){ applyStatic(); buildKnobs(); rebuild();
+  $('prev').addEventListener('click',()=>{from=Math.max(0,from-PAGE);rebuild();});
+  $('next').addEventListener('click',()=>{from+=PAGE;rebuild();});
+  $('from').addEventListener('change',()=>{const v=Math.floor(Number($('from').value)); from=Math.min(9998,Math.max(0,(isFinite(v)?v:1)-1)); rebuild();});
+  $('sample').addEventListener('click',()=>{sampled=!sampled;rebuild();});
+  $('algo-new').addEventListener('click',()=>{P.algo='new';syncKnobs();regenerate();});
+  $('algo-old').addEventListener('click',()=>{P.algo='old';syncKnobs();regenerate();});
+  $('reseed').addEventListener('click',()=>{P.seed++;syncKnobs();regenerate();});
+  $('reveal').addEventListener('click',()=>{revealAll=!revealAll;syncKnobs();cards.forEach(draw);});
+  $('defaults').addEventListener('click',()=>{P={...DEFAULTS,algo:P.algo,seed:P.seed};syncKnobs();regenerate();});
+  document.querySelectorAll('.langs button').forEach(b=>b.addEventListener('click',()=>{
+    LANG=b.dataset.lang; try{localStorage.setItem('bedtime-games-lang',LANG);}catch(e){}
+    const u=new URL(location.href); u.searchParams.set('lang',LANG); history.replaceState(null,'',u);
+    applyStatic(); buildKnobs(); rebuild(); }));
+  let rt=0; window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>cards.forEach(draw),150);}); }
+start();
+</script>
+</body></html>
