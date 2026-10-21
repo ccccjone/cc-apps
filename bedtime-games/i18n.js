@@ -1,10 +1,19 @@
 /* 语言切换：?lang= > localStorage > 浏览器语言 > 中文。
+   页面可用 <html data-langs="…"> 声明语言子集，选中的语言不在其中时回退英文。
    渐进增强——脚本不跑时页面就是三语平铺，照样能读。
    同一份脚本供 index.html / privacy.html / support.html 及后续新页面直接引入，
    不对具体页面结构做假设，只依赖 .lang-switch 按钮组与 [lang] / [data-alt-*] 约定。 */
 (function () {
   var LANGS = ['zh-Hans', 'en', 'es'];
   var KEY = 'bedtime-games-lang';
+  // 页面可声明自己支持的语言（如幕后页只有中英）：<html data-langs="zh-Hans en">
+  var declared = (document.documentElement.getAttribute('data-langs') || '').split(/\s+/).filter(Boolean);
+  var SUPPORTED = declared.length ? LANGS.filter(function (l) { return declared.indexOf(l) >= 0; }) : LANGS;
+
+  function fit(lang) {
+    if (lang && SUPPORTED.indexOf(lang) >= 0) return lang;
+    return SUPPORTED.indexOf('en') >= 0 ? 'en' : SUPPORTED[0];
+  }
 
   function normalize(tag) {
     if (!tag) return null;
@@ -44,7 +53,7 @@
     }
   }
 
-  var current = pick();
+  var current = fit(pick());
   apply(current);   // 在 <head> 里同步跑，避免先闪三语
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -53,7 +62,7 @@
     if (!box) return;
     box.addEventListener('click', function (e) {
       var lang = e.target.getAttribute && e.target.getAttribute('data-lang');
-      if (LANGS.indexOf(lang) < 0) return;
+      if (SUPPORTED.indexOf(lang) < 0) return;
       current = lang;
       apply(lang);
       try { localStorage.setItem(KEY, lang); } catch (err) { /* 同上 */ }
