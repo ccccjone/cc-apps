@@ -1,0 +1,39 @@
+/* Nighty 幕后页面样式。配色同官网月光主题（bedtime-games/style.css :root），版式以长文阅读为主。 */
+:root{color-scheme:dark;--bg:#0D1221;--surface:#162038;--surface2:#1F2C4A;--line:#24314F;--text:#D2DEE6;--soft:#AFBDCB;--muted:#6F819A;--star:#F1D48C;--moon:#F4EACB;--mint:#A8E0C8;
+  --title:"ZCOOL QingKe HuangYou","PingFang SC","Hiragino Sans GB",sans-serif;--pixel:"Press Start 2P",ui-monospace,Menlo,monospace;
+  --body:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Segoe UI",sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.75 var(--body)}
+a{color:var(--star);text-decoration:none}a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--star);outline-offset:3px}
+img,svg{max-width:100%;height:auto}
+html[data-lang="zh-Hans"] [lang="en"],html[data-lang="en"] [lang="zh-Hans"]{display:none}
+.mo-wrap{max-width:720px;margin:0 auto;padding:0 16px 64px}
+.mo-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 0;border-bottom:1px solid var(--line);margin-bottom:28px}
+.mo-nav a{color:var(--muted);font-size:14px}
+.lang-switch{display:inline-flex;gap:6px}
+.lang-switch button{font:12px var(--pixel);color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;cursor:pointer}
+.lang-switch button[aria-pressed="true"]{color:var(--bg);background:var(--star);border-color:var(--star)}
+h1{font:400 clamp(28px,6vw,40px)/1.25 var(--title);color:var(--moon);margin:8px 0 16px;letter-spacing:.02em}
+h2{font:400 24px/1.35 var(--title);color:var(--moon);margin:48px 0 12px}
+h3{font-size:17px;font-weight:600;color:var(--text);margin:28px 0 6px}
+p,li{color:var(--soft)}
+.mo-k{font:11px var(--pixel);letter-spacing:.06em;color:var(--muted)}
+.mo-facts{font-family:var(--mono);font-size:14px;color:var(--muted);border-left:2px solid var(--line);padding-left:12px}
+.mo-step{position:relative;padding-left:28px;margin:28px 0}
+.mo-step::before{content:attr(data-n);position:absolute;left:0;top:2px;font:11px var(--pixel);color:var(--star)}
+.mo-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
+.mo-figs figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.mo-figs figcaption{font-size:13px;color:var(--muted);margin-top:8px}
+.mo-note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:20px 0}
+.mo-note p{margin:0}
+table.mo-t{width:100%;border-collapse:collapse;font-size:14px;margin:16px 0}
+table.mo-t th,table.mo-t td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;color:var(--soft)}
+table.mo-t th{color:var(--muted);font-weight:500}
+table.mo-t td.num{font-family:var(--mono);text-align:right}
+.mo-t-wrap{overflow-x:auto}
+code,pre{font-family:var(--mono);font-size:13.5px}
+pre{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;color:var(--text)}
+.mo-foot{margin-top:64px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+.mo-foot p{color:var(--muted)}
