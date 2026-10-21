@@ -25,6 +25,7 @@ p,li{color:var(--soft)}
 .mo-step::before{content:attr(data-n);position:absolute;left:0;top:2px;font:11px var(--pixel);color:var(--star)}
 .mo-figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin:20px 0}
 .mo-figs figure{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
+.mo-figs img{display:block;width:100%;max-width:280px;height:auto;margin:0 auto}
 .mo-figs figcaption{font-size:13px;color:var(--muted);margin-top:8px}
 .mo-note{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin:20px 0}
 .mo-note p{margin:0}
