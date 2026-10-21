@@ -34,7 +34,7 @@
 <p lang="zh-Hans">大部分代码是 AI 写的。做什么、做到什么程度算好、真机上过不过关，是我定的。这页记下过程中的判断、走过的弯路和调参，以及当时真正用过的设计稿和试验台。</p>
 <p lang="zh-Hans">通常的节奏是：我发现问题、给出方向；AI 拿出几种方案；我判断、提别的想法，定下方案和参数；AI 改代码、写测试、互相审查；最后我在真机上验收。</p>
 </div>
-<p class="mo-facts">374 commits · 559 tests · 19 specs · 22 plans · ~10k lines of Swift · EN / ES / 简体中文<br>
+<p class="mo-facts"><span lang="en">374 commits · 559 tests · 19 specs · 22 plans · ~10k lines of Swift · EN / ES / 简体中文</span><span lang="zh-Hans">374 个 commit · 559 个测试 · 19 份规格 · 22 份计划 · 约 1 万行 Swift · 英 / 西 / 简体中文</span><br>
 <span lang="en">Status: submitted to the App Store.</span><span lang="zh-Hans">状态：已提交 App Store 审核。</span></p>
 <p class="mo-links"><a href="../"><span lang="en">Website</span><span lang="zh-Hans">官网</span></a><a href="../demo/breakout.html"><span lang="en">Play Brick Breaker in the browser</span><span lang="zh-Hans">在网页里试玩打砖块</span></a><a href="maze.html"><span lang="en">Case: the maze generator</span><span lang="zh-Hans">案例：迷宫算法</span></a></p>
 
@@ -49,8 +49,8 @@
 
 <section class="mo-dec">
 <h3><span class="mo-k">02</span><span lang="en">Measuring the maze before fixing it</span><span lang="zh-Hans">迷宫先量化再改</span></h3>
-<p lang="en">The mazes felt like one corridor with stubs. Instead of adjusting by feel, I asked for numbers first: on the old generator, "always walk toward the exit" was within a few percent of the shortest path. We built a browser test bench, I tuned the parameters there by playing, and the Swift version was proven to match it cell for cell.</p>
-<p lang="zh-Hans">迷宫玩起来像一条走廊加几截短岔路。我没有凭感觉改，而是先要数据：旧算法下「一直朝出口走」只比最短路多走几个百分点。然后做了网页试验台，我在上面边玩边调参，最后用测试证明 Swift 版本和试验台逐格一致。</p>
+<p lang="en">The mazes felt like one corridor with stubs. Instead of adjusting by feel, I asked for numbers first: on the old generator, "always walk toward the exit" was within a few percent of the shortest path. We built a browser test bench, I tuned the parameters there by playing, and a golden test checks the Swift version against it cell for cell.</p>
+<p lang="zh-Hans">迷宫玩起来像一条走廊加几截短岔路。我没有凭感觉改，而是先要数据：旧算法下「一直朝出口走」只比最短路多走几个百分点。然后做了网页试验台，我在上面边玩边调参，最后用对照测试核对 Swift 版本与试验台逐格一致。</p>
 <p class="mo-ev"><a href="maze.html"><span lang="en">Full case →</span><span lang="zh-Hans">完整案例 →</span></a> · <a href="archive/2026-10-01-maze-lab.html"><span lang="en">Test bench</span><span lang="zh-Hans">试验台</span></a></p>
 </section>
 
@@ -93,16 +93,16 @@
 </section>
 
 <h2><span lang="en">How I organize the AI</span><span lang="zh-Hans">我怎么组织 AI 干活</span></h2>
-<div class="mo-flow" role="img" aria-label="Brainstorm, spec, plan, implement, task review, branch review, device check, merge">
+<div class="mo-flow" role="img" aria-label="Brainstorm, spec, plan, implement, task review, branch review, device check, merge · 头脑风暴、规格、计划、实现、逐任务审查、全分支审查、真机验收、合并">
 <svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg">
   <defs><marker id="arr" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8" style="marker-end:none;fill:#6F819A;stroke:none"/></marker></defs>
-  <rect class="me" x="4" y="10" width="150" height="50" rx="8"/><text x="79" y="32" text-anchor="middle">Brainstorm</text><text class="sub" x="79" y="49" text-anchor="middle">me + AI</text>
-  <rect x="176" y="10" width="150" height="50" rx="8"/><text x="251" y="32" text-anchor="middle">Spec → Plan</text><text class="sub" x="251" y="49" text-anchor="middle">AI writes, I approve</text>
-  <rect x="348" y="10" width="150" height="50" rx="8"/><text x="423" y="32" text-anchor="middle">Implement task</text><text class="sub" x="423" y="49" text-anchor="middle">fresh subagent</text>
-  <rect x="520" y="10" width="156" height="50" rx="8"/><text x="598" y="32" text-anchor="middle">Task review</text><text class="sub" x="598" y="49" text-anchor="middle">separate reviewer</text>
-  <rect x="520" y="90" width="156" height="50" rx="8"/><text x="598" y="112" text-anchor="middle">Branch review</text><text class="sub" x="598" y="129" text-anchor="middle">strongest model</text>
-  <rect class="me" x="348" y="90" width="150" height="50" rx="8"/><text x="423" y="112" text-anchor="middle">Device check</text><text class="sub" x="423" y="129" text-anchor="middle">me, on the phone</text>
-  <rect x="176" y="90" width="150" height="50" rx="8"/><text x="251" y="112" text-anchor="middle">Merge</text><text class="sub" x="251" y="129" text-anchor="middle">local, one commit per task</text>
+  <rect class="me" x="4" y="10" width="150" height="50" rx="8"/><text lang="en" x="79" y="32" text-anchor="middle">Brainstorm</text><text lang="en" class="sub" x="79" y="49" text-anchor="middle">me + AI</text><text lang="zh-Hans" x="79" y="32" text-anchor="middle">头脑风暴</text><text lang="zh-Hans" class="sub" x="79" y="49" text-anchor="middle">我 + AI</text>
+  <rect x="176" y="10" width="150" height="50" rx="8"/><text lang="en" x="251" y="32" text-anchor="middle">Spec → Plan</text><text lang="en" class="sub" x="251" y="49" text-anchor="middle">AI writes, I approve</text><text lang="zh-Hans" x="251" y="32" text-anchor="middle">规格 → 计划</text><text lang="zh-Hans" class="sub" x="251" y="49" text-anchor="middle">AI 写，我拍板</text>
+  <rect x="348" y="10" width="150" height="50" rx="8"/><text lang="en" x="423" y="32" text-anchor="middle">Implement task</text><text lang="en" class="sub" x="423" y="49" text-anchor="middle">fresh subagent</text><text lang="zh-Hans" x="423" y="32" text-anchor="middle">实现任务</text><text lang="zh-Hans" class="sub" x="423" y="49" text-anchor="middle">全新子代理</text>
+  <rect x="520" y="10" width="156" height="50" rx="8"/><text lang="en" x="598" y="32" text-anchor="middle">Task review</text><text lang="en" class="sub" x="598" y="49" text-anchor="middle">separate reviewer</text><text lang="zh-Hans" x="598" y="32" text-anchor="middle">逐任务审查</text><text lang="zh-Hans" class="sub" x="598" y="49" text-anchor="middle">另一个审查者</text>
+  <rect x="520" y="90" width="156" height="50" rx="8"/><text lang="en" x="598" y="112" text-anchor="middle">Branch review</text><text lang="en" class="sub" x="598" y="129" text-anchor="middle">strongest model</text><text lang="zh-Hans" x="598" y="112" text-anchor="middle">全分支审查</text><text lang="zh-Hans" class="sub" x="598" y="129" text-anchor="middle">最强模型</text>
+  <rect class="me" x="348" y="90" width="150" height="50" rx="8"/><text lang="en" x="423" y="112" text-anchor="middle">Device check</text><text lang="en" class="sub" x="423" y="129" text-anchor="middle">me, on the phone</text><text lang="zh-Hans" x="423" y="112" text-anchor="middle">真机验收</text><text lang="zh-Hans" class="sub" x="423" y="129" text-anchor="middle">我，在手机上</text>
+  <rect x="176" y="90" width="150" height="50" rx="8"/><text lang="en" x="251" y="112" text-anchor="middle">Merge</text><text lang="en" class="sub" x="251" y="129" text-anchor="middle">local, one commit per task</text><text lang="zh-Hans" x="251" y="112" text-anchor="middle">合并</text><text lang="zh-Hans" class="sub" x="251" y="129" text-anchor="middle">本地，每任务一提交</text>
   <path d="M154,35 H172"/><path d="M326,35 H344"/><path d="M498,35 H516"/><path d="M598,60 V86"/><path d="M520,115 H502"/><path d="M348,115 H330"/>
 </svg>
 </div>

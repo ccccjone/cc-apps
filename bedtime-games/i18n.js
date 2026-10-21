@@ -36,7 +36,7 @@
       var hit = normalize(navLangs[i]);
       if (hit) return hit;
     }
-    return 'zh-Hans';
+    return declared.length ? 'en' : 'zh-Hans';
   }
 
   function apply(lang) {

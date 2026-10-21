@@ -48,6 +48,7 @@ pre{background:var(--surface);border:1px solid var(--line);border-radius:10px;pa
 .mo-flow{margin:16px 0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
 .mo-flow svg{display:block;width:100%;height:auto}
 .mo-flow text{font:13px var(--body);fill:var(--text)}
+html:not([data-lang]) .mo-flow text[lang="zh-Hans"]{display:none}
 .mo-flow .sub{font-size:11px;fill:var(--muted)}
 .mo-flow rect{fill:var(--surface2);stroke:var(--line)}
 .mo-flow rect.me{stroke:var(--star)}
