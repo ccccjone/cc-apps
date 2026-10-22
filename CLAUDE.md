@@ -3,6 +3,7 @@
 公开仓库 `ccccjone/cc-apps`，只有 `gh-pages` 一个分支，**整个分支原样发布**到 https://ccccjone.github.io/cc-apps/
 （有 `.nojekyll`，不经 Jekyll，零构建）。push 即上线，所以 **push 前先问用户**。
 仓库里的每个文件（包括本文件和 `tools/`）都能被公开访问到：设计过程、规格、草稿不要提交进来。
+不能公开的上下文（本机路径、记忆、设计稿链接）放在被忽略的 `CLAUDE.local.md` 和 `.private/` 里，只存在本机。
 
 ## 目录
 
@@ -10,8 +11,8 @@
 - `favicon.svg`、`apple-touch-icon.png`、`og.png`（分享图）：都属于首页。后两个由 `tools/render-art.sh` 生成，不要手改。
 - `fonts/`：首页的自托管字体子集，由 `tools/subset-fonts.sh` 生成。
 - `bedtime-games/`：Nighty（晚安游戏机）的官网、隐私政策、技术支持、试玩和幕后页。**已定稿，不要动**。
-  它的图片、字体、幕后存档由私有仓库 sleepy-game（本机 `~/Documents/OpenSource/sleepy-game`）的工具生成。
-  要改的话去那边按它的 CLAUDE.md 做，并跑那边的 `tools/site-check.sh ~/Documents/OpenSource/cc-apps`。
+  它的图片、字体、幕后存档由另一个仓库 sleepy-game 的工具生成（本机路径见 CLAUDE.local.md）。
+  要改的话去那边按它的 CLAUDE.md 做，并跑那边的 `tools/site-check.sh`。
   隐私政策的文字自提审后一字不能改。
 - `tools/`：首页用的脚本。`tools/.cache/` 是下载的字体源和 Python 环境，不入库。
 

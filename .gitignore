@@ -4,3 +4,7 @@ tools/.cache/
 .worktrees/
 _*.html
 tools/.page.js
+# 本机私有：不入库、不会发布到网站（Claude Code 会自动读 CLAUDE.local.md）
+CLAUDE.local.md
+.private/
+.claude/
