@@ -1,0 +1,6 @@
+.DS_Store
+tools/.cache/
+.superpowers/
+.worktrees/
+_*.html
+tools/.page.js
