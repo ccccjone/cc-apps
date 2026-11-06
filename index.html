@@ -48,7 +48,7 @@ body{margin:0;color:var(--ink);background-color:var(--bg);background-image:var(-
 .d[lang="en"],.d [lang="en"]{font-family:var(--en)}
 a{color:inherit}
 .gut{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-.in{max-width:1080px;margin:0 auto;width:100%}
+.in{max-width:1240px;margin:0 auto;width:100%}
 
 /* 顶栏 */
 .top{position:absolute;inset:0 0 auto;z-index:5;padding-block:22px}
@@ -65,12 +65,12 @@ a{color:inherit}
 
 /* 第一屏 */
 .screen1{min-height:100vh;min-height:100svh;display:grid;align-items:center;position:relative;padding-block:96px 76px}
-.hero{--mh:clamp(375px,calc(100svh - 190px),540px);--res:250px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) var(--res);grid-template-areas:"text machine" "result machine";column-gap:56px;height:var(--mh)}
+.hero{/* 机器高度跟屏幕高度走，窗口窄时再按宽度收，保证左边文字至少 440px */--mh:min(clamp(400px,calc(100svh - 200px),820px),calc((100vw - 536px)*1.5));--res:250px;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:minmax(0,1fr) var(--res);grid-template-areas:"text machine" "result machine";column-gap:56px;height:var(--mh)}
 .hero-text{grid-area:text;align-self:end}
-h1{font-size:clamp(40px,6.6vw,76px);line-height:1.02;margin:0;font-weight:400;letter-spacing:.01em;text-wrap:balance}
+h1{font-size:clamp(40px,min(6.2vw,8.6svh),96px);line-height:1.02;margin:0;font-weight:400;letter-spacing:.01em;text-wrap:balance}
 h1 em{font-style:normal;color:var(--acc);display:block}
 h1 [lang="en"]{font-size:1.18em;font-weight:700;line-height:.95}
-.lede{font-size:17px;color:var(--mute);margin:18px 0 0;max-width:30em}
+.lede{font-size:clamp(17px,1.9svh,20px);color:var(--mute);margin:18px 0 0;max-width:30em}
 .result{grid-area:result;padding-top:24px;min-width:0}
 .hint{font-size:15px;color:var(--mute);margin:0}
 .machine{grid-area:machine;position:relative;width:calc(var(--mh)/1.5);aspect-ratio:300/450;align-self:center}
@@ -148,15 +148,22 @@ h2 [lang="en"]{font-size:1.2em;font-weight:700}
 footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:56px;padding-top:16px;border-top:2px dashed var(--line);font-size:13px;color:var(--mute)}
 
 
+/* 手机：第一屏正好一屏高，机器填满标题下面剩的高度；纸条盖在机器下半截上，机器和标题不移位 */
 @media (max-width:780px){
-  .hero{height:auto;grid-template-columns:1fr;grid-template-rows:none;grid-template-areas:"text" "machine" "result";row-gap:22px}
-  .machine{justify-self:center;width:min(330px,100%)}
-  .result{padding-top:0;min-height:240px}
-  .screen1{padding-block:88px 70px}
-  .hint .r{display:none}
+  .screen1{height:100vh;height:100svh;min-height:520px;padding-block:68px 84px;display:flex;flex-direction:column}
+  .screen1>.in{flex:1;min-height:0;display:flex;flex-direction:column}
+  .hero{flex:1;min-height:0;height:auto;grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);grid-template-areas:"text" "machine";row-gap:12px;position:relative}
+  h1{font-size:clamp(30px,8.6vw,40px)}
+  .lede{font-size:15px;line-height:1.5;margin-top:8px}
+  .machine{justify-self:center;align-self:center;width:auto;max-width:100%;height:min(100%,calc((100vw - 40px)*1.5),600px)}
+  .result{position:absolute;inset:auto 0 0;z-index:3;padding:0;pointer-events:none}
+  .result>*{pointer-events:auto}
+  .result .hint{display:none}
+  .slip{margin:0 auto}
   .gh span{display:none}
   .gh{padding:8px}
 }
+@media (max-width:780px) and (max-height:600px){.lede{display:none}}
 @media (min-width:781px){.hint .d2{display:none}}
 html:not(.js) .machine,html:not(.js) .result,html:not(.js) .cue{display:none}
 html:not(.js) .hero{height:auto;display:block}
