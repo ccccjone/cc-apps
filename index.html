@@ -138,14 +138,25 @@ h1 [lang="en"]{font-size:1.18em;font-weight:700;line-height:.95}
 .egg{width:60px;height:60px;border-radius:14px;display:grid;place-items:center;font-size:26px;grid-row:span 2}
 
 /* 第二屏 */
-.screen2{padding-block:72px 40px;background:linear-gradient(180deg,transparent,#f6d68a 120px)}
-.s2head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:8px 20px;margin-bottom:24px}
+.screen2{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;padding-block:76px 28px;background:linear-gradient(180deg,transparent,#f6d68a 120px)}
+/* 第二屏至少一整屏：卡片从左上开始排，作品少时下面留空，页脚贴底 */
+.screen2>.in{flex:1;display:flex;flex-direction:column}
+.s2head{display:flex;justify-content:space-between;align-items:end;flex-wrap:wrap;gap:8px 20px;margin-bottom:32px}
 h2{font-size:clamp(32px,4.4vw,48px);font-weight:400;margin:0;line-height:1.05}
 h2 [lang="en"]{font-size:1.2em;font-weight:700}
 .s2head p{margin:0;color:var(--mute)}
-.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px}
-.grid .work{height:100%}
-footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:56px;padding-top:16px;border-top:2px dashed var(--line);font-size:13px;color:var(--mute)}
+.grid{list-style:none;margin:0 0 48px;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:24px;align-content:start}
+.grid .work{height:100%;padding:28px;grid-template-columns:96px 1fr;gap:10px 22px;border-radius:28px}
+.grid .work>img{width:96px;height:96px;border-radius:22px}
+.grid .work .name{font-size:32px}
+.grid .work .name [lang="en"]{font-size:40px}
+.grid .work .meta{margin-top:8px}
+.grid .work .tag{font-size:13px;padding:2px 10px}
+.grid .work p{font-size:16.5px;line-height:1.6}
+.grid .links{margin-top:14px;gap:10px}
+.grid .links a{font-size:15px;padding:9px 18px}
+.grid .links a.code{padding:9px 11px}
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:16px;border-top:2px dashed var(--line);font-size:13px;color:var(--mute)}
 
 
 /* 手机：第一屏正好一屏高，机器填满标题下面剩的高度；纸条盖在机器下半截上，机器和标题不移位 */
@@ -160,6 +171,11 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-
   .result>*{pointer-events:auto}
   .result .hint{display:none}
   .slip{margin:0 auto}
+  .screen2{padding-block:64px 24px}
+  .grid .work{padding:22px;grid-template-columns:68px 1fr;gap:8px 16px}
+  .grid .work>img{width:68px;height:68px;border-radius:16px}
+  .grid .work .name{font-size:clamp(22px,6.4vw,27px)}
+  .grid .work .name [lang="en"]{font-size:clamp(30px,8.4vw,34px)}
   .gh span{display:none}
   .gh{padding:8px}
 }
@@ -167,6 +183,7 @@ footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-
 @media (min-width:781px){.hint .d2{display:none}}
 html:not(.js) .machine,html:not(.js) .result,html:not(.js) .cue{display:none}
 html:not(.js) .hero{height:auto;display:block}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 </style>
 </head>
